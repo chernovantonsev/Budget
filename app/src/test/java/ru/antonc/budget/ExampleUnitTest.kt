@@ -1,4 +1,4 @@
-package ru.rarus.budget
+package ru.antonc.budget
 
 import org.junit.Test
 
