@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="selectedCategoryName"
+            type="String" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{clickListener}">
+
+
+        <TextView
+            android:id="@+id/tv_select_category"
+            android:layout_width="0dp"
+            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="@{selectedCategoryName.empty? @string/text_select_category : selectedCategoryName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/icon_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/text_select_category" />
+
+        <ImageView
+            android:id="@+id/icon_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@{selectedCategoryName.empty? @drawable/ic_arrow_right : @drawable/ic_done}"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_select_category"
+            tools:src="@drawable/ic_arrow_right" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

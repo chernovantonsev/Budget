@@ -4,21 +4,27 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ru.antonc.budget.data.dao.TestDAO
-import ru.antonc.budget.data.entities.Test
+import androidx.room.TypeConverters
+import ru.antonc.budget.data.dao.CategoryDAO
+import ru.antonc.budget.data.dao.TransactionDAO
+import ru.antonc.budget.data.entities.Category
+import ru.antonc.budget.data.entities.Transaction
 
 @Database(
     version = 1,
     entities = [
-        Test::class
+        Transaction::class,
+        Category::class
     ],
     exportSchema = false
 )
 
+@TypeConverters(Converters::class)
 
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun testDAO(): TestDAO
+    abstract fun transactionDAO(): TransactionDAO
+    abstract fun categoryDAO(): CategoryDAO
 
     companion object {
 
@@ -39,7 +45,5 @@ abstract class AppDatabase : RoomDatabase() {
                 .fallbackToDestructiveMigration()
                 .build()
         }
-
-
     }
 }

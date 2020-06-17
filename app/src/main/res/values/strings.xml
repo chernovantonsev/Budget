@@ -3,4 +3,14 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_overview">Обзор</string>
+    <string name="title_edit">Редактирование</string>
+    <string name="title_income">Доход</string>
+    <string name="title_expense">Расход</string>
+    <string name="text_date">Дата</string>
+    <string name="text_category">Категория</string>
+    <string name="text_select_category">Выбор категории</string>
+    <string name="text_sum">Сумма</string>
+    <string name="comment_hint">Комментарий</string>
+    <string name="sum_hint">Введите сумму</string>
+    <string name="action_save">Сохранить</string>
 </resources>
