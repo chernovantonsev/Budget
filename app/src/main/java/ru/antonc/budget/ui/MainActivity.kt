@@ -29,6 +29,26 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private var onBackPressedListener: ArrayList<OnBackPressedListener?> = ArrayList()
 
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            if (navigation.selectedItemId == item.itemId)
+                return@OnNavigationItemSelectedListener true
+
+            when (item.itemId) {
+                R.id.navigation_overview -> {
+                    navController.navigate(R.id.overviewFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                R.id.navigation_transactions -> {
+                    navController.navigate(R.id.transactionsListFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                else -> {
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +58,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         )
 
         navigation = binding.navigation
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
     }
 

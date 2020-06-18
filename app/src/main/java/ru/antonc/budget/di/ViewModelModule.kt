@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.antonc.budget.ui.transaction.TransactionViewModel
 import ru.antonc.budget.ui.overview.OverviewViewModel
+import ru.antonc.budget.ui.transactions.TransactionsListViewModel
 
 
 @Suppress("unused")
@@ -22,6 +23,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TransactionViewModel::class)
     abstract fun bindTransactionViewModel(transactionViewModel: TransactionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TransactionsListViewModel::class)
+    abstract fun bindTransactionsListViewModel(transactionsListViewModel: TransactionsListViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

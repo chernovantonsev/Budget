@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_card"
-            android:icon="@drawable/ic_home"
-            android:title="@string/title_overview"/>
+        android:id="@+id/navigation_overview"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_overview" />
+
+    <item
+        android:id="@+id/navigation_transactions"
+        android:icon="@drawable/ic_list"
+        android:title="@string/title_list_of_transactions" />
 
 </menu>

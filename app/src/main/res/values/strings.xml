@@ -12,4 +12,5 @@
     <string name="text_sum">Сумма</string>
     <string name="comment_hint">Комментарий</string>
     <string name="action_save">Сохранить</string>
+    <string name="title_list_of_transactions">Транзакции</string>
 </resources>

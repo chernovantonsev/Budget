@@ -15,6 +15,7 @@ class TransactionRepository @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
+    fun getAllTransactions() = transactionDAO.getAll()
 
     fun getTransactionById(transactionId: Int) = transactionDAO.getTransactionById(transactionId)
 

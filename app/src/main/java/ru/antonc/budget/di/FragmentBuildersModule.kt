@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import ru.antonc.budget.ui.transaction.TransactionFragment
 import ru.antonc.budget.ui.overview.OverviewFragment
+import ru.antonc.budget.ui.transactions.TransactionsListFragment
 
 
 @Suppress("unused")
@@ -15,4 +16,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeTransactionFragment(): TransactionFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeTransactionListFragment(): TransactionsListFragment
 }

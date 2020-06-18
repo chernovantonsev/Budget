@@ -28,4 +28,15 @@
             app:argType="string" />
 
     </fragment>
+    <fragment
+        android:id="@+id/transactionsListFragment"
+        android:name="ru.antonc.budget.ui.transactions.TransactionsListFragment">
+        <action
+            android:id="@+id/action_transactionsListFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>
