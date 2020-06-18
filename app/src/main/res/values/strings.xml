@@ -11,6 +11,5 @@
     <string name="text_select_category">Выбор категории</string>
     <string name="text_sum">Сумма</string>
     <string name="comment_hint">Комментарий</string>
-    <string name="sum_hint">Введите сумму</string>
     <string name="action_save">Сохранить</string>
 </resources>

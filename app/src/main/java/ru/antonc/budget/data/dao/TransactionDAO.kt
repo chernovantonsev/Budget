@@ -12,6 +12,9 @@ abstract class TransactionDAO : BaseDAO<Transaction> {
     @Query("SELECT * from ${Transaction.TABLE_NAME}")
     abstract fun getAll(): LiveData<List<Transaction>>
 
+    @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId")
+    abstract fun getTransactionById(transactionId: Int): LiveData<Transaction>
+
     @Query("DELETE FROM ${Transaction.TABLE_NAME}")
     abstract fun clearTable()
 

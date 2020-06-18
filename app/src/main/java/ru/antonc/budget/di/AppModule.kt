@@ -4,7 +4,11 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import ru.antonc.budget.data.AppDatabase
+import ru.antonc.budget.data.dao.CategoryDAO
+import ru.antonc.budget.data.dao.TransactionDAO
 import javax.inject.Singleton
 
 
@@ -19,7 +23,26 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideIODispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
+    }
+
+
+    @Singleton
+    @Provides
     fun provideDb(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTransactionDAO(database: AppDatabase): TransactionDAO {
+        return database.transactionDAO()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCategoryDAO(database: AppDatabase): CategoryDAO {
+        return database.categoryDAO()
     }
 }
