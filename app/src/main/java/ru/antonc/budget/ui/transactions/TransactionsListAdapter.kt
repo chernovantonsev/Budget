@@ -3,6 +3,7 @@ package ru.antonc.budget.ui.transactions
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,14 +32,18 @@ class TransactionsListAdapter :
     class ViewHolder(
         private val binding: ListItemTransactionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.setClickListener { view ->
-
-            }
-        }
 
         fun bind(transaction: Transaction) {
             with(binding) {
+
+                setClickListener { view ->
+                    view.findNavController().navigate(
+                        TransactionsListFragmentDirections.actionTransactionsListFragmentToTransactionFragment(
+                            transaction.id, ""
+                        )
+                    )
+                }
+
                 this.transaction = transaction
                 executePendingBindings()
             }

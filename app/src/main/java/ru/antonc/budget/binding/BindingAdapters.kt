@@ -3,6 +3,7 @@ package ru.antonc.budget.binding
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -34,9 +35,13 @@ fun spanText(textView: TextView, text: String, spanText: String?) {
     }
 }
 
-
-@BindingAdapter("android:text")
-fun setDouble(textView: TextView, textDouble: Double) {
-    textView.text = textDouble.toString()
+@BindingAdapter("android:isGone")
+fun bindIsGone(view: View, isGone: Boolean?) {
+    isGone?.let {
+        view.visibility = if (isGone) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
 }
-

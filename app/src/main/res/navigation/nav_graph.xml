@@ -18,16 +18,22 @@
     <fragment
         android:id="@+id/transactionFragment"
         android:name="ru.antonc.budget.ui.transaction.TransactionFragment">
-
         <argument
             android:name="id"
-            app:argType="integer" />
-
+            app:argType="string" />
         <argument
             android:name="type"
             app:argType="string" />
+        <action
+            android:id="@+id/action_transactionFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
+
     <fragment
         android:id="@+id/transactionsListFragment"
         android:name="ru.antonc.budget.ui.transactions.TransactionsListFragment">
@@ -38,5 +44,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="ru.antonc.budget.ui.categories.CategoriesFragment">
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
     </fragment>
 </navigation>

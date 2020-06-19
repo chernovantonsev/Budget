@@ -13,4 +13,7 @@
     <string name="comment_hint">Комментарий</string>
     <string name="action_save">Сохранить</string>
     <string name="title_list_of_transactions">Транзакции</string>
+    <string name="title_select_category">Выбор категории</string>
+    <string name="create_new_category">Создать новую категорию</string>
+    <string name="hint_category_name">Имя категории</string>
 </resources>

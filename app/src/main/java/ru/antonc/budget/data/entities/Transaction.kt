@@ -2,13 +2,14 @@ package ru.antonc.budget.data.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = Transaction.TABLE_NAME)
+@Entity(tableName = Transaction.TABLE_NAME, primaryKeys = ["id"])
 data class Transaction(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+
+    var id: String = UUID.randomUUID().toString(),
+
     val type: TransactionType,
 
     var date: Long,
@@ -26,7 +27,7 @@ data class Transaction(
     }
 
     fun getFormattedDate(): String {
-        return SimpleDateFormat("dd.MM", Locale.getDefault()).format(date)
+        return SimpleDateFormat("dd MMMM", Locale.getDefault()).format(date)
     }
 
 }

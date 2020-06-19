@@ -9,13 +9,22 @@ import javax.inject.Inject
 class OverviewViewModel @Inject constructor() : BaseViewModel() {
 
 
-
     fun addIncome(view: View) {
-        view.findNavController().navigate(OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(-1, TransactionType.INCOME.type))
+        view.findNavController().navigate(
+            OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(
+                "",
+                TransactionType.INCOME.type
+            )
+        )
     }
 
     fun addExpense(view: View) {
-        view.findNavController().navigate(OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(-1, TransactionType.EXPENSE.type))
+        view.findNavController().navigate(
+            OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(
+                "",
+                TransactionType.EXPENSE.type
+            )
+        )
     }
 
 }

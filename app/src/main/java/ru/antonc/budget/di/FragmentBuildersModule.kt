@@ -2,6 +2,7 @@ package ru.antonc.budget.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import ru.antonc.budget.ui.categories.CategoriesFragment
 import ru.antonc.budget.ui.transaction.TransactionFragment
 import ru.antonc.budget.ui.overview.OverviewFragment
 import ru.antonc.budget.ui.transactions.TransactionsListFragment
@@ -19,4 +20,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeTransactionListFragment(): TransactionsListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCategoriesFragment(): CategoriesFragment
 }

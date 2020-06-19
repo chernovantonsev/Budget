@@ -53,7 +53,7 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
             setNavigationOnClickListener { requireActivity().onBackPressed() }
 
             when {
-                params.id >= 0 -> getString(R.string.title_edit)
+                params.id.isNotEmpty() -> getString(R.string.title_edit)
                 params.type == TransactionType.INCOME.type -> getString(R.string.title_income)
                 else -> getString(R.string.title_expense)
             }.also { transactionType ->
