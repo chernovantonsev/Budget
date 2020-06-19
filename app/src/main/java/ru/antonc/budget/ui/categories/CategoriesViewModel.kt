@@ -1,8 +1,6 @@
 package ru.antonc.budget.ui.categories
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
@@ -21,14 +19,10 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun saveCategory() {
-        viewModelScope.launch {
-            transactionRepository.createCategory(categoryName)
-        }
+        transactionRepository.createCategory(categoryName)
     }
 
     fun selectCategory(category: Category, transactionId: String) {
-        viewModelScope.launch {
-            transactionRepository.selectCategory(category, transactionId)
-        }
+        transactionRepository.selectCategory(category, transactionId)
     }
 }

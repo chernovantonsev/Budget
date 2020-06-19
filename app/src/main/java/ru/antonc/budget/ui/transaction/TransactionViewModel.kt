@@ -3,36 +3,39 @@ package ru.antonc.budget.ui.transaction
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
-import kotlinx.coroutines.launch
+import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.BackpressureStrategy
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
+import java.util.*
 import javax.inject.Inject
 
 class TransactionViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) : BaseViewModel() {
 
-    private val transactionId = MutableLiveData<String>()
-    private lateinit var transactionType: TransactionType
+    private val transactionId = BehaviorRelay.create<String>()
+    private var transactionType: TransactionType = TransactionType.NOT_SET
 
-    val transaction: LiveData<Transaction> = transactionId.switchMap { id ->
-        transactionRepository.getTransaction(id, transactionType).also {
-            it.value?.let { transaction ->
-                if (transactionId.value != transaction.id)
-                    transactionId.postValue(transaction.id)
-            }
-        }
+    private val _transaction = MutableLiveData<Transaction>()
+    val transaction: LiveData<Transaction> = _transaction
+
+    init {
+        transactionId.toFlowable(BackpressureStrategy.LATEST)
+            .flatMap { id -> transactionRepository.getTransaction(id, transactionType) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { _transaction.value = it }
+            .addTo(dataCompositeDisposable)
     }
 
     fun setTransactionDetails(id: String = "", type: String = "") {
-        if (id.isEmpty())
-            transactionType = TransactionType.fromValue(type)
-        transactionId.value = id
+        transactionType = TransactionType.fromValue(type)
+        transactionId.accept(if (id.isEmpty()) UUID.randomUUID().toString() else id)
     }
 
     fun goToCategories(view: View) {
@@ -43,12 +46,10 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
-
     fun saveTransaction() {
         transaction.value?.let { transactionToSave ->
-            viewModelScope.launch {
-                transactionRepository.saveTransaction(transactionToSave)
-            }
+            transactionToSave.isNew = false
+            transactionRepository.saveTransaction(transactionToSave)
         }
     }
 

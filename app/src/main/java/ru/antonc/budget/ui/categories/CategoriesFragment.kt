@@ -56,6 +56,8 @@ class CategoriesFragment : BaseFragment(), Injectable {
     }
 
     private fun createNewCategory() {
+        viewModel.setCategoryName("")
+
         MaterialDialog(requireContext()).show {
             title(R.string.create_new_category)
             input(

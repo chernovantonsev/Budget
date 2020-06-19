@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import ru.antonc.budget.data.AppDatabase
@@ -23,10 +24,9 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideIODispatcher(): CoroutineDispatcher {
-        return Dispatchers.IO
+    fun provideCompositeDisposable(): CompositeDisposable {
+        return CompositeDisposable()
     }
-
 
     @Singleton
     @Provides

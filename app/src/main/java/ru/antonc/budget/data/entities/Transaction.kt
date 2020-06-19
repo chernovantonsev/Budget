@@ -8,7 +8,9 @@ import java.util.*
 @Entity(tableName = Transaction.TABLE_NAME, primaryKeys = ["id"])
 data class Transaction(
 
-    var id: String = UUID.randomUUID().toString(),
+    var id: String = "",
+
+    var isNew: Boolean = true,
 
     val type: TransactionType,
 

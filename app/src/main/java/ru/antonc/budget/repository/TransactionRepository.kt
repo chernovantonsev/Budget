@@ -1,10 +1,9 @@
 package ru.antonc.budget.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import io.reactivex.Flowable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import ru.antonc.budget.data.dao.CategoryDAO
 import ru.antonc.budget.data.dao.TransactionDAO
 import ru.antonc.budget.data.entities.Category
@@ -18,7 +17,7 @@ import javax.inject.Singleton
 class TransactionRepository @Inject constructor(
     private val transactionDAO: TransactionDAO,
     private val categoryDAO: CategoryDAO,
-    private val ioDispatcher: CoroutineDispatcher
+    private val dataDisposable: CompositeDisposable
 ) {
 
     fun getAllTransactions() = transactionDAO.getAll()
@@ -27,51 +26,56 @@ class TransactionRepository @Inject constructor(
 
     fun getTransaction(
         transactionId: String,
-        transactionType: TransactionType
-    ): LiveData<Transaction> = transactionDAO.getTransactionById(transactionId)
-            .switchMap { transaction ->
-                if (transaction == null)
-                    createTransaction(transactionType)
-                else liveData { emit(transaction!!) }
-            }
-
-    private fun createTransaction(
-        transactionType: TransactionType
-    ): LiveData<Transaction> {
-        return liveData {
-            Transaction(
-                type = transactionType,
-                date = Calendar.getInstance().timeInMillis
-            )
-                .also { newTransaction ->
-                    saveTransaction(newTransaction)
-                    emit(newTransaction)
-                }
+        transactionType: TransactionType = TransactionType.NOT_SET
+    ): Flowable<Transaction> = transactionDAO.getTransactionById(transactionId)
+        .doOnNext {
+            if (it.isEmpty())
+                createTransaction(transactionId, transactionType)
         }
-    }
+        .filter { it.isNotEmpty() }
+        .map { it.first() }
+        .subscribeOn(Schedulers.io())
 
-
-    suspend fun saveTransaction(transaction: Transaction) {
-        withContext(ioDispatcher) {
+    private fun createTransaction(id: String, transactionType: TransactionType) {
+        Transaction(
+            id = id,
+            type = transactionType,
+            date = Calendar.getInstance().timeInMillis
+        ).also { transaction ->
             transactionDAO.insert(transaction)
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+                .addTo(dataDisposable)
         }
     }
 
-    suspend fun createCategory(categoryName: String) {
-        withContext(ioDispatcher) {
-            categoryDAO.insert(Category(name = categoryName))
-        }
+    fun saveTransaction(transaction: Transaction) {
+        transactionDAO.insert(transaction)
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+            .addTo(dataDisposable)
     }
 
-    suspend fun selectCategory(
+    fun createCategory(categoryName: String) {
+        categoryDAO.insert(Category(name = categoryName))
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+            .addTo(dataDisposable)
+    }
+
+    fun selectCategory(
         category: Category,
         transactionId: String
     ) {
-        withContext(ioDispatcher) {
-            transactionDAO.getTransactionById(transactionId).value?.let { transaction ->
+        getTransaction(transactionId)
+            .doOnNext { transaction ->
                 transaction.category = category
+            }
+            .firstElement()
+            .flatMapCompletable { transaction ->
                 transactionDAO.update(transaction)
             }
-        }
+            .subscribe()
+            .addTo(dataDisposable)
     }
 }
