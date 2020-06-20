@@ -29,7 +29,7 @@ data class Transaction(
     }
 
     fun getFormattedDate(): String {
-        return SimpleDateFormat("dd MMMM", Locale.getDefault()).format(date)
+        return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
     }
 
 }

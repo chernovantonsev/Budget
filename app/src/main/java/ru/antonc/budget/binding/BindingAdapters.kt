@@ -5,6 +5,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -44,4 +45,9 @@ fun bindIsGone(view: View, isGone: Boolean?) {
             View.VISIBLE
         }
     }
+}
+
+@BindingAdapter("imageResource")
+fun bindImageResource(view: ImageView, id: Int) {
+    view.setImageResource(id)
 }
