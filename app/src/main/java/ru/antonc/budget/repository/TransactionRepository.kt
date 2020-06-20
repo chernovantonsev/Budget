@@ -1,11 +1,12 @@
 package ru.antonc.budget.repository
 
+import androidx.lifecycle.LiveData
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import ru.antonc.budget.data.dao.CategoryDAO
-import ru.antonc.budget.data.dao.TransactionDAO
+import ru.antonc.budget.data.AppDatabase
+import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -15,19 +16,20 @@ import javax.inject.Singleton
 
 @Singleton
 class TransactionRepository @Inject constructor(
-    private val transactionDAO: TransactionDAO,
-    private val categoryDAO: CategoryDAO,
+    private val database: AppDatabase,
     private val dataDisposable: CompositeDisposable
 ) {
 
-    fun getAllTransactions() = transactionDAO.getAll()
+    fun getAllTransactions() = database.transactionDAO().getAll()
 
-    fun getAllCategories() = categoryDAO.getAll()
+    fun getAllCategories() = database.categoryDAO().getAll()
+
+    fun getAllAccounts(): LiveData<List<Account>> = database.accountDAO().getAll()
 
     fun getTransaction(
         transactionId: String,
         transactionType: TransactionType = TransactionType.NOT_SET
-    ): Flowable<Transaction> = transactionDAO.getTransactionById(transactionId)
+    ): Flowable<Transaction> = database.transactionDAO().getTransactionById(transactionId)
         .doOnNext {
             if (it.isEmpty())
                 createTransaction(transactionId, transactionType)
@@ -42,7 +44,7 @@ class TransactionRepository @Inject constructor(
             type = transactionType,
             date = Calendar.getInstance().timeInMillis
         ).also { transaction ->
-            transactionDAO.insert(transaction)
+            database.transactionDAO().insert(transaction)
                 .subscribeOn(Schedulers.io())
                 .subscribe()
                 .addTo(dataDisposable)
@@ -50,14 +52,14 @@ class TransactionRepository @Inject constructor(
     }
 
     fun saveTransaction(transaction: Transaction) {
-        transactionDAO.insert(transaction)
+        database.transactionDAO().insert(transaction)
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
     }
 
     fun createCategory(categoryName: String) {
-        categoryDAO.insert(Category(name = categoryName))
+        database.categoryDAO().insert(Category(name = categoryName))
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
@@ -73,9 +75,11 @@ class TransactionRepository @Inject constructor(
             }
             .firstElement()
             .flatMapCompletable { transaction ->
-                transactionDAO.update(transaction)
+                database.transactionDAO().update(transaction)
             }
             .subscribe()
             .addTo(dataDisposable)
     }
+
+
 }

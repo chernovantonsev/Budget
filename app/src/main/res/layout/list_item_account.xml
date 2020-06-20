@@ -10,8 +10,8 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="transaction"
-            type="ru.antonc.budget.data.entities.Transaction" />
+            name="account"
+            type="ru.antonc.budget.data.entities.Account" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,8 +21,8 @@
         android:layout_marginEnd="@dimen/card_side_margin"
         android:layout_marginBottom="1dp"
         android:onClick="@{clickListener}"
-        app:cardElevation="@dimen/card_elevation"
         app:cardCornerRadius="1dp"
+        app:cardElevation="@dimen/card_elevation"
         app:cardPreventCornerOverlap="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,11 +35,11 @@
                 android:id="@+id/iv_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:tint="@android:color/darker_gray"
-                app:imageResource="@{transaction.type.icon}"
+                android:tint="@color/colorPrimary"
+                app:imageResource="@{account.icon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_add_circle_outline" />
+                tools:src="@drawable/ic_money" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -47,38 +47,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@{transaction.category.name}"
+                android:text="@{account.name}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_icon"
                 app:layout_constraintEnd_toStartOf="@id/tv_sum"
                 app:layout_constraintStart_toEndOf="@id/iv_icon"
                 app:layout_constraintTop_toTopOf="@id/iv_icon"
-                tools:text="Питание" />
-
-
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@{transaction.getFormattedDate()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_icon"
-                tools:text="24 июня 1995" />
-
+                tools:text="Кошелек" />
 
             <TextView
                 android:id="@+id/tv_sum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="@{String.valueOf(transaction.sum)}"
+                android:text="@{String.valueOf(account.balance)}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_name"
                 app:layout_constraintTop_toTopOf="@id/tv_name"
-                tools:text="- 100 Р" />
+                tools:text="500 Р" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

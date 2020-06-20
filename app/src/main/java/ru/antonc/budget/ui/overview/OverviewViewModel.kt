@@ -27,4 +27,10 @@ class OverviewViewModel @Inject constructor() : BaseViewModel() {
         )
     }
 
+    fun toAccountsList(view: View) {
+        view.findNavController().navigate(
+            OverviewFragmentDirections.actionOverviewFragmentToAccountsFragment()
+        )
+    }
+
 }

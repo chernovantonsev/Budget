@@ -13,6 +13,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_overviewFragment_to_accountsFragment"
+            app:destination="@id/accountsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -53,4 +60,7 @@
             android:name="transactionId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/accountsFragment"
+        android:name="ru.antonc.budget.ui.accounts.AccountsFragment" />
 </navigation>

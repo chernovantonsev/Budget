@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import ru.antonc.budget.data.dao.AccountDAO
 import ru.antonc.budget.data.dao.CategoryDAO
 import ru.antonc.budget.data.dao.TransactionDAO
+import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.Transaction
 
@@ -14,7 +16,8 @@ import ru.antonc.budget.data.entities.Transaction
     version = 1,
     entities = [
         Transaction::class,
-        Category::class
+        Category::class,
+        Account::class
     ],
     exportSchema = false
 )
@@ -25,6 +28,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun transactionDAO(): TransactionDAO
     abstract fun categoryDAO(): CategoryDAO
+    abstract fun accountDAO(): AccountDAO
+
 
     companion object {
 

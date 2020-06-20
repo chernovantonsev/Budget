@@ -33,16 +33,4 @@ class AppModule {
     fun provideDb(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
     }
-
-    @Singleton
-    @Provides
-    fun provideTransactionDAO(database: AppDatabase): TransactionDAO {
-        return database.transactionDAO()
-    }
-
-    @Singleton
-    @Provides
-    fun provideCategoryDAO(database: AppDatabase): CategoryDAO {
-        return database.categoryDAO()
-    }
 }
