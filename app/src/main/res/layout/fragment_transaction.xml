@@ -63,6 +63,8 @@
             android:id="@+id/tv_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.onDateClick()}"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@{viewModel.transaction.formattedDate}"

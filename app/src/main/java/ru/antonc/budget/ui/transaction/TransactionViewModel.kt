@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
+import ru.antonc.budget.data.entities.common.EventContent
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
 import java.util.*
@@ -24,6 +25,9 @@ class TransactionViewModel @Inject constructor(
 
     private val _transaction = MutableLiveData<Transaction>()
     val transaction: LiveData<Transaction> = _transaction
+
+    private val _datePickerEvent = MutableLiveData<EventContent<Long>>()
+    val datePickerEvent: LiveData<EventContent<Long>> = _datePickerEvent
 
     init {
         transactionId.toFlowable(BackpressureStrategy.LATEST)
@@ -56,6 +60,19 @@ class TransactionViewModel @Inject constructor(
     fun setSum(sumString: String) {
         (sumString.toDoubleOrNull() ?: 0.0).let {
             transaction.value?.sum = it
+        }
+    }
+
+    fun onDateClick() {
+        _transaction.value?.let { transaction ->
+            _datePickerEvent.value = EventContent(transaction.date)
+        }
+    }
+
+    fun setDate(newDate: Long) {
+        transaction.value?.let { transaction ->
+            transaction.date = newDate
+            _transaction.value = transaction
         }
     }
 }
