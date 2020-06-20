@@ -19,6 +19,7 @@ import ru.antonc.budget.ui.base.BaseFragment
 import ru.antonc.budget.ui.date.DatePickerFragment
 import ru.antonc.budget.util.autoCleared
 import ru.antonc.budget.util.extenstions.afterTextChanged
+import ru.antonc.budget.util.extenstions.hideKeyboard
 import java.util.*
 
 class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListener {
@@ -36,6 +37,7 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
     ): View? {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(TransactionViewModel::class.java)
+        viewModel.setTransactionDetails(params.id, params.type)
 
         binding = FragmentTransactionBinding.inflate(inflater, container, false)
             .apply {
@@ -47,7 +49,6 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setTransactionDetails(params.id, params.type)
 
         binding.etSum.afterTextChanged { sum -> viewModel.setSum(sum) }
 
@@ -71,15 +72,24 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
                     initDate = initDate,
                     onDateSelected = { date -> viewModel.setDate(date) })
             }
+        }
 
+        viewModel.navigateToCategoriesEvent.observe(viewLifecycleOwner) { navigateToCategoriesEvent ->
+            navigateToCategoriesEvent.getContentIfNotHandled()?.let { id ->
+                view.hideKeyboard()
+
+                findNavController().navigate(
+                    TransactionFragmentDirections.actionTransactionFragmentToCategoriesFragment(id)
+                )
+            }
         }
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                viewModel.saveTransaction()
-                findNavController().navigateUp()
+                viewModel.saveTransaction(true)
+                requireActivity().onBackPressed()
                 true
             }
 

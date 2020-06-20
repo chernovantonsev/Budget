@@ -10,8 +10,6 @@ data class Transaction(
 
     var id: String = "",
 
-    var isNew: Boolean = true,
-
     val type: TransactionType,
 
     var date: Long,

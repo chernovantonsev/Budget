@@ -20,7 +20,6 @@ class TransactionsListViewModel @Inject constructor(
 
     init {
         transactionRepository.getAllTransactions()
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{_transactionsList.value = it}
             .addTo(dataCompositeDisposable)

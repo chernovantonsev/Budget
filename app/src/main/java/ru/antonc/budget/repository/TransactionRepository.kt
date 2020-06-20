@@ -1,12 +1,10 @@
 package ru.antonc.budget.repository
 
-import androidx.lifecycle.LiveData
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.antonc.budget.data.AppDatabase
-import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -21,12 +19,14 @@ class TransactionRepository @Inject constructor(
 ) {
 
     fun getAllTransactions() = database.transactionDAO().getAll()
+        .map { transitions -> transitions.filter { transaction -> transaction.id.isNotEmpty() } }
+        .subscribeOn(Schedulers.io())
 
     fun getAllCategories() = database.categoryDAO().getAll()
 
-    fun getAllAccounts(): LiveData<List<Account>> = database.accountDAO().getAll()
+    fun getAllAccounts() = database.accountDAO().getAll()
 
-    fun getTransaction(
+    fun getOrCreateTransaction(
         transactionId: String,
         transactionType: TransactionType = TransactionType.NOT_SET
     ): Flowable<Transaction> = database.transactionDAO().getTransactionById(transactionId)
@@ -69,7 +69,9 @@ class TransactionRepository @Inject constructor(
         category: Category,
         transactionId: String
     ) {
-        getTransaction(transactionId)
+        database.transactionDAO().getTransactionById(transactionId)
+            .filter { it.isNotEmpty() }
+            .map { it.first() }
             .doOnNext { transaction ->
                 transaction.category = category
             }
@@ -77,6 +79,13 @@ class TransactionRepository @Inject constructor(
             .flatMapCompletable { transaction ->
                 database.transactionDAO().update(transaction)
             }
+            .subscribe()
+            .addTo(dataDisposable)
+    }
+
+    fun deleteTransaction(id: String = "") {
+        database.transactionDAO().deleteTransaction(id)
+            .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
     }
