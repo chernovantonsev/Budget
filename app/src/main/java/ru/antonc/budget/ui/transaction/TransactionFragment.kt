@@ -92,6 +92,11 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
                 requireActivity().onBackPressed()
                 true
             }
+            R.id.action_remove -> {
+                viewModel.removeTransaction()
+                requireActivity().onBackPressed()
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }

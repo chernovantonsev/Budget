@@ -1,6 +1,5 @@
 package ru.antonc.budget.repository
 
-import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -38,23 +37,17 @@ class TransactionRepository @Inject constructor(
     ): Flowable<FullTransaction> = database.transactionDAO().getTransactionById(transactionId)
         .doOnNext {
             if (it.isEmpty())
-                createTransaction(transactionId, transactionType)
+                createNewTransaction(transactionType)
         }
         .filter { it.isNotEmpty() }
         .map { it.first() }
         .subscribeOn(Schedulers.io())
 
-    private fun createTransaction(id: String, transactionType: TransactionType) {
+    private fun createNewTransaction(transactionType: TransactionType) {
         Transaction(
-            id = id,
             type = transactionType,
             date = Calendar.getInstance().timeInMillis
-        ).also { transaction ->
-            database.transactionDAO().insert(transaction)
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-                .addTo(dataDisposable)
-        }
+        ).let(::saveTransaction)
     }
 
     fun saveTransaction(transaction: Transaction) {
@@ -99,11 +92,7 @@ class TransactionRepository @Inject constructor(
     fun saveAccount(account: Account) {
         database.accountDAO().insert(account)
             .subscribeOn(Schedulers.io())
-            .subscribe{
-                Log.d("dako", "success saved")
-            }
+            .subscribe()
             .addTo(dataDisposable)
     }
-
-
 }

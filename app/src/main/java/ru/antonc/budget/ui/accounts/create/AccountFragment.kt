@@ -50,6 +50,12 @@ class AccountFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListe
         binding.toolbar.apply {
             inflateMenu(R.menu.menu_account)
             setOnMenuItemClickListener(this@AccountFragment)
+
+            title = if (params.id > 0L)
+                getString(R.string.title_account_info)
+            else
+                getString(R.string.title_create_account)
+
             setNavigationOnClickListener {
                 hideKeyboard()
                 findNavController().navigateUp()

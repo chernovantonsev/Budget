@@ -56,10 +56,7 @@ class TransactionViewModel @Inject constructor(
 
         transactionId.toFlowable(BackpressureStrategy.LATEST)
             .flatMap { id ->
-                transactionRepository.getOrCreateTransaction(
-                    id,
-                    transactionType
-                )
+                transactionRepository.getOrCreateTransaction(id, transactionType)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { _transaction.accept(it) }
@@ -93,7 +90,6 @@ class TransactionViewModel @Inject constructor(
             transaction.value?.let { transaction ->
                 transaction.info.sum = it
             }
-
         }
     }
 
@@ -122,7 +118,13 @@ class TransactionViewModel @Inject constructor(
                     transaction.info.accountId = selectedAccount.id
                     transaction.account = selectedAccount
                 }
+        }
+    }
 
+    fun removeTransaction() {
+        transaction.value?.let { transaction ->
+            transactionId.accept("")
+            transactionRepository.deleteTransaction(transaction.info.id)
         }
     }
 }

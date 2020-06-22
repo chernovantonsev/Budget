@@ -20,4 +20,6 @@
     <string name="title_create_account">Добавить счет</string>
     <string name="name_account_hint">Имя счета</string>
     <string name="text_current_balance">Текущий баланс</string>
+    <string name="title_account_info">Информация о счете</string>
+    <string name="action_remove">Удалить</string>
 </resources>
