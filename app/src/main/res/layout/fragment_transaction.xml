@@ -126,7 +126,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/text_sum"
-            android:inputType="text"
             app:layout_constraintEnd_toEndOf="@+id/guideline_right"
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/tv_select_category">

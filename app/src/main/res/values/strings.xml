@@ -17,4 +17,7 @@
     <string name="create_new_category">Создать новую категорию</string>
     <string name="hint_category_name">Имя категории</string>
     <string name="title_accounts">Счета</string>
+    <string name="title_create_account">Добавить счет</string>
+    <string name="name_account_hint">Имя счета</string>
+    <string name="text_current_balance">Текущий баланс</string>
 </resources>

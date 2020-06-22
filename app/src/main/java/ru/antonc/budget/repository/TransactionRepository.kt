@@ -5,6 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.antonc.budget.data.AppDatabase
+import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -25,6 +26,11 @@ class TransactionRepository @Inject constructor(
     fun getAllCategories() = database.categoryDAO().getAll()
 
     fun getAllAccounts() = database.accountDAO().getAll()
+
+    fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
+        .filter { it.isNotEmpty() }
+        .map { it.first() }
+        .subscribeOn(Schedulers.io())
 
     fun getOrCreateTransaction(
         transactionId: String,
@@ -85,6 +91,13 @@ class TransactionRepository @Inject constructor(
 
     fun deleteTransaction(id: String = "") {
         database.transactionDAO().deleteTransaction(id)
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+            .addTo(dataDisposable)
+    }
+
+    fun saveAccount(account: Account) {
+        database.accountDAO().insert(account)
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
