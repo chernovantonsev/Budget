@@ -10,26 +10,50 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.databinding.ListItemTransactionBinding
+import ru.antonc.budget.databinding.ListItemTransactionDateBinding
+import ru.antonc.budget.ui.transactions.TransactionListItem.Companion.TYPE_DATE
 
 class TransactionsListAdapter :
-    ListAdapter<FullTransaction, TransactionsListAdapter.ViewHolder>(
+    ListAdapter<TransactionListItem, RecyclerView.ViewHolder>(
         TransactionsDiffCallback()
     ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.list_item_transaction, parent, false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        when (viewType) {
+            TYPE_DATE -> {
+                return DateViewHolder(
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.list_item_transaction_date, parent, false
+                    )
+                )
+            }
+
+            else -> return TransactionViewHolder(
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.list_item_transaction, parent, false
+                )
             )
-        )
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).getType()
     }
 
-    class ViewHolder(
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            TYPE_DATE -> {
+                with(getItem(position) as TransactionDateListItem) {
+                    (holder as DateViewHolder).bind(date, sum.toString())
+                }
+            }
+            else -> (holder as TransactionViewHolder).bind((getItem(position) as TransactionGeneralListItem).transaction)
+        }
+    }
+
+    class TransactionViewHolder(
         private val binding: ListItemTransactionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -49,21 +73,41 @@ class TransactionsListAdapter :
             }
         }
     }
+
+    class DateViewHolder(
+        private val binding: ListItemTransactionDateBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(date: String, sum: String) {
+            with(binding) {
+                this.date = date
+                this.sum = sum
+                executePendingBindings()
+            }
+        }
+    }
 }
 
-private class TransactionsDiffCallback : DiffUtil.ItemCallback<FullTransaction>() {
-
+private class TransactionsDiffCallback : DiffUtil.ItemCallback<TransactionListItem>() {
     override fun areItemsTheSame(
-        oldItem: FullTransaction,
-        newItem: FullTransaction
+        oldItem: TransactionListItem,
+        newItem: TransactionListItem
     ): Boolean {
-        return oldItem.info.id == newItem.info.id
+        return if (oldItem is TransactionGeneralListItem && newItem is TransactionGeneralListItem) {
+            oldItem.transaction.info.id == newItem.transaction.info.id
+        } else if (oldItem is TransactionDateListItem && newItem is TransactionDateListItem) {
+            oldItem.date == newItem.date
+        } else false
     }
 
     override fun areContentsTheSame(
-        oldItem: FullTransaction,
-        newItem: FullTransaction
+        oldItem: TransactionListItem,
+        newItem: TransactionListItem
     ): Boolean {
-        return oldItem.info == newItem.info
+        return if (oldItem is TransactionGeneralListItem && newItem is TransactionGeneralListItem) {
+            oldItem.transaction.info == newItem.transaction.info
+        } else if (oldItem is TransactionDateListItem && newItem is TransactionDateListItem) {
+            oldItem.date == newItem.date
+        } else false
     }
 }
