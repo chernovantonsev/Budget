@@ -1,14 +1,12 @@
 package ru.antonc.budget.repository
 
+import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.antonc.budget.data.AppDatabase
-import ru.antonc.budget.data.entities.Account
-import ru.antonc.budget.data.entities.Category
-import ru.antonc.budget.data.entities.Transaction
-import ru.antonc.budget.data.entities.TransactionType
+import ru.antonc.budget.data.entities.*
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,22 +18,24 @@ class TransactionRepository @Inject constructor(
 ) {
 
     fun getAllTransactions() = database.transactionDAO().getAll()
-        .map { transitions -> transitions.filter { transaction -> transaction.id.isNotEmpty() } }
+        .map { transitions -> transitions.filter { fullTransaction -> fullTransaction.info.id.isNotEmpty() } }
         .subscribeOn(Schedulers.io())
 
     fun getAllCategories() = database.categoryDAO().getAll()
 
     fun getAllAccounts() = database.accountDAO().getAll()
 
+
     fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
-        .filter { it.isNotEmpty() }
-        .map { it.first() }
+        .subscribeOn(Schedulers.io())
+
+    fun getCategory(id: Long) = database.categoryDAO().getCategoryById(id)
         .subscribeOn(Schedulers.io())
 
     fun getOrCreateTransaction(
         transactionId: String,
         transactionType: TransactionType = TransactionType.NOT_SET
-    ): Flowable<Transaction> = database.transactionDAO().getTransactionById(transactionId)
+    ): Flowable<FullTransaction> = database.transactionDAO().getTransactionById(transactionId)
         .doOnNext {
             if (it.isEmpty())
                 createTransaction(transactionId, transactionType)
@@ -79,11 +79,11 @@ class TransactionRepository @Inject constructor(
             .filter { it.isNotEmpty() }
             .map { it.first() }
             .doOnNext { transaction ->
-                transaction.category = category
+                transaction.info.categoryId = category.id
             }
             .firstElement()
             .flatMapCompletable { transaction ->
-                database.transactionDAO().update(transaction)
+                database.transactionDAO().update(transaction.info)
             }
             .subscribe()
             .addTo(dataDisposable)
@@ -99,7 +99,9 @@ class TransactionRepository @Inject constructor(
     fun saveAccount(account: Account) {
         database.accountDAO().insert(account)
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe{
+                Log.d("dako", "success saved")
+            }
             .addTo(dataDisposable)
     }
 

@@ -70,7 +70,7 @@
             android:paddingTop="16dp"
             android:paddingEnd="8dp"
             android:paddingBottom="16dp"
-            android:text="@{viewModel.transaction.formattedDate}"
+            android:text="@{viewModel.transaction.info.formattedDate}"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/guideline_right"
@@ -112,8 +112,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/colorPrimary"
             android:layout_marginEnd="16dp"
+            android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tv_select_category"
             app:layout_constraintEnd_toEndOf="@id/tv_select_category"
             app:layout_constraintTop_toTopOf="@id/tv_select_category"
@@ -136,9 +136,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:text="@{String.valueOf(viewModel.transaction.sum)}" />
+                android:text="@{String.valueOf(viewModel.transaction.info.sum)}" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/accounts_spinner"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:entries="@{viewModel.accounts}"
+            android:onItemSelected="@{viewModel::onAccountSelected}"
+            android:selectedItemPosition="@{viewModel.selectedAccountPosition}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/til_sum" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -151,7 +165,7 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="@+id/guideline_right"
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/til_sum">
+            app:layout_constraintTop_toBottomOf="@+id/accounts_spinner">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -159,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="@={viewModel.transaction.comment}" />
+                android:text="@={viewModel.transaction.info.comment}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

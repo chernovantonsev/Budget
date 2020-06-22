@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
-import ru.antonc.budget.data.entities.Transaction
+import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.databinding.ListItemTransactionBinding
 
 class TransactionsListAdapter :
-    ListAdapter<Transaction, TransactionsListAdapter.ViewHolder>(
+    ListAdapter<FullTransaction, TransactionsListAdapter.ViewHolder>(
         TransactionsDiffCallback()
     ) {
 
@@ -33,13 +33,13 @@ class TransactionsListAdapter :
         private val binding: ListItemTransactionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: Transaction) {
+        fun bind(transaction: FullTransaction) {
             with(binding) {
 
                 setClickListener { view ->
                     view.findNavController().navigate(
                         TransactionsListFragmentDirections.actionTransactionsListFragmentToTransactionFragment(
-                            transaction.id, ""
+                            transaction.info.id, ""
                         )
                     )
                 }
@@ -51,19 +51,19 @@ class TransactionsListAdapter :
     }
 }
 
-private class TransactionsDiffCallback : DiffUtil.ItemCallback<Transaction>() {
+private class TransactionsDiffCallback : DiffUtil.ItemCallback<FullTransaction>() {
 
     override fun areItemsTheSame(
-        oldItem: Transaction,
-        newItem: Transaction
+        oldItem: FullTransaction,
+        newItem: FullTransaction
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.info.id == newItem.info.id
     }
 
     override fun areContentsTheSame(
-        oldItem: Transaction,
-        newItem: Transaction
+        oldItem: FullTransaction,
+        newItem: FullTransaction
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.info == newItem.info
     }
 }

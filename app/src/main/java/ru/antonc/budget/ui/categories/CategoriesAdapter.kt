@@ -57,6 +57,6 @@ private class CategoriesDiffCallback : DiffUtil.ItemCallback<Category>() {
         oldItem: Category,
         newItem: Category
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

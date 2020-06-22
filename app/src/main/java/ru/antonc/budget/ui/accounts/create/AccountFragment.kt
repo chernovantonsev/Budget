@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.antonc.budget.R
 import ru.antonc.budget.databinding.FragmentAccountBinding
@@ -24,7 +25,6 @@ class AccountFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListe
 
     private val params by navArgs<AccountFragmentArgs>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +34,6 @@ class AccountFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListe
             ViewModelProviders.of(this, viewModelFactory).get(AccountViewModel::class.java)
 
         viewModel.setAccountId(params.id)
-
 
         binding = FragmentAccountBinding.inflate(inflater, container, false)
             .apply {
@@ -48,17 +47,20 @@ class AccountFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.etBalance.afterTextChanged { sum -> viewModel.setBalance(sum) }
 
-
         binding.toolbar.apply {
             inflateMenu(R.menu.menu_account)
             setOnMenuItemClickListener(this@AccountFragment)
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setNavigationOnClickListener {
+                hideKeyboard()
+                findNavController().navigateUp()
+            }
         }
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
+                view?.hideKeyboard()
                 viewModel.saveAccount()
                 requireActivity().onBackPressed()
                 true
@@ -66,11 +68,5 @@ class AccountFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListe
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onBackPressed(): Boolean {
-        view?.hideKeyboard()
-
-        return super.onBackPressed()
     }
 }

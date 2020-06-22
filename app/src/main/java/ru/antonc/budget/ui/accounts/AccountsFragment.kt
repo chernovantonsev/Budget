@@ -51,7 +51,7 @@ class AccountsFragment : BaseFragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.toolbar.apply {
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setNavigationOnClickListener { findNavController().navigateUp() }
         }
     }
 }

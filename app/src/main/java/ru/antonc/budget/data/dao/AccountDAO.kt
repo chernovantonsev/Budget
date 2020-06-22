@@ -14,7 +14,7 @@ interface AccountDAO : BaseDAO<Account> {
     fun getAll(): LiveData<List<Account>>
 
     @Query("SELECT * from ${Account.TABLE_NAME} WHERE id = :id LIMIT 1")
-    fun getAccountById(id: Long): Flowable<List<Account>>
+    fun getAccountById(id: Long): Flowable<Account>
 
     @Query("DELETE FROM ${Account.TABLE_NAME}")
     fun clearTable()

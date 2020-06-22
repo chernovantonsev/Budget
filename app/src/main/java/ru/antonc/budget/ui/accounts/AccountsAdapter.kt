@@ -56,6 +56,6 @@ private class AccountsDiffCallback : DiffUtil.ItemCallback<Account>() {
         oldItem: Account,
         newItem: Account
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }
