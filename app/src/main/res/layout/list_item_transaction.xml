@@ -67,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@{transaction.info.getFormattedDate()}"
-                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_icon_transaction_type"
                 tools:text="24 июня 1995" />

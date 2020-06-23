@@ -49,5 +49,6 @@ fun bindIsGone(view: View, isGone: Boolean?) {
 
 @BindingAdapter("imageResource")
 fun bindImageResource(view: ImageView, id: Int) {
+    val t = R.drawable.ic_pie_chart
     view.setImageResource(id)
 }

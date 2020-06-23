@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.android.material.tabs.TabLayoutMediator
+import ru.antonc.budget.data.entities.CategoryStatistics
 import ru.antonc.budget.databinding.FragmentStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
@@ -33,16 +34,16 @@ class StatisticsFragment : BaseFragment(), Injectable {
         val pagerAdapter = ViewPagerAdapter()
         binding.vpInfo.adapter = pagerAdapter
 
-        viewModel.types.observe(viewLifecycleOwner) { types ->
-            pagerAdapter.setPagesInfo(types)
+        viewModel.pages.observe(viewLifecycleOwner) { pages ->
+            pagerAdapter.setPagesInfo(pages)
 
             binding.tlTypes.removeAllTabs()
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    types[position].also { type ->
-                        tab.text = type
-                        tab.tag = type
+                    pages[position].also { (tabName, _) ->
+                        tab.text = tabName
+                        tab.tag = tabName
                     }
                 }).attach()
         }
