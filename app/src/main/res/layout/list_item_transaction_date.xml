@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@{sum.toString()}"
+            android:textMoney="@{sum}"
             android:textColor="@{sum > 0? @android:color/holo_green_light : @android:color/holo_red_light}"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"

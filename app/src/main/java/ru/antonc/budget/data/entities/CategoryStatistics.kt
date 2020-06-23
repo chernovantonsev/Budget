@@ -1,6 +1,6 @@
 package ru.antonc.budget.data.entities
 
-data class CategoryStatistics (
+data class CategoryStatistics(
     val id: Long,
     val name: String,
     val sum: Double,

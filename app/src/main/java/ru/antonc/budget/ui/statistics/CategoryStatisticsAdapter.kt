@@ -10,7 +10,7 @@ import ru.antonc.budget.R
 import ru.antonc.budget.data.entities.CategoryStatistics
 import ru.antonc.budget.databinding.ListItemCategoryStatisticsBinding
 
-class CategoryStatisticsAdapter() :
+class CategoryStatisticsAdapter :
     ListAdapter<CategoryStatistics, CategoryStatisticsAdapter.ViewHolder>(
         CategoryStatisticsDiffCallback()
     ) {

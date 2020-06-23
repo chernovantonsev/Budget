@@ -1,16 +1,16 @@
 package ru.antonc.budget.binding
 
+import android.annotation.SuppressLint
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import ru.antonc.budget.R
-import ru.antonc.budget.util.extenstions.afterTextChanged
+import ru.antonc.budget.util.FORMAT_DECIMAL
 
 @BindingAdapter("android:text", "android:spanText")
 fun spanText(textView: TextView, text: String, spanText: String?) {
@@ -51,4 +51,10 @@ fun bindIsGone(view: View, isGone: Boolean?) {
 fun bindImageResource(view: ImageView, id: Int) {
     val t = R.drawable.ic_pie_chart
     view.setImageResource(id)
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("android:textMoney")
+fun textNumberFormatted(textView: TextView, value: Double) {
+    textView.text = "${FORMAT_DECIMAL.format(value)} ₽"
 }

@@ -25,4 +25,7 @@
     <string name="title_statistics">Статистика</string>
     <string name="title_menu">Меню</string>
     <string name="text_period">Период</string>
+
+
+    <string name="format_percent">%.0f%%</string>
 </resources>
