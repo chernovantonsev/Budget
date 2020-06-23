@@ -22,4 +22,6 @@
     <string name="text_current_balance">Текущий баланс</string>
     <string name="title_account_info">Информация о счете</string>
     <string name="action_remove">Удалить</string>
+    <string name="title_statistics">Статистика</string>
+    <string name="title_menu">Меню</string>
 </resources>

@@ -11,7 +11,7 @@
 
         <variable
             name="sum"
-            type="String" />
+            type="Double" />
     </data>
 
 
@@ -43,7 +43,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@{sum}"
+            android:text="@{sum.toString()}"
+            android:textColor="@{sum > 0? @android:color/holo_green_light : @android:color/holo_red_light}"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_date"

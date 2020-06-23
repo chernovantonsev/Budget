@@ -52,7 +52,7 @@ class TransactionViewModel @Inject constructor(
         _navigateToCategoriesEvent
 
     init {
-        transactionRepository.deleteTransaction()
+        transactionRepository.deleteEmptyTransaction()
 
         transactionId.toFlowable(BackpressureStrategy.LATEST)
             .flatMap { id ->
@@ -124,7 +124,7 @@ class TransactionViewModel @Inject constructor(
     fun removeTransaction() {
         transaction.value?.let { transaction ->
             transactionId.accept("")
-            transactionRepository.deleteTransaction(transaction.info.id)
+            transactionRepository.deleteTransaction(transaction.info)
         }
     }
 }

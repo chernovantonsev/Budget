@@ -76,4 +76,12 @@
             android:defaultValue="-1L"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="ru.antonc.budget.ui.statistics.StatisticsFragment"
+        android:label="StatisticsFragment" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="ru.antonc.budget.ui.menu.MenuFragment"
+        android:label="MenuFragment" />
 </navigation>

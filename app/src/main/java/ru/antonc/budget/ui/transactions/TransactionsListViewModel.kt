@@ -19,11 +19,11 @@ class TransactionsListViewModel @Inject constructor(
     private val _transactionsList = MutableLiveData<List<TransactionListItem>>()
     val transactionsList: LiveData<List<TransactionListItem>> = _transactionsList
 
-
     init {
-
-
         transactionRepository.getAllTransactions()
+            .map { transactions ->
+                transactions.sortedByDescending { transaction -> transaction.info.date }
+            }
             .map { transactions ->
                 val calendar = Calendar.getInstance()
 
@@ -48,7 +48,7 @@ class TransactionsListViewModel @Inject constructor(
 
                         groupedTransactions[key]?.first()?.let { transaction ->
                             dateItem.date =
-                                SimpleDateFormat("MMMM dd, EEEE", Locale.getDefault()).format(
+                                SimpleDateFormat("dd MMMM, EEEE", Locale.getDefault()).format(
                                     transaction.info.date
                                 )
                         }

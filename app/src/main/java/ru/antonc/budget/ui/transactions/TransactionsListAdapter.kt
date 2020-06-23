@@ -46,7 +46,7 @@ class TransactionsListAdapter :
         when (holder.itemViewType) {
             TYPE_DATE -> {
                 with(getItem(position) as TransactionDateListItem) {
-                    (holder as DateViewHolder).bind(date, sum.toString())
+                    (holder as DateViewHolder).bind(date, sum)
                 }
             }
             else -> (holder as TransactionViewHolder).bind((getItem(position) as TransactionGeneralListItem).transaction)
@@ -78,7 +78,7 @@ class TransactionsListAdapter :
         private val binding: ListItemTransactionDateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(date: String, sum: String) {
+        fun bind(date: String, sum: Double) {
             with(binding) {
                 this.date = date
                 this.sum = sum
@@ -107,7 +107,7 @@ private class TransactionsDiffCallback : DiffUtil.ItemCallback<TransactionListIt
         return if (oldItem is TransactionGeneralListItem && newItem is TransactionGeneralListItem) {
             oldItem.transaction.info == newItem.transaction.info
         } else if (oldItem is TransactionDateListItem && newItem is TransactionDateListItem) {
-            oldItem.date == newItem.date
+            oldItem.date == newItem.date && oldItem.sum == newItem.sum
         } else false
     }
 }

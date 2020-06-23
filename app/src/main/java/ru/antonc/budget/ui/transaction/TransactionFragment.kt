@@ -57,6 +57,8 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
             setOnMenuItemClickListener(this@TransactionFragment)
             setNavigationOnClickListener { requireActivity().onBackPressed() }
 
+            menu.findItem(R.id.action_remove).isVisible = params.id.isNotEmpty()
+
             when {
                 params.id.isNotEmpty() -> getString(R.string.title_edit)
                 params.type == TransactionType.INCOME.type -> getString(R.string.title_income)

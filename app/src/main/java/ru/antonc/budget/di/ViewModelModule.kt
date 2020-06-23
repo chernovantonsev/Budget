@@ -8,8 +8,10 @@ import dagger.multibindings.IntoMap
 import ru.antonc.budget.ui.accounts.AccountsViewModel
 import ru.antonc.budget.ui.accounts.create.AccountViewModel
 import ru.antonc.budget.ui.categories.CategoriesViewModel
+import ru.antonc.budget.ui.menu.MenuViewModel
 import ru.antonc.budget.ui.transaction.TransactionViewModel
 import ru.antonc.budget.ui.overview.OverviewViewModel
+import ru.antonc.budget.ui.statistics.StatisticsViewModel
 import ru.antonc.budget.ui.transactions.TransactionsListViewModel
 
 
@@ -46,6 +48,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountViewModel::class)
     abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(StatisticsViewModel::class)
+    abstract fun bindStatisticsViewModel(statisticsViewModel: StatisticsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MenuViewModel::class)
+    abstract fun bindMenuViewModel(menuViewModel: MenuViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

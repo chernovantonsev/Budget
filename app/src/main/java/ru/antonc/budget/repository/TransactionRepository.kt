@@ -24,7 +24,6 @@ class TransactionRepository @Inject constructor(
 
     fun getAllAccounts() = database.accountDAO().getAll()
 
-
     fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
         .subscribeOn(Schedulers.io())
 
@@ -52,6 +51,7 @@ class TransactionRepository @Inject constructor(
 
     fun saveTransaction(transaction: Transaction) {
         database.transactionDAO().insert(transaction)
+            .doOnComplete { actualizeAccountBalance(transaction, true) }
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
@@ -82,8 +82,16 @@ class TransactionRepository @Inject constructor(
             .addTo(dataDisposable)
     }
 
-    fun deleteTransaction(id: String = "") {
-        database.transactionDAO().deleteTransaction(id)
+    fun deleteTransaction(transaction: Transaction) {
+        database.transactionDAO().delete(transaction)
+            .doOnComplete { actualizeAccountBalance(transaction, false) }
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+            .addTo(dataDisposable)
+    }
+
+    fun deleteEmptyTransaction() {
+        database.transactionDAO().deleteTransaction("")
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
@@ -94,5 +102,19 @@ class TransactionRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
+    }
+
+    private fun actualizeAccountBalance(transaction: Transaction, isTransactionAdd: Boolean) {
+        database.accountDAO().getAccountById(transaction.accountId)
+            .subscribeOn(Schedulers.io())
+            .blockingFirst()?.let { account ->
+                if ((transaction.type == TransactionType.INCOME) == isTransactionAdd) {
+                    account.balance += transaction.sum
+                } else {
+                    account.balance -= transaction.sum
+                }
+
+                saveAccount(account)
+            }
     }
 }

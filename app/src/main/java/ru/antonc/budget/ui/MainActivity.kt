@@ -44,6 +44,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                     navController.navigate(R.id.transactionsListFragment)
                     return@OnNavigationItemSelectedListener true
                 }
+                R.id.navigation_statistics -> {
+                    navController.navigate(R.id.statisticsFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_menu -> {
+                    navController.navigate(R.id.menuFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
                 else -> {
                     return@OnNavigationItemSelectedListener true
                 }

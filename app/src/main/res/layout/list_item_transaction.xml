@@ -28,7 +28,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_normal">
+            android:paddingStart="@dimen/margin_normal"
+            android:paddingTop="10dp"
+            android:paddingEnd="@dimen/margin_normal"
+            android:paddingBottom="10dp">
 
 
             <ImageView
@@ -43,10 +46,12 @@
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:ellipsize="start"
+                android:singleLine="true"
                 android:text="@{transaction.category.name}"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_icon_transaction_type"
@@ -62,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@{transaction.info.getFormattedDate()}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_icon_transaction_type"
                 tools:text="24 июня 1995" />
@@ -70,10 +75,11 @@
 
             <TextView
                 android:id="@+id/tv_sum"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@{String.valueOf(transaction.info.sum)}"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_name"
@@ -84,8 +90,8 @@
                 android:id="@+id/iv_account_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:tint="@android:color/darker_gray"
                 android:layout_marginEnd="4dp"
+                android:tint="@android:color/darker_gray"
                 app:imageResource="@{transaction.account.icon}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_account"
                 app:layout_constraintEnd_toStartOf="@id/tv_account"
@@ -98,10 +104,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@{transaction.account.name}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_sum"
                 tools:text="Кошелек" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:isGone="@{transaction.info.comment.empty}"
+                android:maxLines="2"
+                android:text="@{transaction.info.comment}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_date"
+                tools:text="Комментарий" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
