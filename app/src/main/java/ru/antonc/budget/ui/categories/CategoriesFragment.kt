@@ -33,6 +33,7 @@ class CategoriesFragment : BaseFragment(), Injectable {
     ): View? {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(CategoriesViewModel::class.java)
+        viewModel.setTransactionId(params.transactionId)
 
         binding = FragmentListOfCategoriesBinding.inflate(inflater, container, false)
             .apply {
@@ -48,6 +49,9 @@ class CategoriesFragment : BaseFragment(), Injectable {
 
         viewModel.categoriesList.observe(viewLifecycleOwner) { categories ->
             adapter.submitList(categories)
+        }
+        viewModel.selectedCategoryId.observe(viewLifecycleOwner) {selectedCategoryId ->
+            adapter.setSelectedCategoryId(selectedCategoryId)
         }
 
         binding.fabAdd.setOnClickListener { createNewCategory() }

@@ -34,7 +34,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it
-
         dateDialog = DatePickerDialog(
             requireContext(),
             R.style.ThemeOverlay_MaterialComponents_Dialog,
@@ -83,5 +82,31 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         const val DATE = "date_long"
         const val TITLE = "title"
 
+        fun createDatePickerDialog(
+            title: String = "",
+            initDate: Long,
+            onDateSelected: (res: Long) -> Unit
+        ): DatePickerFragment {
+            return DatePickerFragment().also { datePickerFragment ->
+                Bundle().apply {
+                    putLong(DATE, initDate)
+                    putString(TITLE, title)
+                }.let {
+                    datePickerFragment.arguments = it
+                }
+
+                datePickerFragment.setOnDateSetListener(DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                    Calendar.getInstance().apply {
+                        set(Calendar.YEAR, year)
+                        set(Calendar.MONTH, month)
+                        set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    }
+                        .let {
+                            onDateSelected.invoke(it.timeInMillis)
+                        }
+                })
+            }
+
+        }
     }
 }

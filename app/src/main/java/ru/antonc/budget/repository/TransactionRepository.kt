@@ -27,13 +27,13 @@ class TransactionRepository @Inject constructor(
     fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
         .subscribeOn(Schedulers.io())
 
-    fun getCategory(id: Long) = database.categoryDAO().getCategoryById(id)
+    fun getTransactionById(id: String) = database.transactionDAO().getTransactionById(id)
         .subscribeOn(Schedulers.io())
 
     fun getOrCreateTransaction(
         transactionId: String,
         transactionType: TransactionType = TransactionType.NOT_SET
-    ): Flowable<FullTransaction> = database.transactionDAO().getTransactionById(transactionId)
+    ): Flowable<FullTransaction> = database.transactionDAO().getFullTransaction(transactionId)
         .doOnNext {
             if (it.isEmpty())
                 createNewTransaction(transactionType)
@@ -68,7 +68,7 @@ class TransactionRepository @Inject constructor(
         category: Category,
         transactionId: String
     ) {
-        database.transactionDAO().getTransactionById(transactionId)
+        database.transactionDAO().getFullTransaction(transactionId)
             .filter { it.isNotEmpty() }
             .map { it.first() }
             .doOnNext { transaction ->

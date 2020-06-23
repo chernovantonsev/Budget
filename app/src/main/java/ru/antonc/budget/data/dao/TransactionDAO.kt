@@ -15,7 +15,10 @@ interface TransactionDAO : BaseDAO<Transaction> {
     fun getAll(): Flowable<List<FullTransaction>>
 
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
-    fun getTransactionById(transactionId: String): Flowable<List<FullTransaction>>
+    fun getTransactionById(transactionId: String): Flowable<Transaction>
+
+    @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
+    fun getFullTransaction(transactionId: String): Flowable<List<FullTransaction>>
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME} WHERE id = :transactionId")
     fun deleteTransaction(transactionId: String = "") : Completable

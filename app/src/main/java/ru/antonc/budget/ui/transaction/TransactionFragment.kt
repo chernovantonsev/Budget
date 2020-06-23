@@ -1,6 +1,5 @@
 package ru.antonc.budget.ui.transaction
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -20,7 +19,6 @@ import ru.antonc.budget.ui.date.DatePickerFragment
 import ru.antonc.budget.util.autoCleared
 import ru.antonc.budget.util.extenstions.afterTextChanged
 import ru.antonc.budget.util.extenstions.hideKeyboard
-import java.util.*
 
 class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickListener {
 
@@ -70,9 +68,16 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
 
         viewModel.datePickerEvent.observe(viewLifecycleOwner) { datePickEvent ->
             datePickEvent.getContentIfNotHandled()?.let { initDate ->
-                showDatePickerDialog(
+                DatePickerFragment.createDatePickerDialog(
                     initDate = initDate,
                     onDateSelected = { date -> viewModel.setDate(date) })
+                    .let { datePickerFragment ->
+                        if (isAdded)
+                            datePickerFragment.show(
+                                parentFragmentManager,
+                                datePickerFragment.javaClass.name
+                            )
+                    }
             }
         }
 
@@ -102,35 +107,5 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
 
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun showDatePickerDialog(
-        title: String = "",
-        initDate: Long,
-        onDateSelected: (res: Long) -> Unit
-    ) {
-        DatePickerFragment().also { datePickerFragment ->
-            Bundle().apply {
-                putLong(DatePickerFragment.DATE, initDate)
-                putString(DatePickerFragment.TITLE, title)
-            }.let {
-                datePickerFragment.arguments = it
-            }
-
-            datePickerFragment.setOnDateSetListener(DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                Calendar.getInstance().apply {
-                    set(Calendar.YEAR, year)
-                    set(Calendar.MONTH, month)
-                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                }
-                    .let {
-                        onDateSelected.invoke(it.timeInMillis)
-                    }
-            })
-        }.let { datePickerFragment ->
-            if (isAdded)
-                datePickerFragment.show(parentFragmentManager, datePickerFragment.javaClass.name)
-        }
-
     }
 }

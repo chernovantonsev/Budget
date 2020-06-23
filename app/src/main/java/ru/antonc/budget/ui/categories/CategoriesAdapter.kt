@@ -14,6 +14,12 @@ import ru.antonc.budget.databinding.ListItemCategoryBinding
 class CategoriesAdapter(private val itemClickListener: ((Category) -> Unit)?) :
     ListAdapter<Category, CategoriesAdapter.ViewHolder>(CategoriesDiffCallback()) {
 
+    private var selectedCategoryId = -1L
+
+    fun setSelectedCategoryId(id: Long) {
+        selectedCategoryId = id
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             DataBindingUtil.inflate(
@@ -24,19 +30,19 @@ class CategoriesAdapter(private val itemClickListener: ((Category) -> Unit)?) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(itemClickListener, getItem(position))
+        holder.bind(itemClickListener, getItem(position), selectedCategoryId)
     }
 
     class ViewHolder(
         private val binding: ListItemCategoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(listener: ((Category) -> Unit)?, category: Category) {
+        fun bind(listener: ((Category) -> Unit)?, category: Category, selectedCategoryId: Long) {
             with(binding) {
                 clickListener = View.OnClickListener {
                     listener?.invoke(category)
                 }
-                isSelected = false
+                isSelected = category.id == selectedCategoryId
                 this.category = category
                 executePendingBindings()
             }

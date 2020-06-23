@@ -24,4 +24,5 @@
     <string name="action_remove">Удалить</string>
     <string name="title_statistics">Статистика</string>
     <string name="title_menu">Меню</string>
+    <string name="text_period">Период</string>
 </resources>

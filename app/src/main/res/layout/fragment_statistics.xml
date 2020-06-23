@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="ru.antonc.budget.ui.statistics.StatisticsViewModel" />
@@ -30,6 +31,44 @@
                 app:title="@string/title_statistics" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tlTypes"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_tab"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@style/AppTheme.TabText" />
+
+        <include
+            android:id="@+id/date_range"
+            layout="@layout/item_select_date_range"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            app:clickListener="@{(view) -> viewModel.selectDateRange()}"
+            app:date="@{viewModel.dateRangeValue}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlTypes"
+            app:layout_constraintVertical_bias="0" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_info"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_range" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

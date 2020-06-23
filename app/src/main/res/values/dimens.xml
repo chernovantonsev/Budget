@@ -5,4 +5,5 @@
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="margin_normal">16dp</dimen>
     <dimen name="padding_dialog_title">24dp</dimen>
+    <dimen name="height_tab">48dp</dimen>
 </resources>

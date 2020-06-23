@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
+import com.google.android.material.tabs.TabLayoutMediator
 import ru.antonc.budget.databinding.FragmentStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
+import ru.antonc.budget.ui.date.DatePickerFragment
 
 class StatisticsFragment : BaseFragment(), Injectable {
 
@@ -26,6 +29,39 @@ class StatisticsFragment : BaseFragment(), Injectable {
                 viewModel = this@StatisticsFragment.viewModel
                 lifecycleOwner = this@StatisticsFragment
             }
+
+        val pagerAdapter = ViewPagerAdapter()
+        binding.vpInfo.adapter = pagerAdapter
+
+        viewModel.types.observe(viewLifecycleOwner) { types ->
+            pagerAdapter.setPagesInfo(types)
+
+            binding.tlTypes.removeAllTabs()
+
+            TabLayoutMediator(binding.tlTypes, binding.vpInfo,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    types[position].also { type ->
+                        tab.text = type
+                        tab.tag = type
+                    }
+                }).attach()
+        }
+
+
+        viewModel.datePickerEvent.observe(viewLifecycleOwner) { datePickEvent ->
+            datePickEvent.getContentIfNotHandled()?.let { initDate ->
+                DatePickerFragment.createDatePickerDialog(
+                    initDate = initDate,
+                    onDateSelected = { date -> viewModel.setDate(date) })
+                    .let { datePickerFragment ->
+                        if (isAdded)
+                            datePickerFragment.show(
+                                parentFragmentManager,
+                                datePickerFragment.javaClass.name
+                            )
+                    }
+            }
+        }
 
         return binding.root
     }
