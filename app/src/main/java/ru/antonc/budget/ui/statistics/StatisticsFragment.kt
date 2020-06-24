@@ -30,19 +30,19 @@ class StatisticsFragment : BaseFragment(), Injectable {
                 lifecycleOwner = this@StatisticsFragment
             }
 
-        val pagerAdapter = ViewPagerAdapter()
+        val pagerAdapter = StatisticsViewPagerAdapter()
         binding.vpInfo.adapter = pagerAdapter
 
         viewModel.pages.observe(viewLifecycleOwner) { pages ->
-            pagerAdapter.setPagesInfo(pages)
+            pagerAdapter.submitList(pages)
 
             binding.tlTypes.removeAllTabs()
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    pages[position].also { (tabName) ->
-                        tab.text = tabName
-                        tab.tag = tabName
+                    pages[position].also { (type) ->
+                        tab.text = type.title
+                        tab.tag = type.title
                     }
                 }).attach()
         }

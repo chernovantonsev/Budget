@@ -30,30 +30,31 @@ class StatisticsViewModel @Inject constructor(
     private val _pages = MutableLiveData<ArrayList<StatisticsPage>>()
     val pages: LiveData<ArrayList<StatisticsPage>> = _pages
 
-    private val _dateRangeValue =
-        BehaviorRelay.createDefault(
-            Pair(
-                Calendar.getInstance().timeInMillis,
-                Calendar.getInstance().timeInMillis
-            )
-        )
+    private val _dateRangeValue = BehaviorRelay.create<Pair<Long, Long>>()
     val dateRangeValue: LiveData<String> =
         LiveDataReactiveStreams.fromPublisher(_dateRangeValue.toFlowable(BackpressureStrategy.LATEST))
             .map { (start, end) ->
-                if (end == 0L || start == end) {
-                    with(Calendar.getInstance()) {
-                        if (getDayToCompare() == getDayToCompare(start))
-                            return@map "Сегодня"
-                    }
+                with(Calendar.getInstance()) {
+                    val today = getDayToCompare()
+                    val rangeIsDay = getDayToCompare(start) == getDayToCompare(end)
 
-                    return@map formatDate(start)
-                } else "${formatDate(start)} - ${formatDate(end)}"
+                    return@map when {
+                        rangeIsDay && today == getDayToCompare(start) -> "Сегодня"
+                        rangeIsDay && (today - 1) == getDayToCompare(start) -> "Вчера"
+                        rangeIsDay -> formatDate(start)
+                        else -> "${formatDate(start)} - ${formatDate(end)}"
+                    }
+                }
             }
 
     private val _datePickerEvent = MutableLiveData<EventContent<Long>>()
     val datePickerEvent: LiveData<EventContent<Long>> = _datePickerEvent
 
     init {
+        with(Calendar.getInstance().timeInMillis) {
+            _dateRangeValue.accept(this to this)
+        }
+
         Flowables.combineLatest(
             transactionRepository.getAllTransactions(),
             _dateRangeValue.toFlowable(BackpressureStrategy.LATEST)
@@ -78,7 +79,7 @@ class StatisticsViewModel @Inject constructor(
                                         && transaction.category != null
                             }).let {
                             StatisticsPage(
-                                name = "Доходы",
+                                type = StatisticsPage.Type.INCOME,
                                 itemsLegend = it,
                                 totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
                             )
@@ -92,7 +93,7 @@ class StatisticsViewModel @Inject constructor(
                                         && transaction.category != null
                             }).let {
                             StatisticsPage(
-                                name = "Расходы",
+                                type = StatisticsPage.Type.EXPENSE,
                                 itemsLegend = it,
                                 totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
                             )
