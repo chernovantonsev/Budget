@@ -28,4 +28,6 @@
 
 
     <string name="format_percent">%.0f%%</string>
+    <string name="your_account">Ваши счета</string>
+    <string name="text_view_all">Посмотреть все</string>
 </resources>

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.android.material.tabs.TabLayoutMediator
-import ru.antonc.budget.data.entities.CategoryStatistics
 import ru.antonc.budget.databinding.FragmentStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment

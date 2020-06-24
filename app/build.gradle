@@ -55,6 +55,7 @@ ext {
     rxKotlin_version = '2.4.0'
     rxAndroid_version = '2.1.1'
     rxRelay_version = '2.1.1'
+    chart_version = '3.1.0'
 
     junit_version = '4.12'
     test_juinit_version = '1.1.1'
@@ -78,6 +79,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:core:$material_dialogs_version"
     implementation "com.afollestad.material-dialogs:input:$material_dialogs_version"
     implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.github.PhilJay:MPAndroidChart:v$chart_version"
 
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,38 +37,87 @@
             android:id="@+id/iv_add_income"
             android:layout_width="@dimen/icon_add_income_size"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{viewModel::addIncome}"
             android:src="@drawable/ic_add_circle_outline"
             android:tint="@android:color/holo_green_light"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toStartOf="@id/iv_add_expense"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_bar_layout" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/iv_add_expense"
             android:layout_width="@dimen/icon_add_income_size"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{viewModel::addExpense}"
             android:src="@drawable/ic_remove_circle_outline"
             android:tint="@android:color/holo_red_light"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_add_income"
+            app:layout_constraintStart_toEndOf="@id/iv_add_income" />
+
+
+        <TextView
+            android:id="@+id/tv_your_accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:text="@string/your_account"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/app_bar_layout" />
 
+
+        <TextView
+            android:id="@+id/tv_to_all_accounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{viewModel::toAccountsList}"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:text="@string/text_view_all"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_add_income" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/accounts_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_your_accounts"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_account" />
 
         <Button
             android:id="@+id/buttons_accounts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/title_accounts"
             android:onClick="@{viewModel::toAccountsList}"
+            android:text="@string/title_accounts"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_add_income" />

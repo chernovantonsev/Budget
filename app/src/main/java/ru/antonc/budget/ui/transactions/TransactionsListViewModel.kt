@@ -7,6 +7,7 @@ import io.reactivex.rxkotlin.addTo
 import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
+import ru.antonc.budget.util.extenstions.getDayToCompare
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -25,11 +26,8 @@ class TransactionsListViewModel @Inject constructor(
                 transactions.sortedByDescending { transaction -> transaction.info.date }
             }
             .map { transactions ->
-                val calendar = Calendar.getInstance()
-
                 transactions.groupBy { transaction ->
-                    calendar.timeInMillis = transaction.info.date
-                    calendar.get(Calendar.YEAR) + calendar.get(Calendar.DAY_OF_YEAR)
+                    Calendar.getInstance().getDayToCompare(transaction.info.date)
                 }
             }
             .map { groupedTransactions ->
