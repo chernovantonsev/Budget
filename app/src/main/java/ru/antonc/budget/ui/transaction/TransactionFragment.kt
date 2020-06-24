@@ -82,11 +82,14 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
         }
 
         viewModel.navigateToCategoriesEvent.observe(viewLifecycleOwner) { navigateToCategoriesEvent ->
-            navigateToCategoriesEvent.getContentIfNotHandled()?.let { id ->
+            navigateToCategoriesEvent.getContentIfNotHandled()?.let { (id, transactionType) ->
                 view.hideKeyboard()
 
                 findNavController().navigate(
-                    TransactionFragmentDirections.actionTransactionFragmentToCategoriesFragment(id)
+                    TransactionFragmentDirections.actionTransactionFragmentToCategoriesFragment(
+                        transactionType,
+                        id
+                    )
                 )
             }
         }

@@ -7,6 +7,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import ru.antonc.budget.data.entities.Category
+import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -18,13 +19,25 @@ class CategoriesViewModel @Inject constructor(
     private var categoryName: String = ""
 
     private val transactionId = BehaviorRelay.create<String>()
+    private val transactionType = BehaviorRelay.create<TransactionType>()
 
-    val categoriesList: LiveData<List<Category>> = transactionRepository.getAllCategories()
+
+    private val _categoriesList = MutableLiveData<List<Category>>()
+    val categoriesList: LiveData<List<Category>> = _categoriesList
 
     private val _selectedCategoryId = MutableLiveData<Long>()
     val selectedCategoryId: LiveData<Long> = _selectedCategoryId
 
     init {
+        transactionType.toFlowable(BackpressureStrategy.LATEST)
+            .flatMap { transactionType ->
+                transactionRepository.getCategoriesByType(transactionType)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { _categoriesList.value = it }
+            .addTo(dataCompositeDisposable)
+
+
         transactionId.toFlowable(BackpressureStrategy.LATEST)
             .flatMap { id ->
                 transactionRepository.getTransactionById(id)
@@ -36,7 +49,10 @@ class CategoriesViewModel @Inject constructor(
     }
 
 
-    fun setTransactionId(id: String = "") {
+    fun setTransactionInfo(id: String = "", transactionType: String) {
+        TransactionType.fromValue(transactionType).let {
+            this.transactionType.accept(it)
+        }
         transactionId.accept(id)
     }
 
@@ -45,7 +61,9 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun saveCategory() {
-        transactionRepository.createCategory(categoryName)
+        transactionType.value?.let { transactionType ->
+            transactionRepository.createCategory(categoryName, transactionType)
+        }
     }
 
     fun selectCategory(category: Category, transactionId: String) {

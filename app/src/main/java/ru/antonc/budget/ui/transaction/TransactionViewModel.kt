@@ -47,8 +47,8 @@ class TransactionViewModel @Inject constructor(
     private val _datePickerEvent = MutableLiveData<EventContent<Long>>()
     val datePickerEvent: LiveData<EventContent<Long>> = _datePickerEvent
 
-    private val _navigateToCategoriesEvent = MutableLiveData<EventContent<String>>()
-    val navigateToCategoriesEvent: LiveData<EventContent<String>> =
+    private val _navigateToCategoriesEvent = MutableLiveData<EventContent<Pair<String, String>>>()
+    val navigateToCategoriesEvent: LiveData<EventContent<Pair<String, String>>> =
         _navigateToCategoriesEvent
 
     init {
@@ -71,8 +71,9 @@ class TransactionViewModel @Inject constructor(
     fun goToCategories(view: View) {
         saveTransaction()
 
-        transactionId.value?.let { id ->
-            _navigateToCategoriesEvent.value = EventContent(id)
+        transaction.value?.let { transaction ->
+            _navigateToCategoriesEvent.value =
+                EventContent(transaction.info.id to transaction.info.type.type)
 
         }
     }
@@ -102,7 +103,6 @@ class TransactionViewModel @Inject constructor(
     fun setDate(newDate: Long) {
         transaction.value?.let { transaction ->
             transaction.info.date = newDate
-            transactionRepository.saveTransaction(transaction.info)
         }
     }
 

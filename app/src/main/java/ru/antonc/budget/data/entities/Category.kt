@@ -8,7 +8,8 @@ data class Category(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    var name: String = ""
+    var name: String,
+    var type: TransactionType
 ) {
 
     companion object {

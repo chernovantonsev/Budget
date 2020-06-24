@@ -25,7 +25,6 @@ class CategoriesFragment : BaseFragment(), Injectable {
 
     private val params by navArgs<CategoriesFragmentArgs>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,7 +32,7 @@ class CategoriesFragment : BaseFragment(), Injectable {
     ): View? {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(CategoriesViewModel::class.java)
-        viewModel.setTransactionId(params.transactionId)
+        viewModel.setTransactionInfo(params.transactionId, params.transactionType)
 
         binding = FragmentListOfCategoriesBinding.inflate(inflater, container, false)
             .apply {

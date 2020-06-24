@@ -15,5 +15,4 @@ class AccountsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val accountsList: LiveData<List<Account>> = repository.getAllAccounts()
-        .map { accountsList -> accountsList.subList(0, 4)  }
 }

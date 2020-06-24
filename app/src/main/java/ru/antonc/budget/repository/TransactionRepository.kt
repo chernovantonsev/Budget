@@ -20,7 +20,12 @@ class TransactionRepository @Inject constructor(
         .map { transitions -> transitions.filter { fullTransaction -> fullTransaction.info.id.isNotEmpty() } }
         .subscribeOn(Schedulers.io())
 
-    fun getAllCategories() = database.categoryDAO().getAll()
+    fun getCategoriesByType(transactionType: TransactionType) =
+        database.categoryDAO().getAll()
+            .map { categories ->
+                categories.filter { category ->
+                    category.type == transactionType } }
+            .subscribeOn(Schedulers.io())
 
     fun getAllAccounts() = database.accountDAO().getAll()
 
@@ -57,8 +62,8 @@ class TransactionRepository @Inject constructor(
             .addTo(dataDisposable)
     }
 
-    fun createCategory(categoryName: String) {
-        database.categoryDAO().insert(Category(name = categoryName))
+    fun createCategory(categoryName: String, transactionType: TransactionType) {
+        database.categoryDAO().insert(Category(name = categoryName, type = transactionType))
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)

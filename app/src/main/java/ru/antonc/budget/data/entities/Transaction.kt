@@ -1,7 +1,6 @@
 package ru.antonc.budget.data.entities
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,14 +14,6 @@ data class Transaction(
     var categoryId: Long = -1L,
     var accountId: Long = -1L
 ) {
-
-
-    @Ignore
-    var category: Category = Category()
-
-    @Ignore
-    var account: Account = Account()
-
 
     companion object {
         const val TABLE_NAME = "transaction_table"

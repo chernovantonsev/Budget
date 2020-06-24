@@ -57,6 +57,9 @@
         android:id="@+id/categoriesFragment"
         android:name="ru.antonc.budget.ui.categories.CategoriesFragment">
         <argument
+            android:name="transactionType"
+            app:argType="string" />
+        <argument
             android:name="transactionId"
             app:argType="string" />
     </fragment>
