@@ -6,7 +6,7 @@
     <data>
         <variable
             name="category"
-            type="ru.antonc.budget.data.entities.CategoryStatistics" />
+            type="ru.antonc.budget.data.entities.StatisticsItem" />
     </data>
 
 
@@ -32,7 +32,7 @@
             android:id="@+id/tv_sum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:textMoney="@{category.sum}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_percent"
@@ -42,14 +42,15 @@
 
         <TextView
             android:id="@+id/tv_percent"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/width_percent_tv"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:text="@{@string/format_percent(category.percent)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_sum"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="10%" />
+            tools:text="100%" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

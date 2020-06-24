@@ -40,13 +40,12 @@ class StatisticsFragment : BaseFragment(), Injectable {
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    pages[position].also { (tabName, _) ->
+                    pages[position].also { (tabName) ->
                         tab.text = tabName
                         tab.tag = tabName
                     }
                 }).attach()
         }
-
 
         viewModel.datePickerEvent.observe(viewLifecycleOwner) { datePickEvent ->
             datePickEvent.getContentIfNotHandled()?.let { initDate ->

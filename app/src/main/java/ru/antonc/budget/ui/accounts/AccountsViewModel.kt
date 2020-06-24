@@ -2,6 +2,7 @@ package ru.antonc.budget.ui.accounts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import ru.antonc.budget.data.entities.Account
@@ -14,4 +15,5 @@ class AccountsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val accountsList: LiveData<List<Account>> = repository.getAllAccounts()
+        .map { accountsList -> accountsList.subList(0, 4)  }
 }

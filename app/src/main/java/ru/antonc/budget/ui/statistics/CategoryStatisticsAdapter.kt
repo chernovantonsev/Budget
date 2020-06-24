@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
-import ru.antonc.budget.data.entities.CategoryStatistics
+import ru.antonc.budget.data.entities.StatisticsItem
 import ru.antonc.budget.databinding.ListItemCategoryStatisticsBinding
 
 class CategoryStatisticsAdapter :
-    ListAdapter<CategoryStatistics, CategoryStatisticsAdapter.ViewHolder>(
+    ListAdapter<StatisticsItem, CategoryStatisticsAdapter.ViewHolder>(
         CategoryStatisticsDiffCallback()
     ) {
 
@@ -32,27 +32,27 @@ class CategoryStatisticsAdapter :
         private val binding: ListItemCategoryStatisticsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(categoryStatistics: CategoryStatistics) {
+        fun bind(statisticsItem: StatisticsItem) {
             with(binding) {
-                category = categoryStatistics
+                category = statisticsItem
                 executePendingBindings()
             }
         }
     }
 }
 
-private class CategoryStatisticsDiffCallback : DiffUtil.ItemCallback<CategoryStatistics>() {
+private class CategoryStatisticsDiffCallback : DiffUtil.ItemCallback<StatisticsItem>() {
 
     override fun areItemsTheSame(
-        oldItem: CategoryStatistics,
-        newItem: CategoryStatistics
+        oldItem: StatisticsItem,
+        newItem: StatisticsItem
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: CategoryStatistics,
-        newItem: CategoryStatistics
+        oldItem: StatisticsItem,
+        newItem: StatisticsItem
     ): Boolean {
         return oldItem == newItem
     }

@@ -9,12 +9,14 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.addTo
-import ru.antonc.budget.data.entities.CategoryStatistics
 import ru.antonc.budget.data.entities.FullTransaction
+import ru.antonc.budget.data.entities.StatisticsItem
+import ru.antonc.budget.data.entities.StatisticsPage
 import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.data.entities.common.EventContent
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
+import ru.antonc.budget.util.FORMAT_DECIMAL
 import ru.antonc.budget.util.extenstions.getDayToCompare
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,8 +27,8 @@ class StatisticsViewModel @Inject constructor(
     transactionRepository: TransactionRepository
 ) : BaseViewModel() {
 
-    private val _pages = MutableLiveData<ArrayList<Pair<String, List<CategoryStatistics>>>>()
-    val pages: LiveData<ArrayList<Pair<String, List<CategoryStatistics>>>> = _pages
+    private val _pages = MutableLiveData<ArrayList<StatisticsPage>>()
+    val pages: LiveData<ArrayList<StatisticsPage>> = _pages
 
     private val _dateRangeValue =
         BehaviorRelay.createDefault(
@@ -68,21 +70,35 @@ class StatisticsViewModel @Inject constructor(
             }
         }
             .map { transactions ->
-                ArrayList<Pair<String, List<CategoryStatistics>>>().apply {
+                ArrayList<StatisticsPage>().apply {
                     add(
-                        "Доходы" to convertToCategoryStatistics(transactions
+                        convertToCategoryStatistics(transactions
                             .filter { transaction ->
                                 transaction.info.type == TransactionType.INCOME
                                         && transaction.category != null
-                            })
+                            }).let {
+                            StatisticsPage(
+                                name = "Доходы",
+                                itemsLegend = it,
+                                totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
+                            )
+                        }
                     )
 
                     add(
-                        "Расходы" to convertToCategoryStatistics(transactions
+                        convertToCategoryStatistics(transactions
                             .filter { transaction ->
                                 transaction.info.type == TransactionType.EXPENSE
                                         && transaction.category != null
-                            })
+                            }).let {
+                            StatisticsPage(
+                                name = "Расходы",
+                                itemsLegend = it,
+                                totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
+                            )
+                        }
+
+
                     )
                 }
             }
@@ -93,8 +109,8 @@ class StatisticsViewModel @Inject constructor(
             .addTo(dataCompositeDisposable)
     }
 
-    private fun convertToCategoryStatistics(transactions: List<FullTransaction>): List<CategoryStatistics> {
-        val result = ArrayList<CategoryStatistics>()
+    private fun convertToCategoryStatistics(transactions: List<FullTransaction>): List<StatisticsItem> {
+        val result = ArrayList<StatisticsItem>()
 
         val totalSum = transactions.sumByDouble { transaction -> transaction.info.sum }
 
@@ -110,7 +126,7 @@ class StatisticsViewModel @Inject constructor(
                                 ?: 0.0
 
                         result.add(
-                            CategoryStatistics(
+                            StatisticsItem(
                                 category.id,
                                 category.name,
                                 sum,
