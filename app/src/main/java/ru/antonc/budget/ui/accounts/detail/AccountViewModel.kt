@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.accounts.create
+package ru.antonc.budget.ui.accounts.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -67,7 +67,7 @@
         android:id="@+id/accountsFragment"
         android:name="ru.antonc.budget.ui.accounts.AccountsFragment">
         <action
-            android:id="@+id/action_accountsFragment_to_createAccountFragment"
+            android:id="@+id/action_accountsFragment_to_accountFragment"
             app:destination="@id/accountFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="ru.antonc.budget.ui.accounts.create.AccountFragment">
+        android:name="ru.antonc.budget.ui.accounts.detail.AccountFragment">
         <argument
             android:name="id"
             android:defaultValue="-1L"
@@ -89,5 +89,24 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="ru.antonc.budget.ui.menu.MenuFragment"
-        android:label="MenuFragment" />
+        android:label="MenuFragment">
+        <action
+            android:id="@+id/action_menuFragment_to_accountsFragment"
+            app:destination="@id/accountsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_menuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.antonc.budget.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

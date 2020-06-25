@@ -33,7 +33,7 @@ class AccountsFragment : BaseFragment(), Injectable {
             }
 
         val adapter = AccountsAdapter { account ->
-            AccountsFragmentDirections.actionAccountsFragmentToCreateAccountFragment().apply {
+            AccountsFragmentDirections.actionAccountsFragmentToAccountFragment().apply {
                 id = account.id
             }.let { findNavController().navigate(it) }
         }
@@ -43,7 +43,7 @@ class AccountsFragment : BaseFragment(), Injectable {
             adapter.submitList(accounts)
         }
 
-        binding.fabAdd.setOnClickListener { findNavController().navigate(AccountsFragmentDirections.actionAccountsFragmentToCreateAccountFragment()) }
+        binding.buttonAddAccount.setOnClickListener { findNavController().navigate(AccountsFragmentDirections.actionAccountsFragmentToAccountFragment()) }
 
         return binding.root
     }

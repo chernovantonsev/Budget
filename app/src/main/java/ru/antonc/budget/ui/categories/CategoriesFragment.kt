@@ -53,7 +53,7 @@ class CategoriesFragment : BaseFragment(), Injectable {
             adapter.setSelectedCategoryId(selectedCategoryId)
         }
 
-        binding.fabAdd.setOnClickListener { createNewCategory() }
+        binding.buttonAddCategory.setOnClickListener { createNewCategory() }
 
         return binding.root
     }

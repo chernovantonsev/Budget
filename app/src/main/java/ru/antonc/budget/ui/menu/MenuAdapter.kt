@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
-import ru.antonc.budget.data.entities.MenuItem
 import ru.antonc.budget.databinding.ListItemMenuBinding
 import ru.antonc.budget.util.extenstions.getString
 

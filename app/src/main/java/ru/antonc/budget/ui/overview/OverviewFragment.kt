@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.antonc.budget.databinding.FragmentOverviewBinding
 import ru.antonc.budget.di.Injectable
-import ru.antonc.budget.ui.accounts.AccountsFragmentDirections
 import ru.antonc.budget.ui.base.BaseFragment
 
 class OverviewFragment : BaseFragment(), Injectable {
@@ -32,7 +31,7 @@ class OverviewFragment : BaseFragment(), Injectable {
             }
 
         val adapter = AccountsAdapter { account ->
-            AccountsFragmentDirections.actionAccountsFragmentToCreateAccountFragment().apply {
+            OverviewFragmentDirections.actionOverviewFragmentToAccountFragment().apply {
                 id = account.id
             }.let { findNavController().navigate(it) }
         }

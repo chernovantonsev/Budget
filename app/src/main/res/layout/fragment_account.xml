@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="ru.antonc.budget.ui.accounts.create.AccountViewModel" />
+            type="ru.antonc.budget.ui.accounts.detail.AccountViewModel" />
     </data>
 
 

@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.accounts.create
+package ru.antonc.budget.ui.accounts.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

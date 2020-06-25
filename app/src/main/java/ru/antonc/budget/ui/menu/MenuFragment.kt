@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import ru.antonc.budget.data.entities.MenuItem
+import androidx.navigation.fragment.findNavController
 import ru.antonc.budget.databinding.FragmentMenuBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
@@ -29,7 +29,16 @@ class MenuFragment : BaseFragment(), Injectable {
             }
 
         val adapter = MenuAdapter {
-
+            when (it) {
+                MenuItem.ACCOUNTS -> {
+                    findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToAccountsFragment())
+                }
+                MenuItem.CATEGORIES -> {
+                }
+                MenuItem.SETTINGS -> {
+                    findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToSettingsFragment())
+                }
+            }
         }
         binding.menuItemsList.adapter = adapter
         adapter.submitList(MenuItem.values().toList())

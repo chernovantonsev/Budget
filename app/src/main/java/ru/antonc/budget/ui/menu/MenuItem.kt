@@ -1,4 +1,4 @@
-package ru.antonc.budget.data.entities
+package ru.antonc.budget.ui.menu
 
 import ru.antonc.budget.R
 
