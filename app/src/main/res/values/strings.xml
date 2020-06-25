@@ -5,7 +5,10 @@
     <string name="title_overview">Обзор</string>
     <string name="title_edit">Редактирование</string>
     <string name="title_income">Доход</string>
+    <string name="title_incomes">Доходы</string>
     <string name="title_expense">Расход</string>
+    <string name="title_expenses">Расходы</string>
+    <string name="title_balance">Сальдо</string>
     <string name="text_date">Дата</string>
     <string name="text_category">Категория</string>
     <string name="text_select_category">Выбор категории</string>

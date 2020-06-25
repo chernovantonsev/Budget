@@ -40,9 +40,11 @@ class StatisticsFragment : BaseFragment(), Injectable {
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                    pages[position].also { (type) ->
-                        tab.text = type.title
-                        tab.tag = type.title
+                    pages[position].also { page ->
+                        page.getTypeStatistics().also {
+                            tab.text = it.title
+                            tab.tag = it.title
+                        }
                     }
                 }).attach()
         }

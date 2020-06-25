@@ -48,11 +48,16 @@ fun bindIsGone(view: View, isGone: Boolean?) {
         }
     }
 }
-//
-//@BindingAdapter("imageResource")
-//fun bindImageResource(view: ImageView, id: Int) {
-//    view.setImageResource(id)
-//}
+@BindingAdapter("android:isInvisible")
+fun bindIsInvisible(view: View, isInvisible: Boolean?) {
+    isInvisible?.let {
+        view.visibility = if (isInvisible) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+    }
+}
 
 
 @BindingAdapter("android:src")

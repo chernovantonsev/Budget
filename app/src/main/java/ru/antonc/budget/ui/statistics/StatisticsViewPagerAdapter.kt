@@ -15,35 +15,62 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import ru.antonc.budget.R
+import ru.antonc.budget.data.entities.IncomeExpensePage
 import ru.antonc.budget.data.entities.StatisticsItem
 import ru.antonc.budget.data.entities.StatisticsPage
-import ru.antonc.budget.databinding.ItemPageStatisticsBinding
+import ru.antonc.budget.data.entities.SummaryStatisticsPage
+import ru.antonc.budget.databinding.ItemIncomeExpenseStatisticsBinding
+import ru.antonc.budget.databinding.ItemSummaryStatisticsBinding
 
 class StatisticsViewPagerAdapter :
     ListAdapter<StatisticsPage, RecyclerView.ViewHolder>(StatisticsPageDiffCallback()) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as StatisticsPagesViewHolder).bind(getItem(position))
+        when (holder.itemViewType) {
+            StatisticsPage.Type.EXPENSE.ordinal,
+            StatisticsPage.Type.INCOME.ordinal -> {
+                (holder as StatisticsOnIncomeAndExpenseViewHolder).bind(getItem(position) as IncomeExpensePage)
+            }
+
+            else -> {
+                (holder as StatisticsSummaryViewHolder).bind(getItem(position) as SummaryStatisticsPage)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return StatisticsPagesViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.item_page_statistics, parent, false
-            )
-        )
+
+        return when (viewType) {
+            StatisticsPage.Type.EXPENSE.ordinal,
+            StatisticsPage.Type.INCOME.ordinal -> {
+                StatisticsOnIncomeAndExpenseViewHolder(
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.item_income_expense_statistics, parent, false
+                    )
+                )
+            }
+
+            else -> {
+                StatisticsSummaryViewHolder(
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.item_summary_statistics, parent, false
+                    )
+                )
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).type.ordinal
+        return getItem(position).getTypeStatistics().ordinal
     }
 
-    class StatisticsPagesViewHolder(
-        private val binding: ItemPageStatisticsBinding
+    class StatisticsOnIncomeAndExpenseViewHolder(
+        private val binding: ItemIncomeExpenseStatisticsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(statisticsPage: StatisticsPage) {
+        fun bind(statisticsPage: IncomeExpensePage) {
             with(binding) {
                 with(CategoryStatisticsAdapter()) {
                     listCategories.adapter = this
@@ -121,6 +148,20 @@ class StatisticsViewPagerAdapter :
             chart.invalidate()
         }
     }
+
+    class StatisticsSummaryViewHolder(
+        private val binding: ItemSummaryStatisticsBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(statisticsPage: SummaryStatisticsPage) {
+            with(binding) {
+                data = statisticsPage
+                executePendingBindings()
+            }
+        }
+
+
+    }
 }
 
 
@@ -129,7 +170,7 @@ private class StatisticsPageDiffCallback : DiffUtil.ItemCallback<StatisticsPage>
         oldItem: StatisticsPage,
         newItem: StatisticsPage
     ): Boolean {
-        return oldItem.type == newItem.type
+        return oldItem.getTypeStatistics() == newItem.getTypeStatistics()
     }
 
     override fun areContentsTheSame(

@@ -9,10 +9,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.addTo
-import ru.antonc.budget.data.entities.FullTransaction
-import ru.antonc.budget.data.entities.StatisticsItem
-import ru.antonc.budget.data.entities.StatisticsPage
-import ru.antonc.budget.data.entities.TransactionType
+import ru.antonc.budget.data.entities.*
 import ru.antonc.budget.data.entities.common.EventContent
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
@@ -78,8 +75,7 @@ class StatisticsViewModel @Inject constructor(
                                 transaction.info.type == TransactionType.INCOME
                                         && transaction.category != null
                             }).let {
-                            StatisticsPage(
-                                type = StatisticsPage.Type.INCOME,
+                            IncomeStatisticsPage(
                                 itemsLegend = it,
                                 totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
                             )
@@ -92,15 +88,14 @@ class StatisticsViewModel @Inject constructor(
                                 transaction.info.type == TransactionType.EXPENSE
                                         && transaction.category != null
                             }).let {
-                            StatisticsPage(
-                                type = StatisticsPage.Type.EXPENSE,
+                            ExpenseStatisticsPage(
                                 itemsLegend = it,
                                 totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
                             )
                         }
-
-
                     )
+
+                    add(getSummary(transactions))
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
@@ -139,6 +134,27 @@ class StatisticsViewModel @Inject constructor(
             }
         return result
     }
+
+
+    private fun getSummary(transactions: List<FullTransaction>): SummaryStatisticsPage {
+        var incomes = 0.0
+        var expenses = 0.0
+
+        transactions.forEach { transaction ->
+            if (transaction.info.type == TransactionType.INCOME) {
+                incomes += transaction.info.sum
+            } else if (transaction.info.type == TransactionType.EXPENSE) {
+                expenses -= transaction.info.sum
+            }
+        }
+
+        return SummaryStatisticsPage(
+            incomes = incomes,
+            expenses = expenses,
+            balance = incomes + expenses
+        )
+    }
+
 
     fun selectDateRange() {
         _dateRangeValue.value?.let { (start, _) ->

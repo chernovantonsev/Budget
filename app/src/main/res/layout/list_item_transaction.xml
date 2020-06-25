@@ -42,7 +42,7 @@
                 android:src="@{transaction.info.type.icon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_add_circle_outline" />
+                tools:src="@drawable/ic_income" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -95,7 +95,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_account"
                 app:layout_constraintEnd_toStartOf="@id/tv_account"
                 app:layout_constraintTop_toTopOf="@id/tv_account"
-                tools:src="@drawable/ic_add_circle_outline" />
+                tools:src="@drawable/ic_income" />
 
             <TextView
                 android:id="@+id/tv_account"

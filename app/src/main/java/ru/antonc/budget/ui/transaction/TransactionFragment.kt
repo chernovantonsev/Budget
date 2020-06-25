@@ -53,7 +53,10 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
         binding.toolbar.apply {
             inflateMenu(R.menu.menu_transaction)
             setOnMenuItemClickListener(this@TransactionFragment)
-            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setNavigationOnClickListener {
+                hideKeyboard()
+                findNavController().navigateUp()
+            }
 
             menu.findItem(R.id.action_remove).isVisible = params.id.isNotEmpty()
 
@@ -99,12 +102,14 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
         return when (item.itemId) {
             R.id.action_save -> {
                 viewModel.saveTransaction(true)
-                requireActivity().onBackPressed()
+                view?.hideKeyboard()
+                findNavController().navigateUp()
                 true
             }
             R.id.action_remove -> {
                 viewModel.removeTransaction()
-                requireActivity().onBackPressed()
+                view?.hideKeyboard()
+                findNavController().navigateUp()
                 true
             }
 

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <variable
+            name="data"
+            type="ru.antonc.budget.data.entities.SummaryStatisticsPage" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/item_income"
+                layout="@layout/item_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:icon="@{@drawable/ic_income}"
+                app:layout_constraintBottom_toTopOf="@id/item_expense"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:sum="@{data.incomes}"
+                app:title="@{@string/title_incomes}" />
+
+
+            <include
+                android:id="@+id/item_expense"
+                layout="@layout/item_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="@dimen/margin_normal"
+                app:icon="@{@drawable/ic_expense}"
+                app:layout_constraintBottom_toTopOf="@id/item_balance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_income"
+                app:sum="@{data.expenses}"
+                app:title="@{@string/title_expenses}" />
+
+
+            <include
+                android:id="@+id/item_balance"
+                layout="@layout/item_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginBottom="16dp"
+                android:isInvisible="@{data.balance == 0}"
+                app:icon="@{@drawable/ic_compare}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_expense"
+                app:sum="@{data.balance}"
+                app:title="@{@string/title_balance}" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
