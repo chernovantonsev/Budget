@@ -1,6 +1,7 @@
 package ru.antonc.budget.binding
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import ru.antonc.budget.R
 import ru.antonc.budget.util.FORMAT_DECIMAL
+
 
 @BindingAdapter("android:text", "android:spanText")
 fun spanText(textView: TextView, text: String, spanText: String?) {
@@ -46,11 +48,21 @@ fun bindIsGone(view: View, isGone: Boolean?) {
         }
     }
 }
+//
+//@BindingAdapter("imageResource")
+//fun bindImageResource(view: ImageView, id: Int) {
+//    view.setImageResource(id)
+//}
 
-@BindingAdapter("imageResource")
-fun bindImageResource(view: ImageView, id: Int) {
-    val t = R.drawable.ic_pie_chart
-    view.setImageResource(id)
+
+@BindingAdapter("android:src")
+fun setImageDrawable(view: ImageView, drawable: Drawable?) {
+    view.setImageDrawable(drawable)
+}
+
+@BindingAdapter("android:src")
+fun setImageResource(imageView: ImageView, resource: Int) {
+    imageView.setImageResource(resource)
 }
 
 @SuppressLint("SetTextI18n")

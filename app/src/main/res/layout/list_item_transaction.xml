@@ -17,8 +17,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_side_margin"
-        android:layout_marginEnd="@dimen/card_side_margin"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginBottom="1dp"
         android:onClick="@{clickListener}"
         app:cardCornerRadius="1dp"
@@ -39,7 +39,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:tint="@android:color/darker_gray"
-                app:imageResource="@{transaction.info.type.icon}"
+                android:src="@{transaction.info.type.icon}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_add_circle_outline" />
@@ -91,7 +91,7 @@
                 android:layout_height="16dp"
                 android:layout_marginEnd="4dp"
                 android:tint="@android:color/darker_gray"
-                app:imageResource="@{transaction.account.icon}"
+                android:src="@{transaction.account.icon}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_account"
                 app:layout_constraintEnd_toStartOf="@id/tv_account"
                 app:layout_constraintTop_toTopOf="@id/tv_account"
