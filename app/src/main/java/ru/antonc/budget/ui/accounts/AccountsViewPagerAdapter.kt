@@ -11,6 +11,10 @@ import ru.antonc.budget.ui.accounts.summary.SummaryAccountsFragment
 class AccountsViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
+    enum class AccountsPage(val title: String) {
+        LIST("Список"), SUMMARY("Сводка")
+    }
+
     private val pages = ArrayList<AccountsPage>()
 
     init {

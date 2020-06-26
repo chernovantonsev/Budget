@@ -55,8 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categories_list"
-            app:srcCompat="@drawable/ic_add" />
+            app:layout_constraintTop_toBottomOf="@id/categories_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -9,7 +9,7 @@ import ru.antonc.budget.databinding.FragmentSummaryStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
 
-class SummaryStatisticsFragment : BaseFragment(), Injectable {
+class SummaryStatisticsFragment : BaseFragment(false), Injectable {
 
     private lateinit var viewModel: SummaryStatisticsViewModel
 

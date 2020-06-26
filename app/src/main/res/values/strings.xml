@@ -38,4 +38,7 @@
     <string name="add_account">Добавить счет</string>
     <string name="add_category">Добавить категорию</string>
     <string name="title_all_accounts">Все счета</string>
+    <string name="ok">Ок</string>
+    <string name="text_start_date">Начальная дата</string>
+    <string name="text_end_date">Конечная дата</string>
 </resources>

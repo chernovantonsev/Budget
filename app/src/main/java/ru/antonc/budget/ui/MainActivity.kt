@@ -72,7 +72,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     fun setOnBackPressedListener(onBackPressedListener: OnBackPressedListener?) {
-        this.onBackPressedListener.add(onBackPressedListener)
+        if (!this.onBackPressedListener.contains(onBackPressedListener))
+            this.onBackPressedListener.add(onBackPressedListener)
     }
 
     fun removeOnBakPressedListener(onBackPressedListener: OnBackPressedListener?) {

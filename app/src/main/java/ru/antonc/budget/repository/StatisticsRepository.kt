@@ -18,7 +18,12 @@ class StatisticsRepository @Inject constructor(
 ) {
 
     private val _dateRangeValue = BehaviorRelay.create<Pair<Long, Long>>()
-    val dataRangeValue = _dateRangeValue.toFlowable(BackpressureStrategy.LATEST)
+    val dataRangeValue: Flowable<Pair<Long, Long>> =
+        _dateRangeValue.toFlowable(BackpressureStrategy.LATEST)
+
+    private val _dateRangeValueCache = BehaviorRelay.create<Pair<Long, Long>>()
+    val dataRangeValueCache: Flowable<Pair<Long, Long>> =
+        _dateRangeValueCache.toFlowable(BackpressureStrategy.LATEST)
 
     val dateRangeValueString: Flowable<String> = dataRangeValue
         .map { (start, end) ->
@@ -41,5 +46,16 @@ class StatisticsRepository @Inject constructor(
 
     fun setDateRange(dateStart: Long, dateEnd: Long) {
         _dateRangeValue.accept(dateStart to dateEnd)
+        setDateToCache(dateStart, dateEnd)
+    }
+
+    fun setDateToCache(dateStart: Long, dateEnd: Long) {
+        _dateRangeValueCache.accept(dateStart to dateEnd)
+    }
+
+    fun copyCacheToMain() {
+        _dateRangeValueCache.value?.let { (dateStart, dateEnd) ->
+            _dateRangeValue.accept(dateStart to dateEnd)
+        }
     }
 }

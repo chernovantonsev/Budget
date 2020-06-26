@@ -28,7 +28,7 @@ class AccountsFragment : BaseFragment(), Injectable {
         val pagerAdapter = AccountsViewPagerAdapter(childFragmentManager, lifecycle)
         binding.vpInfo.adapter = pagerAdapter
 
-        AccountsPage.values().let { pages ->
+        AccountsViewPagerAdapter.AccountsPage.values().let { pages ->
             binding.tlTypes.removeAllTabs()
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,

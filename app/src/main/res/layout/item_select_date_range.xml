@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_date_range_value"
+                android:id="@+id/tv_date_start_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -62,9 +62,9 @@
                 android:layout_height="1px"
                 android:layout_marginTop="2dp"
                 android:background="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="@id/tv_date_range_value"
-                app:layout_constraintStart_toStartOf="@id/tv_date_range_value"
-                app:layout_constraintTop_toBottomOf="@+id/tv_date_range_value" />
+                app:layout_constraintEnd_toEndOf="@id/tv_date_start_value"
+                app:layout_constraintStart_toStartOf="@id/tv_date_start_value"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date_start_value" />
 
 
             <ImageView
@@ -74,7 +74,7 @@
                 android:tint="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_date_range_value"
+                app:layout_constraintStart_toEndOf="@id/tv_date_start_value"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_date_range" />
 

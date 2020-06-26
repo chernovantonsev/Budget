@@ -19,7 +19,7 @@ import ru.antonc.budget.databinding.FragmentPieChartStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
 
-class PieChartStatisticsFragment : BaseFragment(), Injectable {
+class PieChartStatisticsFragment : BaseFragment(false), Injectable {
 
     companion object {
         const val DATA_TYPE = "type"

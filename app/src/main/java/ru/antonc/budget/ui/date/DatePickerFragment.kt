@@ -21,26 +21,22 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current date as the default date in the picker
-        val date = arguments?.getLong(DATE)
+
 
         val c = Calendar.getInstance()
 
-        if (date != null) {
+        arguments?.getLong(DATE)?.let { date ->
             c.timeInMillis = date
         }
-
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it
         dateDialog = DatePickerDialog(
             requireContext(),
             R.style.ThemeOverlay_MaterialComponents_Dialog,
             this,
-            year,
-            month,
-            day
+            c.get(Calendar.YEAR),
+            c.get(Calendar.MONTH),
+            c.get(Calendar.DAY_OF_MONTH)
         )
 
         return dateDialog

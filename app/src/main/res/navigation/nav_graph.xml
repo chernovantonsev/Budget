@@ -96,7 +96,15 @@
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="ru.antonc.budget.ui.statistics.StatisticsFragment"
-        android:label="StatisticsFragment" />
+        android:label="StatisticsFragment" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_dateRangeFragment"
+            app:destination="@id/dateRangeFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_bottom" />
+
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="ru.antonc.budget.ui.menu.MenuFragment"
@@ -120,4 +128,8 @@
         android:id="@+id/settingsFragment"
         android:name="ru.antonc.budget.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/dateRangeFragment"
+        android:name="ru.antonc.budget.ui.statistics.daterange.DateRangeFragment"
+        android:label="DateRangeFragment" />
 </navigation>

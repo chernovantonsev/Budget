@@ -8,7 +8,9 @@ import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.MainActivity
 import javax.inject.Inject
 
-open class BaseFragment : Fragment(), Injectable, OnBackPressedListener {
+open class BaseFragment(private val isNeedOverrideBackPressed: Boolean = true) : Fragment(),
+    Injectable,
+    OnBackPressedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -16,13 +18,23 @@ open class BaseFragment : Fragment(), Injectable, OnBackPressedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity is MainActivity)
-            (activity as MainActivity).setOnBackPressedListener(this)
+        if (isNeedOverrideBackPressed)
+            addBackPressedListener()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
+        if (isNeedOverrideBackPressed)
+            removeBackPressedListener()
+    }
+
+    fun addBackPressedListener() {
+        if (activity is MainActivity)
+            (activity as MainActivity).setOnBackPressedListener(this)
+    }
+
+    fun removeBackPressedListener() {
         if (activity is MainActivity)
             (activity as MainActivity).removeOnBakPressedListener(this)
     }

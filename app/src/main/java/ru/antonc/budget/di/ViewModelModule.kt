@@ -14,6 +14,9 @@ import ru.antonc.budget.ui.transaction.TransactionViewModel
 import ru.antonc.budget.ui.overview.OverviewViewModel
 import ru.antonc.budget.ui.settings.SettingsViewModel
 import ru.antonc.budget.ui.statistics.StatisticsViewModel
+import ru.antonc.budget.ui.statistics.daterange.DateRangeViewModel
+import ru.antonc.budget.ui.statistics.daterange.any.AnyRangeViewModel
+import ru.antonc.budget.ui.statistics.daterange.day.DayRangeViewModel
 import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsViewModel
 import ru.antonc.budget.ui.statistics.summary.SummaryStatisticsViewModel
 import ru.antonc.budget.ui.transactions.TransactionsListViewModel
@@ -82,6 +85,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SummaryAccountsViewModel::class)
     abstract fun bindSummaryAccountsViewModel(summaryAccountsViewModel: SummaryAccountsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DateRangeViewModel::class)
+    abstract fun bindDateRangeViewModel(DateRangeViewModel: DateRangeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DayRangeViewModel::class)
+    abstract fun bindDayRangeViewModel(dayRangeViewModel: DayRangeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AnyRangeViewModel::class)
+    abstract fun bindAnyRangeViewModel(anyRangeViewModel: AnyRangeViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
