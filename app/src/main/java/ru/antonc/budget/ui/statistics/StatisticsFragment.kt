@@ -31,7 +31,7 @@ class StatisticsFragment : BaseFragment(), Injectable {
                 lifecycleOwner = this@StatisticsFragment
             }
 
-        val pagerAdapter = StatisticsViewPagerAdapter(parentFragmentManager, lifecycle)
+        val pagerAdapter = StatisticsViewPagerAdapter(childFragmentManager, lifecycle)
         binding.vpInfo.adapter = pagerAdapter
 
         StatisticsPage.values().let { pages ->
@@ -54,7 +54,7 @@ class StatisticsFragment : BaseFragment(), Injectable {
                     onDateSelected = { date -> viewModel.setDate(date) })
                     .let { datePickerFragment ->
                             datePickerFragment.show(
-                                parentFragmentManager,
+                                childFragmentManager,
                                 datePickerFragment.javaClass.name
                             )
                     }

@@ -37,4 +37,5 @@
     <string name="title_settings">Настройки</string>
     <string name="add_account">Добавить счет</string>
     <string name="add_category">Добавить категорию</string>
+    <string name="title_all_accounts">Все счета</string>
 </resources>

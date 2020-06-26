@@ -4,54 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import ru.antonc.budget.databinding.FragmentListOfAccountsBinding
+import com.google.android.material.tabs.TabLayoutMediator
+import ru.antonc.budget.databinding.FragmentAccountsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
 import ru.antonc.budget.util.autoCleared
 
 class AccountsFragment : BaseFragment(), Injectable {
 
-    private lateinit var viewModel: AccountsViewModel
-
-    var binding by autoCleared<FragmentListOfAccountsBinding>()
+    var binding by autoCleared<FragmentAccountsBinding>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(AccountsViewModel::class.java)
-
-        binding = FragmentListOfAccountsBinding.inflate(inflater, container, false)
+        binding = FragmentAccountsBinding.inflate(inflater, container, false)
             .apply {
-                viewModel = this@AccountsFragment.viewModel
                 lifecycleOwner = this@AccountsFragment
             }
 
-        val adapter = AccountsAdapter { account ->
-            AccountsFragmentDirections.actionAccountsFragmentToAccountFragment().apply {
-                id = account.id
-            }.let { findNavController().navigate(it) }
-        }
+        val pagerAdapter = AccountsViewPagerAdapter(childFragmentManager, lifecycle)
+        binding.vpInfo.adapter = pagerAdapter
 
-        binding.accountsList.adapter = adapter
-        viewModel.accountsList.observe(viewLifecycleOwner) { accounts ->
-            adapter.submitList(accounts)
-        }
+        AccountsPage.values().let { pages ->
+            binding.tlTypes.removeAllTabs()
 
-        binding.buttonAddAccount.setOnClickListener { findNavController().navigate(AccountsFragmentDirections.actionAccountsFragmentToAccountFragment()) }
+            TabLayoutMediator(binding.tlTypes, binding.vpInfo,
+                TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                    pages[position].also { page ->
+                        tab.text = page.title
+                        tab.tag = page.title
+                    }
+                }).attach()
+        }
 
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.toolbar.apply {
-            setNavigationOnClickListener { findNavController().navigateUp() }
+            setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
         }
     }
 }

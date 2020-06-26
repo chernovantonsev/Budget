@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.accounts
+package ru.antonc.budget.ui.accounts.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,9 @@ import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.databinding.ListItemAccountBinding
 
 class AccountsAdapter(private val itemClickListener: ((Account) -> Unit)?) :
-    ListAdapter<Account, AccountsAdapter.ViewHolder>(AccountsDiffCallback()) {
+    ListAdapter<Account, AccountsAdapter.ViewHolder>(
+        AccountsDiffCallback()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(

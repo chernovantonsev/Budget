@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.antonc.budget.ui.accounts.AccountsViewModel
+import ru.antonc.budget.ui.accounts.list.AccountsListViewModel
 import ru.antonc.budget.ui.accounts.detail.AccountViewModel
+import ru.antonc.budget.ui.accounts.summary.SummaryAccountsViewModel
 import ru.antonc.budget.ui.categories.CategoriesViewModel
 import ru.antonc.budget.ui.menu.MenuViewModel
 import ru.antonc.budget.ui.transaction.TransactionViewModel
 import ru.antonc.budget.ui.overview.OverviewViewModel
-import ru.antonc.budget.ui.settings.SettingsFragment
 import ru.antonc.budget.ui.settings.SettingsViewModel
 import ru.antonc.budget.ui.statistics.StatisticsViewModel
 import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsViewModel
@@ -45,8 +45,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AccountsViewModel::class)
-    abstract fun bindAccountsViewModel(accountsViewModel: AccountsViewModel): ViewModel
+    @ViewModelKey(AccountsListViewModel::class)
+    abstract fun bindAccountsViewModel(accountsListViewModel: AccountsListViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -77,6 +77,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SummaryStatisticsViewModel::class)
     abstract fun bindSummaryStatisticsViewModel(summaryStatisticsViewModel: SummaryStatisticsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SummaryAccountsViewModel::class)
+    abstract fun bindSummaryAccountsViewModel(summaryAccountsViewModel: SummaryAccountsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

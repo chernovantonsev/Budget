@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.accounts
+package ru.antonc.budget.ui.accounts.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class AccountsViewModel @Inject constructor(
+class AccountsListViewModel @Inject constructor(
     repository: TransactionRepository
 ) : BaseViewModel() {
 

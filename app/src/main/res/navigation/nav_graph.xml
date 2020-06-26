@@ -75,6 +75,17 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
+        android:id="@+id/accountsListFragment"
+        android:name="ru.antonc.budget.ui.accounts.list.AccountsListFragment">
+        <action
+            android:id="@+id/action_accountsListFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
         android:id="@+id/accountFragment"
         android:name="ru.antonc.budget.ui.accounts.detail.AccountFragment">
         <argument
