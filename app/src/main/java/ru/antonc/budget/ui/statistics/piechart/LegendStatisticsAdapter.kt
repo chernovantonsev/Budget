@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.statistics
+package ru.antonc.budget.ui.statistics.piechart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,19 +7,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
-import ru.antonc.budget.data.entities.StatisticsItem
-import ru.antonc.budget.databinding.ListItemCategoryStatisticsBinding
+import ru.antonc.budget.data.entities.LegendItem
+import ru.antonc.budget.databinding.ListItemLegendStatisticsBinding
 
-class CategoryStatisticsAdapter :
-    ListAdapter<StatisticsItem, CategoryStatisticsAdapter.ViewHolder>(
-        CategoryStatisticsDiffCallback()
+class LegendStatisticsAdapter :
+    ListAdapter<LegendItem, LegendStatisticsAdapter.ViewHolder>(
+        LegendStatisticsDiffCallback()
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item_category_statistics, parent, false
+                R.layout.list_item_legend_statistics, parent, false
             )
         )
     }
@@ -29,30 +29,30 @@ class CategoryStatisticsAdapter :
     }
 
     class ViewHolder(
-        private val binding: ListItemCategoryStatisticsBinding
+        private val binding: ListItemLegendStatisticsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(statisticsItem: StatisticsItem) {
+        fun bind(legendItem: LegendItem) {
             with(binding) {
-                category = statisticsItem
+                this.legendItem = legendItem
                 executePendingBindings()
             }
         }
     }
 }
 
-private class CategoryStatisticsDiffCallback : DiffUtil.ItemCallback<StatisticsItem>() {
+private class LegendStatisticsDiffCallback : DiffUtil.ItemCallback<LegendItem>() {
 
     override fun areItemsTheSame(
-        oldItem: StatisticsItem,
-        newItem: StatisticsItem
+        oldItem: LegendItem,
+        newItem: LegendItem
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: StatisticsItem,
-        newItem: StatisticsItem
+        oldItem: LegendItem,
+        newItem: LegendItem
     ): Boolean {
         return oldItem == newItem
     }

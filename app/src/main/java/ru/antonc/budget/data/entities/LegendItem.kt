@@ -2,7 +2,7 @@ package ru.antonc.budget.data.entities
 
 import com.github.mikephil.charting.data.PieEntry
 
-data class StatisticsItem(
+data class LegendItem(
     val id: Long,
     val name: String,
     val sum: Double,

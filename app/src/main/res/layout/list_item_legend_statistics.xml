@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="category"
-            type="ru.antonc.budget.data.entities.StatisticsItem" />
+            name="legendItem"
+            type="ru.antonc.budget.data.entities.LegendItem" />
     </data>
 
 
@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@{category.name}"
+            android:text="@{legendItem.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_sum"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:textMoney="@{category.sum}"
+            android:textMoney="@{legendItem.sum}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_percent"
             app:layout_constraintStart_toEndOf="@id/tv_name"
@@ -45,7 +45,7 @@
             android:layout_width="@dimen/width_percent_tv"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="@{@string/format_percent(category.percent)}"
+            android:text="@{@string/format_percent(legendItem.percent)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_sum"

@@ -2,12 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <data>
 
         <variable
-            name="data"
-            type="ru.antonc.budget.data.entities.SummaryStatisticsPage" />
+            name="viewModel"
+            type="ru.antonc.budget.ui.statistics.summary.SummaryStatisticsViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -32,7 +31,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:sum="@{data.incomes}"
+                app:sum="@{viewModel.data.incomes}"
                 app:title="@{@string/title_incomes}" />
 
 
@@ -49,7 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_income"
-                app:sum="@{data.expenses}"
+                app:sum="@{viewModel.data.expenses}"
                 app:title="@{@string/title_expenses}" />
 
 
@@ -62,13 +61,13 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:layout_marginBottom="16dp"
-                android:isInvisible="@{data.balance == 0}"
+                android:isInvisible="@{viewModel.data.balance == 0}"
                 app:icon="@{@drawable/ic_compare}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_expense"
-                app:sum="@{data.balance}"
+                app:sum="@{viewModel.data.balance}"
                 app:title="@{@string/title_balance}" />
 
 

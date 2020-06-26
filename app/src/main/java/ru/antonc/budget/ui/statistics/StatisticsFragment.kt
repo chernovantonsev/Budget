@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.google.android.material.tabs.TabLayoutMediator
+import ru.antonc.budget.data.entities.StatisticsPage
 import ru.antonc.budget.databinding.FragmentStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
@@ -30,24 +31,21 @@ class StatisticsFragment : BaseFragment(), Injectable {
                 lifecycleOwner = this@StatisticsFragment
             }
 
-        val pagerAdapter = StatisticsViewPagerAdapter()
+        val pagerAdapter = StatisticsViewPagerAdapter(parentFragmentManager, lifecycle)
         binding.vpInfo.adapter = pagerAdapter
 
-        viewModel.pages.observe(viewLifecycleOwner) { pages ->
-            pagerAdapter.submitList(pages)
-
+        StatisticsPage.values().let { pages ->
             binding.tlTypes.removeAllTabs()
 
             TabLayoutMediator(binding.tlTypes, binding.vpInfo,
                 TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                     pages[position].also { page ->
-                        page.getTypeStatistics().also {
-                            tab.text = it.title
-                            tab.tag = it.title
-                        }
+                        tab.text = page.title
+                        tab.tag = page.title
                     }
                 }).attach()
         }
+
 
         viewModel.datePickerEvent.observe(viewLifecycleOwner) { datePickEvent ->
             datePickEvent.getContentIfNotHandled()?.let { initDate ->
@@ -55,7 +53,6 @@ class StatisticsFragment : BaseFragment(), Injectable {
                     initDate = initDate,
                     onDateSelected = { date -> viewModel.setDate(date) })
                     .let { datePickerFragment ->
-                        if (isAdded)
                             datePickerFragment.show(
                                 parentFragmentManager,
                                 datePickerFragment.javaClass.name

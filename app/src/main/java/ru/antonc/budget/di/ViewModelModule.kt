@@ -14,6 +14,8 @@ import ru.antonc.budget.ui.overview.OverviewViewModel
 import ru.antonc.budget.ui.settings.SettingsFragment
 import ru.antonc.budget.ui.settings.SettingsViewModel
 import ru.antonc.budget.ui.statistics.StatisticsViewModel
+import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsViewModel
+import ru.antonc.budget.ui.statistics.summary.SummaryStatisticsViewModel
 import ru.antonc.budget.ui.transactions.TransactionsListViewModel
 
 
@@ -65,6 +67,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
     abstract fun bindSettingsViewModel(settingsViewModel: SettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PieChartStatisticsViewModel::class)
+    abstract fun bindPieChartStatisticsViewModel(pieChartStatisticsViewModel: PieChartStatisticsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SummaryStatisticsViewModel::class)
+    abstract fun bindSummaryStatisticsViewModel(summaryStatisticsViewModel: SummaryStatisticsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
