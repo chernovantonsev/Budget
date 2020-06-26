@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui
+package ru.antonc.budget.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private lateinit var navigation: BottomNavigationView
 
-    private var onBackPressedListener: ArrayList<OnBackPressedListener?> = ArrayList()
+    var onBackPressedListener: ArrayList<OnBackPressedListener?> = ArrayList()
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -71,14 +71,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
     }
 
-    fun setOnBackPressedListener(onBackPressedListener: OnBackPressedListener?) {
-        if (!this.onBackPressedListener.contains(onBackPressedListener))
-            this.onBackPressedListener.add(onBackPressedListener)
-    }
-
-    fun removeOnBakPressedListener(onBackPressedListener: OnBackPressedListener?) {
-        this.onBackPressedListener.remove(onBackPressedListener)
-    }
 
     override fun onBackPressed() {
         when {

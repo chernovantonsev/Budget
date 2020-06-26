@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.antonc.budget.di.Injectable
-import ru.antonc.budget.ui.MainActivity
+import ru.antonc.budget.ui.main.MainActivity
+import ru.antonc.budget.ui.main.removeOnBakPressedListener
+import ru.antonc.budget.ui.main.setOnBackPressedListener
 import javax.inject.Inject
 
 open class BaseFragment(private val isNeedOverrideBackPressed: Boolean = true) : Fragment(),
