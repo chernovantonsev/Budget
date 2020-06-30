@@ -1,5 +1,6 @@
 package ru.antonc.budget.repository
 
+import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -24,7 +25,9 @@ class TransactionRepository @Inject constructor(
         database.categoryDAO().getAll()
             .map { categories ->
                 categories.filter { category ->
-                    category.type == transactionType } }
+                    category.type == transactionType
+                }
+            }
             .subscribeOn(Schedulers.io())
 
     fun getAllAccounts() = database.accountDAO().getAll()
@@ -51,12 +54,12 @@ class TransactionRepository @Inject constructor(
         Transaction(
             type = transactionType,
             date = Calendar.getInstance().timeInMillis
-        ).let(::saveTransaction)
+        ).let { transaction -> saveTransaction(transaction) }
     }
 
-    fun saveTransaction(transaction: Transaction) {
+    fun saveTransaction(transaction: Transaction, isNeedActualizeBalance: Boolean = false) {
         database.transactionDAO().insert(transaction)
-            .doOnComplete { actualizeAccountBalance(transaction, true) }
+            .doOnComplete { if (isNeedActualizeBalance) actualizeAccountBalance(transaction) }
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
@@ -89,7 +92,7 @@ class TransactionRepository @Inject constructor(
 
     fun deleteTransaction(transaction: Transaction) {
         database.transactionDAO().delete(transaction)
-            .doOnComplete { actualizeAccountBalance(transaction, false) }
+            .doOnComplete { actualizeAccountBalance(transaction) }
             .subscribeOn(Schedulers.io())
             .subscribe()
             .addTo(dataDisposable)
@@ -109,17 +112,24 @@ class TransactionRepository @Inject constructor(
             .addTo(dataDisposable)
     }
 
-    private fun actualizeAccountBalance(transaction: Transaction, isTransactionAdd: Boolean) {
-        database.accountDAO().getAccountById(transaction.accountId)
+    private fun actualizeAccountBalance(transaction: Transaction) {
+        database.transactionDAO().getTransactionByAccountId(transaction.accountId)
             .subscribeOn(Schedulers.io())
-            .blockingFirst()?.let { account ->
-                if ((transaction.type == TransactionType.INCOME) == isTransactionAdd) {
-                    account.balance += transaction.sum
-                } else {
-                    account.balance -= transaction.sum
+            .blockingFirst()?.let { transactions ->
+                var actualizeBalance = 0.0
+                transactions.forEach { transaction ->
+                    if (transaction.type == TransactionType.INCOME) {
+                        actualizeBalance += transaction.sum
+                    } else if (transaction.type == TransactionType.EXPENSE) {
+                        actualizeBalance -= transaction.sum
+                    }
                 }
 
-                saveAccount(account)
+                database.accountDAO().getAccountById(transaction.accountId)
+                    .blockingFirst()?.let { account ->
+                        account.balance = account.initialBalance + actualizeBalance
+                        saveAccount(account)
+                    }
             }
     }
 }

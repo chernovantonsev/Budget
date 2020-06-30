@@ -32,6 +32,7 @@ class AccountViewModel @Inject constructor(
     fun setBalance(sumString: String) {
         (sumString.toDoubleOrNull() ?: 0.0).let {
             account.value?.let { account ->
+                account.initialBalance = it
                 account.balance = it
             }
         }

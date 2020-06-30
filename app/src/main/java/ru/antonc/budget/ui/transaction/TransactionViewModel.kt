@@ -82,7 +82,7 @@ class TransactionViewModel @Inject constructor(
         transaction.value?.let { transaction ->
             if (isFullSave && transaction.info.id.isEmpty())
                 transaction.info.id = UUID.randomUUID().toString()
-            transactionRepository.saveTransaction(transaction.info)
+            transactionRepository.saveTransaction(transaction.info, isFullSave)
         }
     }
 

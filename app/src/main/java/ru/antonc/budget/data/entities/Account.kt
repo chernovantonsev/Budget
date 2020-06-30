@@ -9,8 +9,9 @@ data class Account(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     var name: String = "",
-    var balance: Double = 0.0,
-    var icon: Int = R.drawable.ic_money
+    var initialBalance: Double = 0.0,
+    var icon: Int = R.drawable.ic_money,
+    var balance: Double = 0.0
 ) {
 
     companion object {
@@ -20,6 +21,5 @@ data class Account(
     override fun toString(): String {
         return name
     }
-
 
 }
