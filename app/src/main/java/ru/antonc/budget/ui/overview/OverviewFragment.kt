@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import ru.antonc.budget.R
 import ru.antonc.budget.databinding.FragmentOverviewBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
+import ru.antonc.budget.ui.main.MainActivity
 
 class OverviewFragment : BaseFragment(), Injectable {
 
@@ -30,15 +32,27 @@ class OverviewFragment : BaseFragment(), Injectable {
                 lifecycleOwner = this@OverviewFragment
             }
 
-        val adapter = AccountsAdapter { account ->
+        val accountsAdapter = AccountsAdapter { account ->
             OverviewFragmentDirections.actionOverviewFragmentToAccountFragment().apply {
                 id = account.id
             }.let { findNavController().navigate(it) }
         }
         binding.accountsList.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.accountsList.adapter = adapter
+        binding.accountsList.adapter = accountsAdapter
         viewModel.accountsList.observe(viewLifecycleOwner) { accounts ->
-            adapter.submitList(accounts)
+            accountsAdapter.submitList(accounts)
+        }
+
+        binding.itemLastTransactions.buttonShowMore.setOnClickListener {
+            if (requireActivity() is MainActivity)
+                (requireActivity() as MainActivity).setSelectedItemNavigation(R.id.navigation_transactions)
+        }
+
+        val transactionsAdapter = TransactionsListAdapter()
+        binding.itemLastTransactions.transactionsList.adapter = transactionsAdapter
+
+        viewModel.transactionsList.observe(viewLifecycleOwner) { transactions ->
+            transactionsAdapter.submitList(transactions)
         }
 
         return binding.root

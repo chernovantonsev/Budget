@@ -12,6 +12,10 @@
         android:title="@string/title_list_of_transactions" />
 
     <item
+        android:id="@+id/empty"
+        android:title="" />
+
+    <item
         android:id="@+id/navigation_statistics"
         android:icon="@drawable/ic_pie_chart"
         android:title="@string/title_statistics" />

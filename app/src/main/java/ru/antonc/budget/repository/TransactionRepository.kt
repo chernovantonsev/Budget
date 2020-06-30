@@ -1,6 +1,5 @@
 package ru.antonc.budget.repository
 
-import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
