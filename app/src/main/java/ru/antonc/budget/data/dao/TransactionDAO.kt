@@ -21,6 +21,7 @@ interface TransactionDAO : BaseDAO<Transaction> {
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE accountId = :accountId")
     fun getTransactionByAccountId(accountId: Long): Flowable<List<Transaction>>
 
+    @androidx.room.Transaction
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
     fun getFullTransaction(transactionId: String): Flowable<List<FullTransaction>>
 

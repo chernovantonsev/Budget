@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.github.mikephil.charting.animation.Easing
@@ -14,10 +15,13 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
+import ru.antonc.budget.R
 import ru.antonc.budget.data.entities.LegendItem
 import ru.antonc.budget.databinding.FragmentPieChartStatisticsBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
+import ru.antonc.budget.util.extenstions.getAttributeColor
+
 
 class PieChartStatisticsFragment : BaseFragment(false), Injectable {
 
@@ -33,7 +37,8 @@ class PieChartStatisticsFragment : BaseFragment(false), Injectable {
         savedInstanceState: Bundle?
     ): View? {
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(PieChartStatisticsViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory)
+                .get(PieChartStatisticsViewModel::class.java)
 
         val binding = FragmentPieChartStatisticsBinding.inflate(inflater, container, false)
             .apply {
@@ -99,18 +104,16 @@ class PieChartStatisticsFragment : BaseFragment(false), Injectable {
         chart.setDrawCenterText(true)
         chart.centerText =
             if (itemsChart.isNotEmpty()) centerText else "Нет данных для отображения"
-        chart.setCenterTextColor(Color.GRAY)
+        chart.setCenterTextColor(requireContext().getAttributeColor(R.attr.colorOnBackground))
         chart.setCenterTextSize(17f)
 
         chart.isDrawHoleEnabled = true
-        chart.setHoleColor(Color.WHITE)
-
-        chart.setTransparentCircleColor(Color.WHITE)
+        chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.holeColor))
+        chart.setTransparentCircleColor(ContextCompat.getColor(requireContext(), R.color.holeColor))
         chart.setTransparentCircleAlpha(110)
 
         chart.holeRadius = 58f
         chart.transparentCircleRadius = 61f
-
 
         chart.rotationAngle = 0f
         chart.isRotationEnabled = true
@@ -123,5 +126,6 @@ class PieChartStatisticsFragment : BaseFragment(false), Injectable {
 
         chart.invalidate()
     }
+
 
 }

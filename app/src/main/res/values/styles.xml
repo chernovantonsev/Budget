@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:statusBarColor">@color/statusBarColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -23,7 +25,4 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
-
-
-    <dimen name="size_tab_title">16sp</dimen>
 </resources>

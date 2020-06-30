@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#4976F2</color>
     <color name="colorAccent">#02C26A</color>
 
-    <color name="statusBarColor">#4976F2</color>
-    <color name="holeColor">#FFFFFF</color>
+    <color name="statusBarColor">#121212</color>
+    <color name="holeColor">#282828</color>
 </resources>

@@ -48,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@{date}"
-                android:textColor="@android:color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@id/iv_icon_date_range"
                 app:layout_constraintStart_toStartOf="parent"

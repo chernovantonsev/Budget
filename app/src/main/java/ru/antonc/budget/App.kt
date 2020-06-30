@@ -24,7 +24,6 @@ class App : Application(), HasAndroidInjector {
 
         sharedPreferences.getString("themePref", ThemeHelper.DEFAULT_MODE)?.let { themePref ->
             ThemeHelper.applyTheme(themePref)
-
         }
     }
 
