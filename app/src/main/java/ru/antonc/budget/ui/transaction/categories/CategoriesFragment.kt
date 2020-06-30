@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.categories
+package ru.antonc.budget.ui.transaction.categories
 
 import android.os.Bundle
 import android.text.InputType
@@ -59,7 +59,7 @@ class CategoriesFragment : BaseFragment(), Injectable {
     }
 
     private fun createNewCategory() {
-        viewModel.setCategoryName("")
+        viewModel.setCategoryName()
 
         MaterialDialog(requireContext()).show {
             title(R.string.create_new_category)

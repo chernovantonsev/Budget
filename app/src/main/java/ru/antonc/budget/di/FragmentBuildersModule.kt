@@ -6,8 +6,9 @@ import ru.antonc.budget.ui.accounts.AccountsFragment
 import ru.antonc.budget.ui.accounts.detail.AccountFragment
 import ru.antonc.budget.ui.accounts.list.AccountsListFragment
 import ru.antonc.budget.ui.accounts.summary.SummaryAccountsFragment
-import ru.antonc.budget.ui.categories.CategoriesFragment
 import ru.antonc.budget.ui.menu.MenuFragment
+import ru.antonc.budget.ui.menu.categories.CustomizationCategoriesFragment
+import ru.antonc.budget.ui.menu.categories.list.CategoriesListFragment
 import ru.antonc.budget.ui.overview.OverviewFragment
 import ru.antonc.budget.ui.settings.SettingsFragment
 import ru.antonc.budget.ui.statistics.StatisticsFragment
@@ -17,6 +18,7 @@ import ru.antonc.budget.ui.statistics.daterange.day.DayRangeFragment
 import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsFragment
 import ru.antonc.budget.ui.statistics.summary.SummaryStatisticsFragment
 import ru.antonc.budget.ui.transaction.TransactionFragment
+import ru.antonc.budget.ui.transaction.categories.CategoriesFragment
 import ru.antonc.budget.ui.transactions.TransactionsListFragment
 
 
@@ -71,4 +73,10 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAnyRangeFragment(): AnyRangeFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCustomizationCategoriesFragment(): CustomizationCategoriesFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCategoriesListFragment(): CategoriesListFragment
 }

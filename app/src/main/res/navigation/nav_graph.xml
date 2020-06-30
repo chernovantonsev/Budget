@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="ru.antonc.budget.ui.categories.CategoriesFragment">
+        android:name="ru.antonc.budget.ui.transaction.categories.CategoriesFragment">
         <argument
             android:name="transactionType"
             app:argType="string" />
@@ -96,7 +96,7 @@
     <fragment
         android:id="@+id/statisticsFragment"
         android:name="ru.antonc.budget.ui.statistics.StatisticsFragment"
-        android:label="StatisticsFragment" >
+        android:label="StatisticsFragment">
         <action
             android:id="@+id/action_statisticsFragment_to_dateRangeFragment"
             app:destination="@id/dateRangeFragment"
@@ -123,13 +123,21 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_menuFragment_to_customizationCategoriesFragment"
+            app:destination="@id/allCategoriesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ru.antonc.budget.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:name="ru.antonc.budget.ui.settings.SettingsFragment" />
     <fragment
         android:id="@+id/dateRangeFragment"
-        android:name="ru.antonc.budget.ui.statistics.daterange.DateRangeFragment"
-        android:label="DateRangeFragment" />
+        android:name="ru.antonc.budget.ui.statistics.daterange.DateRangeFragment" />
+    <fragment
+        android:id="@+id/allCategoriesFragment"
+        android:name="ru.antonc.budget.ui.menu.categories.CustomizationCategoriesFragment" />
 </navigation>

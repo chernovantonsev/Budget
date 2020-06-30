@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.categories
+package ru.antonc.budget.ui.transaction.categories
 
 import android.view.LayoutInflater
 import android.view.View

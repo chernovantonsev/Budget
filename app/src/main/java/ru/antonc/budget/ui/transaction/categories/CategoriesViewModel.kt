@@ -1,4 +1,4 @@
-package ru.antonc.budget.ui.categories
+package ru.antonc.budget.ui.transaction.categories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -56,7 +56,7 @@ class CategoriesViewModel @Inject constructor(
         transactionId.accept(id)
     }
 
-    fun setCategoryName(name: String) {
+    fun setCategoryName(name: String = "") {
         categoryName = name
     }
 

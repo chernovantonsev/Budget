@@ -11,6 +11,7 @@ import ru.antonc.budget.data.entities.Transaction
 @Dao
 interface TransactionDAO : BaseDAO<Transaction> {
 
+    @androidx.room.Transaction
     @Query("SELECT * from ${Transaction.TABLE_NAME}")
     fun getAll(): Flowable<List<FullTransaction>>
 
@@ -21,11 +22,10 @@ interface TransactionDAO : BaseDAO<Transaction> {
     fun getFullTransaction(transactionId: String): Flowable<List<FullTransaction>>
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME} WHERE id = :transactionId")
-    fun deleteTransaction(transactionId: String = "") : Completable
+    fun deleteTransaction(transactionId: String = ""): Completable
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME}")
     fun clearTable()
-
 
 
 }

@@ -34,6 +34,7 @@ class MenuFragment : BaseFragment(), Injectable {
                     findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToAccountsFragment())
                 }
                 MenuItem.CATEGORIES -> {
+                    findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToCustomizationCategoriesFragment())
                 }
                 MenuItem.SETTINGS -> {
                     findNavController().navigate(MenuFragmentDirections.actionMenuFragmentToSettingsFragment())
