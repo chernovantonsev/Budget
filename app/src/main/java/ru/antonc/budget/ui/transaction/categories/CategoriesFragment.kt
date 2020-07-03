@@ -42,15 +42,34 @@ class CategoriesFragment : BaseFragment(), Injectable {
 
         val adapter = CategoriesAdapter { category ->
             viewModel.selectCategory(category, params.transactionId)
-            findNavController().navigateUp()
         }
+
         binding.categoriesList.adapter = adapter
 
         viewModel.categoriesList.observe(viewLifecycleOwner) { categories ->
             adapter.submitList(categories)
         }
-        viewModel.selectedCategoryId.observe(viewLifecycleOwner) {selectedCategoryId ->
+        viewModel.selectedCategoryId.observe(viewLifecycleOwner) { selectedCategoryId ->
             adapter.setSelectedCategoryId(selectedCategoryId)
+        }
+
+        viewModel.navigateEvent.observe(viewLifecycleOwner) { navigateEvent ->
+            navigateEvent.getContentIfNotHandled()?.let { isNewTransaction ->
+
+                with(findNavController()) {
+                    if (isNewTransaction) {
+                        currentDestination?.let {
+                            it.parent?.startDestination
+                        }?.let {
+                            navigate(it)
+                            return@observe
+                        }
+
+                        navigate(CategoriesFragmentDirections.actionCategoriesFragmentToTransactionsListFragment())
+
+                    } else navigateUp()
+                }
+            }
         }
 
         binding.buttonAddCategory.setOnClickListener { createNewCategory() }

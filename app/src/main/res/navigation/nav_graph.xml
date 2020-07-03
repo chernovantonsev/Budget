@@ -65,6 +65,10 @@
         <argument
             android:name="transactionId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_categoriesFragment_to_transactionsListFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/transactionsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountsFragment"
@@ -170,6 +174,13 @@
     </fragment>
     <fragment
         android:id="@+id/editSumFragment"
-        android:name="ru.antonc.budget.ui.transaction.editsum.EditSumFragment"
-        android:label="EditSumFragment" />
+        android:name="ru.antonc.budget.ui.transaction.editsum.EditSumFragment">
+        <action
+            android:id="@+id/action_editSumFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

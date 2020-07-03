@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.antonc.budget.ui.transaction.editsum.EditSumViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,6 +32,75 @@
                 app:title="@string/title_enter_sum" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
+
+        <TextView
+            android:id="@+id/tv_sum"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical|end"
+            android:text="@{viewModel.numberString}"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/numpad_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/num_pad"
+            app:layout_constraintEnd_toStartOf="@id/tv_currency"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout"
+            app:layout_constraintVertical_weight="1"
+            tools:text="6555" />
+
+        <TextView
+            android:id="@+id/tv_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="₽"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/numpad_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/num_pad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_sum"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout" />
+
+
+        <ru.antonc.budget.util.numpad.NumPad
+            android:id="@+id/num_pad"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/button_continue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sum"
+            app:layout_constraintVertical_weight="2" />
+
+
+        <FrameLayout
+            android:id="@+id/button_continue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.goToCategories()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/num_pad">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/statusBarColor"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/title_continue"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

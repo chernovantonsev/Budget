@@ -63,8 +63,8 @@ class TransactionViewModel @Inject constructor(
             .addTo(dataCompositeDisposable)
     }
 
-    fun setTransactionDetails(id: String = "", type: String = "") {
-        transactionType = TransactionType.fromValue(type)
+    fun setTransactionDetails(id: String = "", transactionTypeName: String = "") {
+        transactionType = TransactionType.fromValue(transactionTypeName)
         transactionId.accept(id)
     }
 

@@ -46,4 +46,5 @@
     <string name="new_transaction">Новая транзакция</string>
     <string name="title_select_account">Выберите счет</string>
     <string name="title_enter_sum">Введите сумму</string>
+    <string name="title_continue">Далее</string>
 </resources>

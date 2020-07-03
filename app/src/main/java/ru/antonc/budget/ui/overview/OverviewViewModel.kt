@@ -28,7 +28,11 @@ class OverviewViewModel @Inject constructor(
 
     init {
         repository.getAllTransactions()
-            .map { transactionsList -> transactionsList.subList(0, min(transactionsList.size, 5)) }
+            .map { transactionsList ->
+                transactionsList
+                    .sortedByDescending { transaction -> transaction.info.date }
+                    .subList(0, min(transactionsList.size, 5))
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 _transactionsList.postValue(it)

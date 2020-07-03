@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import ru.antonc.budget.databinding.FragmentSelectAccountBinding
 import ru.antonc.budget.di.Injectable
 import ru.antonc.budget.ui.base.BaseFragment
@@ -18,6 +19,8 @@ class SelectAccountFragment : BaseFragment(), Injectable {
 
     var binding by autoCleared<FragmentSelectAccountBinding>()
 
+    private val params by navArgs<SelectAccountFragmentArgs>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +28,8 @@ class SelectAccountFragment : BaseFragment(), Injectable {
     ): View? {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(SelectAccountViewModel::class.java)
+        viewModel.setTransactionInfo(params.transactionType)
+
 
         binding = FragmentSelectAccountBinding.inflate(inflater, container, false)
             .apply {
@@ -33,13 +38,19 @@ class SelectAccountFragment : BaseFragment(), Injectable {
 
 
         val selectAccountAdapter = SelectAccountAdapter { account ->
-            findNavController().navigate(SelectAccountFragmentDirections.actionSelectAccountFragmentToEditSumFragment())
+            viewModel.selectAccount(account)
         }
+
         binding.accountsList.adapter = selectAccountAdapter
         viewModel.accountsList.observe(viewLifecycleOwner) { accounts ->
             selectAccountAdapter.submitList(accounts)
         }
 
+        viewModel.navigateToEditSumEvent.observe(viewLifecycleOwner) { navigateToEditSumEvent ->
+            navigateToEditSumEvent.getContentIfNotHandled()?.let {
+                findNavController().navigate(SelectAccountFragmentDirections.actionSelectAccountFragmentToEditSumFragment())
+            }
+        }
         return binding.root
     }
 

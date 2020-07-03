@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/numpad_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/windowBackground">
+
+
+    <TextView
+        android:id="@+id/btnNumpad1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@id/btnNumpad4"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="2"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad1"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad3"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad1"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad1" />
+
+    <TextView
+        android:id="@+id/btnNumpad3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="3"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad2"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad2"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad2" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="4"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btnNumpad7"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNumpad1" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="5"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad4"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad6"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad4"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad4" />
+
+    <TextView
+        android:id="@+id/btnNumpad6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="6"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad5"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad5"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad5" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad7"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="7"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btnNumpad0"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNumpad4" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="8"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad7"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpad9"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad7"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad7" />
+
+    <TextView
+        android:id="@+id/btnNumpad9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="9"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad8"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad8"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad8" />
+
+
+    <TextView
+        android:id="@+id/btnNumpad0"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpadDot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNumpad7" />
+
+
+    <TextView
+        android:id="@+id/btnNumpadDot"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="."
+        android:textSize="@dimen/numpad_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpad0"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/btnNumpadBack"
+        app:layout_constraintStart_toEndOf="@id/btnNumpad0"
+        app:layout_constraintTop_toTopOf="@id/btnNumpad0" />
+
+
+    <FrameLayout
+        android:id="@+id/btnNumpadBack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="@id/btnNumpadDot"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnNumpadDot"
+        app:layout_constraintTop_toTopOf="@id/btnNumpadDot">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:tint="?colorOnBackground"
+            app:srcCompat="@drawable/ic_backspace" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

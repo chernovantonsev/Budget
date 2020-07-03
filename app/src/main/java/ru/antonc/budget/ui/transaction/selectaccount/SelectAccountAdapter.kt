@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.antonc.budget.R
 import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.databinding.ListItemAccountBinding
+import ru.antonc.budget.databinding.ListItemAccountToSelectBinding
 
 
 class SelectAccountAdapter(private val itemClickListener: ((Account) -> Unit)?) :
@@ -22,7 +23,7 @@ class SelectAccountAdapter(private val itemClickListener: ((Account) -> Unit)?) 
         return ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item_account, parent, false
+                R.layout.list_item_account_to_select, parent, false
             )
         )
     }
@@ -32,7 +33,7 @@ class SelectAccountAdapter(private val itemClickListener: ((Account) -> Unit)?) 
     }
 
     class ViewHolder(
-        private val binding: ListItemAccountBinding
+        private val binding: ListItemAccountToSelectBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(account: Account, clickListener: ((Account) -> Unit)?) {
