@@ -1,9 +1,13 @@
 package ru.antonc.budget.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -14,6 +18,8 @@ import dagger.android.HasAndroidInjector
 import ru.antonc.budget.R
 import ru.antonc.budget.databinding.ActivityMainBinding
 import ru.antonc.budget.ui.base.OnBackPressedListener
+import ru.antonc.budget.util.KeyboardEventListener
+import ru.antonc.budget.util.extenstions.combineWith
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
@@ -30,10 +36,24 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     var onBackPressedListener: ArrayList<OnBackPressedListener?> = ArrayList()
 
+    private val isNavigationNotRequired = MutableLiveData<Boolean>()
+    private val isKeyBoardOpened = MutableLiveData<Boolean>()
+
+    private val isNavigationGone: LiveData<Boolean> =
+        isNavigationNotRequired.combineWith(isKeyBoardOpened) { isNavigationNotRequired, isKeyBoardOpened ->
+            if (isNavigationNotRequired == null || isKeyBoardOpened == null)
+                return@combineWith true
+
+            if (isNavigationNotRequired) return@combineWith true
+            else isKeyBoardOpened
+        }
+
+    private val fragmentsWithoutBottomNavigationView: ArrayList<Int> = ArrayList()
+
+    private var lastStateNavigation: Boolean? = null
 
     private val navigationToFragments: MutableMap<Int, Int> = mutableMapOf()
     private val fragmentsToNavigation: MutableMap<Int, Int> = mutableMapOf()
-
 
     init {
         navigationToFragments[R.id.navigation_overview] = R.id.overviewFragment
@@ -43,6 +63,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         navigationToFragments.forEach { (key, value) ->
             fragmentsToNavigation[value] = key
+        }
+
+        fragmentsWithoutBottomNavigationView.apply {
+            add(R.id.transactionFragment)
+            add(R.id.transactionTypeFragment)
+            add(R.id.selectAccountFragment)
+            add(R.id.editSumFragment)
+            add(R.id.categoriesFragment)
         }
     }
 
@@ -77,7 +105,29 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
             }
+
+            isNavigationNotRequired.value =
+                fragmentsWithoutBottomNavigationView.contains(destination.id)
         }
+
+        isNavigationGone.observe(this, Observer { isGone ->
+            if (isGone == lastStateNavigation)
+                return@Observer
+
+            binding.buttonAddTransaction.visibility = if (isGone) View.GONE else View.VISIBLE
+            if (isGone) navigation.visibility = View.GONE
+            else {
+                navigation.alpha = 0F
+                navigation.visibility = View.VISIBLE
+                navigation.animate()
+                    .alpha(1F)
+                    .setDuration(100)
+                    .start()
+            }
+
+            lastStateNavigation = isGone
+        })
+
 
         binding.buttonAddTransaction.setOnClickListener {
             navController.navigate(
@@ -93,6 +143,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        KeyboardEventListener(this) { isOpen ->
+            isKeyBoardOpened.value = isOpen
+        }
+    }
+
 
     override fun onBackPressed() {
         when {

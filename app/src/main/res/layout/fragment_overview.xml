@@ -54,6 +54,7 @@
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="@dimen/margin_normal"
+                    android:isGone="@{viewModel.transactionsList.empty}"
                     app:layout_constraintBottom_toTopOf="@id/tv_your_accounts"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:isGone="@{viewModel.accountsList.empty}"
                     android:paddingStart="16dp"
                     android:paddingTop="10dp"
                     android:paddingEnd="16dp"
@@ -79,6 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
+                    android:isGone="@{viewModel.accountsList.empty}"
                     android:onClick="@{viewModel::toAccountsList}"
                     android:paddingStart="16dp"
                     android:paddingTop="10dp"
@@ -97,6 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:clipToPadding="false"
+                    android:isGone="@{viewModel.accountsList.empty}"
                     android:nestedScrollingEnabled="false"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -111,56 +115,56 @@
         </androidx.core.widget.NestedScrollView>
 
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/iv_add_income"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:onClick="@{viewModel::addIncome}"
-            app:cardCornerRadius="1dp"
-            app:cardElevation="@dimen/card_elevation"
-            app:cardPreventCornerOverlap="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_add_expense"
-            app:layout_constraintStart_toStartOf="parent">
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/iv_add_income"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/margin_normal"-->
+        <!--            android:layout_marginEnd="@dimen/margin_normal"-->
+        <!--            android:layout_marginBottom="@dimen/margin_normal"-->
+        <!--            android:onClick="@{viewModel::addIncome}"-->
+        <!--            app:cardCornerRadius="1dp"-->
+        <!--            app:cardElevation="@dimen/card_elevation"-->
+        <!--            app:cardPreventCornerOverlap="false"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/iv_add_expense"-->
+        <!--            app:layout_constraintStart_toStartOf="parent">-->
 
 
-            <ImageView
-                android:layout_width="@dimen/icon_add_income_size"
-                android:layout_height="@dimen/icon_add_income_size"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_income"
-                android:tint="@android:color/holo_green_light" />
+        <!--            <ImageView-->
+        <!--                android:layout_width="@dimen/icon_add_income_size"-->
+        <!--                android:layout_height="@dimen/icon_add_income_size"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:src="@drawable/ic_income"-->
+        <!--                android:tint="@android:color/holo_green_light" />-->
 
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/iv_add_expense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:onClick="@{viewModel::addExpense}"
-            app:cardCornerRadius="1dp"
-            app:cardElevation="@dimen/card_elevation"
-            app:cardPreventCornerOverlap="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_add_income">
+        <!--        </com.google.android.material.card.MaterialCardView>-->
 
 
-            <ImageView
-                android:layout_width="@dimen/icon_add_income_size"
-                android:layout_height="@dimen/icon_add_income_size"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_expense"
-                android:tint="@android:color/holo_red_light" />
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:id="@+id/iv_add_expense"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/margin_normal"-->
+        <!--            android:layout_marginEnd="@dimen/margin_normal"-->
+        <!--            android:layout_marginBottom="@dimen/margin_normal"-->
+        <!--            android:onClick="@{viewModel::addExpense}"-->
+        <!--            app:cardCornerRadius="1dp"-->
+        <!--            app:cardElevation="@dimen/card_elevation"-->
+        <!--            app:cardPreventCornerOverlap="false"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/iv_add_income">-->
 
-        </com.google.android.material.card.MaterialCardView>
+
+        <!--            <ImageView-->
+        <!--                android:layout_width="@dimen/icon_add_income_size"-->
+        <!--                android:layout_height="@dimen/icon_add_income_size"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:src="@drawable/ic_expense"-->
+        <!--                android:tint="@android:color/holo_red_light" />-->
+
+        <!--        </com.google.android.material.card.MaterialCardView>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
