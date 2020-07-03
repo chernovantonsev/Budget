@@ -9,7 +9,7 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun fromTransactionType(transactionType: TransactionType): String {
+    fun fromTransactionType(transactionType: TransactionType?): String {
         return Gson().toJson(transactionType)
     }
 

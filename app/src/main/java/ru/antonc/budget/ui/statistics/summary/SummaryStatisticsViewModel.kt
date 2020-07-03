@@ -52,9 +52,9 @@ class SummaryStatisticsViewModel @Inject constructor(
         var expenses = 0.0
 
         transactions.forEach { transaction ->
-            if (transaction.info.type == TransactionType.INCOME) {
+            if (transaction.info.type == TransactionType.INCOMES) {
                 incomes += transaction.info.sum
-            } else if (transaction.info.type == TransactionType.EXPENSE) {
+            } else if (transaction.info.type == TransactionType.EXPENSES) {
                 expenses -= transaction.info.sum
             }
         }

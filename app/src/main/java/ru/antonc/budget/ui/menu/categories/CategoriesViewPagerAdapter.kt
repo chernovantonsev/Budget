@@ -12,7 +12,7 @@ class CategoriesViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Li
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
     enum class CategoriesPage(val title: String, val transactionType: TransactionType) {
-        EXPENSES("Расходы", TransactionType.EXPENSE), INCOMES("Доходы", TransactionType.INCOME)
+        EXPENSES("Расходы", TransactionType.EXPENSES), INCOMES("Доходы", TransactionType.INCOMES)
     }
 
     private val pages = ArrayList<CategoriesPage>()
@@ -27,7 +27,7 @@ class CategoriesViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Li
     override fun createFragment(position: Int): Fragment {
         return CategoriesListFragment().apply {
             arguments = bundleOf(
-                CategoriesListFragment.TRANSACTION_TYPE to pages[position].transactionType.type
+                CategoriesListFragment.TRANSACTION_TYPE to pages[position].transactionType.name
             )
         }
     }

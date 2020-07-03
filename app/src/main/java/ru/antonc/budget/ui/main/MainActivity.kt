@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
@@ -76,6 +77,20 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
             }
+        }
+
+        binding.buttonAddTransaction.setOnClickListener {
+            navController.navigate(
+                R.id.transactionTypeFragment,
+                null,
+                NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_left)
+                    .setPopExitAnim(R.anim.slide_out_right)
+                    .build()
+            )
+
         }
     }
 

@@ -39,7 +39,7 @@ class TransactionsListViewModel @Inject constructor(
                         groupedTransactions[key]?.forEach { transaction ->
                             add(TransactionGeneralListItem(transaction))
 
-                            if (transaction.info.type == TransactionType.INCOME)
+                            if (transaction.info.type == TransactionType.INCOMES)
                                 dateItem.sum += transaction.info.sum
                             else dateItem.sum -= transaction.info.sum
                         }

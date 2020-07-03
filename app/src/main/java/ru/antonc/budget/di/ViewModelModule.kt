@@ -21,6 +21,8 @@ import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsViewModel
 import ru.antonc.budget.ui.statistics.summary.SummaryStatisticsViewModel
 import ru.antonc.budget.ui.transaction.TransactionViewModel
 import ru.antonc.budget.ui.transaction.categories.CategoriesViewModel
+import ru.antonc.budget.ui.transaction.editsum.EditSumViewModel
+import ru.antonc.budget.ui.transaction.selectaccount.SelectAccountViewModel
 import ru.antonc.budget.ui.transactions.TransactionsListViewModel
 
 
@@ -112,6 +114,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CategoriesListViewModel::class)
     abstract fun bindCategoriesListViewModel(categoriesListViewModel: CategoriesListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SelectAccountViewModel::class)
+    abstract fun bindSelectAccountViewModel(selectAccountViewModel: SelectAccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditSumViewModel::class)
+    abstract fun bindEditSumViewModel(editSumViewModel: EditSumViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

@@ -40,7 +40,7 @@ class OverviewViewModel @Inject constructor(
         view.findNavController().navigate(
             OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(
                 "",
-                TransactionType.INCOME.type
+                TransactionType.INCOMES.name
             )
         )
     }
@@ -49,7 +49,7 @@ class OverviewViewModel @Inject constructor(
         view.findNavController().navigate(
             OverviewFragmentDirections.actionOverviewFragmentToTransactionFragment(
                 "",
-                TransactionType.EXPENSE.type
+                TransactionType.EXPENSES.name
             )
         )
     }

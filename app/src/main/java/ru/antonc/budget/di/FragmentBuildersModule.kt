@@ -19,6 +19,9 @@ import ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsFragment
 import ru.antonc.budget.ui.statistics.summary.SummaryStatisticsFragment
 import ru.antonc.budget.ui.transaction.TransactionFragment
 import ru.antonc.budget.ui.transaction.categories.CategoriesFragment
+import ru.antonc.budget.ui.transaction.editsum.EditSumFragment
+import ru.antonc.budget.ui.transaction.selectaccount.SelectAccountFragment
+import ru.antonc.budget.ui.transaction.selecttype.TransactionTypeFragment
 import ru.antonc.budget.ui.transactions.TransactionsListFragment
 
 
@@ -79,4 +82,13 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeCategoriesListFragment(): CategoriesListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeTransactionTypeFragment(): TransactionTypeFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeSelectAccountFragment(): SelectAccountFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditSumFragment(): EditSumFragment
 }

@@ -26,7 +26,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/transactionFragment"
@@ -44,7 +44,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-
     </fragment>
     <fragment
         android:id="@+id/transactionsListFragment"
@@ -144,4 +143,33 @@
     <fragment
         android:id="@+id/allCategoriesFragment"
         android:name="ru.antonc.budget.ui.menu.categories.CustomizationCategoriesFragment" />
+    <fragment
+        android:id="@+id/transactionTypeFragment"
+        android:name="ru.antonc.budget.ui.transaction.selecttype.TransactionTypeFragment">
+        <action
+            android:id="@+id/action_transactionTypeFragment_to_selectAccountFragment"
+            app:destination="@id/selectAccountFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectAccountFragment"
+        android:name="ru.antonc.budget.ui.transaction.selectaccount.SelectAccountFragment">
+        <argument
+            android:name="transactionType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_selectAccountFragment_to_editSumFragment"
+            app:destination="@id/editSumFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/editSumFragment"
+        android:name="ru.antonc.budget.ui.transaction.editsum.EditSumFragment"
+        android:label="EditSumFragment" />
 </navigation>

@@ -31,8 +31,10 @@ class CategoriesListFragment : BaseFragment(), Injectable {
             ViewModelProviders.of(this, viewModelFactory).get(CategoriesListViewModel::class.java)
 
         arguments?.let {
-            it.getString(TRANSACTION_TYPE)?.let { transactionType ->
-                viewModel.setTransactionType(TransactionType.fromValue(transactionType))
+            it.getString(TRANSACTION_TYPE)?.let { transactionTypeValue ->
+                TransactionType.fromValue(transactionTypeValue)?.let { transactionType ->
+                    viewModel.setTransactionType(transactionType)
+                }
             }
         }
 

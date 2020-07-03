@@ -43,4 +43,7 @@
     <string name="text_end_date">Конечная дата</string>
     <string name="title_last_transactions">Последние транзакции</string>
     <string name="title_show_more">Показать больше</string>
+    <string name="new_transaction">Новая транзакция</string>
+    <string name="title_select_account">Выберите счет</string>
+    <string name="title_enter_sum">Введите сумму</string>
 </resources>

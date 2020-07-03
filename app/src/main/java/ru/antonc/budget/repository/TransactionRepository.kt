@@ -39,10 +39,10 @@ class TransactionRepository @Inject constructor(
 
     fun getOrCreateTransaction(
         transactionId: String,
-        transactionType: TransactionType = TransactionType.NOT_SET
+        transactionType: TransactionType?
     ): Flowable<FullTransaction> = database.transactionDAO().getFullTransaction(transactionId)
         .doOnNext {
-            if (it.isEmpty())
+            if (it.isEmpty() && transactionType != null)
                 createNewTransaction(transactionType)
         }
         .filter { it.isNotEmpty() }
@@ -117,9 +117,9 @@ class TransactionRepository @Inject constructor(
             .blockingFirst()?.let { transactions ->
                 var actualizeBalance = 0.0
                 transactions.forEach { transaction ->
-                    if (transaction.type == TransactionType.INCOME) {
+                    if (transaction.type == TransactionType.INCOMES) {
                         actualizeBalance += transaction.sum
-                    } else if (transaction.type == TransactionType.EXPENSE) {
+                    } else if (transaction.type == TransactionType.EXPENSES) {
                         actualizeBalance -= transaction.sum
                     }
                 }

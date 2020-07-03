@@ -24,7 +24,7 @@ class TransactionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val transactionId = BehaviorRelay.create<String>()
-    private var transactionType: TransactionType = TransactionType.NOT_SET
+    private var transactionType: TransactionType? = null
 
     private val _transaction = BehaviorRelay.create<FullTransaction>()
     val transaction: LiveData<FullTransaction> =
@@ -73,7 +73,7 @@ class TransactionViewModel @Inject constructor(
 
         transaction.value?.let { transaction ->
             _navigateToCategoriesEvent.value =
-                EventContent(transaction.info.id to transaction.info.type.type)
+                EventContent(transaction.info.id to transaction.info.type.name)
 
         }
     }

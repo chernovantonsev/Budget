@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+
+
+        <variable
+            name="transactionType"
+            type="ru.antonc.budget.data.entities.TransactionType" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{clickListener}">
+
+        <ImageView
+            android:id="@+id/iv_icon_transaction_type"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:src="@{transactionType.icon}"
+            android:tint="?attr/colorOnBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_income" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:ellipsize="start"
+            android:paddingTop="@dimen/margin_normal"
+            android:paddingBottom="@dimen/margin_normal"
+            android:singleLine="true"
+            android:text="@{transactionType.title}"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon_transaction_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_icon_transaction_type"
+            app:layout_constraintTop_toTopOf="@id/iv_icon_transaction_type"
+            tools:text="Питание" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

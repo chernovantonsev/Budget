@@ -50,8 +50,8 @@ class CategoriesViewModel @Inject constructor(
 
 
     fun setTransactionInfo(id: String = "", transactionType: String) {
-        TransactionType.fromValue(transactionType).let {
-            this.transactionType.accept(it)
+        TransactionType.fromValue(transactionType)?.let { transactionType ->
+            this.transactionType.accept(transactionType)
         }
         transactionId.accept(id)
     }

@@ -62,7 +62,7 @@ class TransactionFragment : BaseFragment(), Injectable, Toolbar.OnMenuItemClickL
 
             when {
                 params.id.isNotEmpty() -> getString(R.string.title_edit)
-                params.type == TransactionType.INCOME.type -> getString(R.string.title_income)
+                params.type == TransactionType.INCOMES.name -> getString(R.string.title_income)
                 else -> getString(R.string.title_expense)
             }.also { transactionType ->
                 title = transactionType

@@ -2,14 +2,13 @@ package ru.antonc.budget.data.entities
 
 import ru.antonc.budget.R
 
-enum class TransactionType(val type: String, val icon: Int) {
-    INCOME("income", R.drawable.ic_income),
-    EXPENSE("expense", R.drawable.ic_expense),
-    NOT_SET("not_set", R.drawable.ic_close);
+enum class TransactionType(val title: String, val icon: Int) {
+    INCOMES("Доходы", R.drawable.ic_income),
+    EXPENSES("Расходы", R.drawable.ic_expense);
 
     companion object {
-        fun fromValue(value: String): TransactionType {
-            return values().find { transactionType -> transactionType.type == value } ?: NOT_SET
+        fun fromValue(value: String): TransactionType? {
+            return values().find { transactionType -> transactionType.name == value }
         }
     }
 }

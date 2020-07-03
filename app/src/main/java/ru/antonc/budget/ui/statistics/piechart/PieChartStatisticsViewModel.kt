@@ -35,8 +35,8 @@ class PieChartStatisticsViewModel @Inject constructor(
             type.toFlowable(BackpressureStrategy.LATEST)
                 .map {
                     when (it) {
-                        StatisticsPage.INCOME -> TransactionType.INCOME
-                        else -> TransactionType.EXPENSE
+                        StatisticsPage.INCOME -> TransactionType.INCOMES
+                        else -> TransactionType.EXPENSES
                     }
                 },
             getTransactionInDateRange()
