@@ -10,11 +10,9 @@
             type="ru.antonc.budget.ui.overview.OverviewViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -33,7 +31,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -44,7 +41,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <include
                     android:id="@+id/item_last_transactions"
@@ -75,7 +71,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_last_transactions" />
 
-
                 <TextView
                     android:id="@+id/tv_to_all_accounts"
                     android:layout_width="wrap_content"
@@ -92,7 +87,6 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_your_accounts" />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/accounts_list"

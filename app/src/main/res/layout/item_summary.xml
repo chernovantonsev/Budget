@@ -26,7 +26,6 @@
         app:cardElevation="@dimen/card_elevation"
         app:cardPreventCornerOverlap="false">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

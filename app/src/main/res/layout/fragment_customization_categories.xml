@@ -2,11 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -25,7 +23,6 @@
                 app:title="@string/title_categories" />
 
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -48,12 +45,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
 
-
         <Button
             android:id="@+id/button_add_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
+            android:backgroundTint="@color/colorAccent"
             android:text="@string/add_category"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

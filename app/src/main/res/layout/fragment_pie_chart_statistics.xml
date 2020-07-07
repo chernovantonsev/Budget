@@ -10,7 +10,6 @@
             type="ru.antonc.budget.ui.statistics.piechart.PieChartStatisticsViewModel" />
     </data>
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -27,7 +26,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/chart"
@@ -62,8 +60,10 @@
 
                 </RelativeLayout>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </com.google.android.material.card.MaterialCardView>
+
     </androidx.core.widget.NestedScrollView>
+
 </layout>

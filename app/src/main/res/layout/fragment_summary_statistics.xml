@@ -34,7 +34,6 @@
                 app:sum="@{viewModel.data.incomes}"
                 app:title="@{@string/title_incomes}" />
 
-
             <include
                 android:id="@+id/item_expense"
                 layout="@layout/item_summary"
@@ -50,7 +49,6 @@
                 app:layout_constraintTop_toBottomOf="@id/item_income"
                 app:sum="@{viewModel.data.expenses}"
                 app:title="@{@string/title_expenses}" />
-
 
             <include
                 android:id="@+id/item_balance"
@@ -70,7 +68,8 @@
                 app:sum="@{viewModel.data.balance}"
                 app:title="@{@string/title_balance}" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </layout>

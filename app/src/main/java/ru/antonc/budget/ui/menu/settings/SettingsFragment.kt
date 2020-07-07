@@ -1,23 +1,43 @@
 package ru.antonc.budget.ui.menu.settings
 
 import android.os.Bundle
-import androidx.preference.ListPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import ru.antonc.budget.R
-import ru.antonc.budget.ThemeHelper
+import ru.antonc.budget.databinding.FragmentSettingsBinding
+import ru.antonc.budget.di.Injectable
+import ru.antonc.budget.ui.base.BaseFragment
+import ru.antonc.budget.util.autoCleared
 
-class SettingsFragment : PreferenceFragmentCompat() {
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, rootKey)
+class SettingsFragment : BaseFragment(), Injectable {
 
-        val themePreference: ListPreference? = findPreference("themePref")
-        themePreference?.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, newValue ->
-                val themeOption: String = newValue as String
-                ThemeHelper.applyTheme(themeOption)
-                true
+    var binding by autoCleared<FragmentSettingsBinding>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+            .apply {
+                lifecycleOwner = this@SettingsFragment
             }
+
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.preferences_container, PreferencesFragment())
+            .commit()
+
+        return binding.root
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.toolbar.apply {
+            setNavigationOnClickListener { findNavController().navigateUp() }
+        }
+    }
 }

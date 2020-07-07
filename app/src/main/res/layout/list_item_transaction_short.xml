@@ -15,7 +15,6 @@
             type="ru.antonc.budget.data.entities.FullTransaction" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +51,6 @@
             app:layout_constraintTop_toTopOf="@id/iv_icon_transaction_type"
             tools:text="Питание" />
 
-
         <TextView
             android:id="@+id/tv_sum"
             android:layout_width="wrap_content"
@@ -65,7 +63,6 @@
             app:layout_constraintStart_toEndOf="@id/tv_name"
             app:layout_constraintTop_toTopOf="@id/tv_name"
             tools:text="- 100 Р" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

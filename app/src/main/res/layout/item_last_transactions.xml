@@ -71,5 +71,7 @@
                 app:layout_constraintTop_toTopOf="@id/button_show_more" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>

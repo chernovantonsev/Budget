@@ -62,7 +62,6 @@ class StatisticsFragment : BaseFragment(), Injectable {
 
         removeBackPressedListener()
 
-
         childFragmentManager
             .beginTransaction()
             .setCustomAnimations(
@@ -72,7 +71,7 @@ class StatisticsFragment : BaseFragment(), Injectable {
                 0
             )
             .add(R.id.fragment_container, DateRangeFragment())
-            .commitNow()
+            .commit()
     }
 
 }

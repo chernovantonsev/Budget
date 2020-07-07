@@ -14,7 +14,6 @@
             type="Double" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,5 +49,7 @@
             app:layout_constraintStart_toEndOf="@id/tv_date"
             app:layout_constraintTop_toTopOf="@id/tv_date"
             tools:text="- 100 Р" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground">
 
-
     <TextView
         android:id="@+id/btnNumpad1"
         android:layout_width="0dp"
@@ -22,7 +21,6 @@
         app:layout_constraintEnd_toStartOf="@id/btnNumpad2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/btnNumpad2"
@@ -54,7 +52,6 @@
         app:layout_constraintStart_toEndOf="@id/btnNumpad2"
         app:layout_constraintTop_toTopOf="@id/btnNumpad2" />
 
-
     <TextView
         android:id="@+id/btnNumpad4"
         android:layout_width="0dp"
@@ -69,7 +66,6 @@
         app:layout_constraintEnd_toStartOf="@id/btnNumpad5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnNumpad1" />
-
 
     <TextView
         android:id="@+id/btnNumpad5"
@@ -101,7 +97,6 @@
         app:layout_constraintStart_toEndOf="@id/btnNumpad5"
         app:layout_constraintTop_toTopOf="@id/btnNumpad5" />
 
-
     <TextView
         android:id="@+id/btnNumpad7"
         android:layout_width="0dp"
@@ -116,7 +111,6 @@
         app:layout_constraintEnd_toStartOf="@id/btnNumpad8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnNumpad4" />
-
 
     <TextView
         android:id="@+id/btnNumpad8"
@@ -148,7 +142,6 @@
         app:layout_constraintStart_toEndOf="@id/btnNumpad8"
         app:layout_constraintTop_toTopOf="@id/btnNumpad8" />
 
-
     <TextView
         android:id="@+id/btnNumpad0"
         android:layout_width="0dp"
@@ -164,7 +157,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnNumpad7" />
 
-
     <TextView
         android:id="@+id/btnNumpadDot"
         android:layout_width="0dp"
@@ -179,7 +171,6 @@
         app:layout_constraintEnd_toStartOf="@id/btnNumpadBack"
         app:layout_constraintStart_toEndOf="@id/btnNumpad0"
         app:layout_constraintTop_toTopOf="@id/btnNumpad0" />
-
 
     <FrameLayout
         android:id="@+id/btnNumpadBack"
@@ -198,6 +189,7 @@
             android:layout_gravity="center"
             android:tint="?colorOnBackground"
             app:srcCompat="@drawable/ic_backspace" />
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

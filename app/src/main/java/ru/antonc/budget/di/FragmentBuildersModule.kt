@@ -9,6 +9,7 @@ import ru.antonc.budget.ui.accounts.summary.SummaryAccountsFragment
 import ru.antonc.budget.ui.menu.MenuFragment
 import ru.antonc.budget.ui.menu.categories.CustomizationCategoriesFragment
 import ru.antonc.budget.ui.menu.categories.list.CategoriesListFragment
+import ru.antonc.budget.ui.menu.settings.PreferencesFragment
 import ru.antonc.budget.ui.menu.settings.SettingsFragment
 import ru.antonc.budget.ui.overview.OverviewFragment
 import ru.antonc.budget.ui.statistics.StatisticsFragment
@@ -49,6 +50,9 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeStatisticsFragment(): StatisticsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributePreferencesFragment(): PreferencesFragment
 
     @ContributesAndroidInjector
     abstract fun contributeSettingsFragment(): SettingsFragment

@@ -9,7 +9,6 @@
             type="ru.antonc.budget.ui.accounts.detail.AccountViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -68,7 +67,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_balance"
             style="@style/Widget.Design.TextInputLayout"
@@ -80,7 +78,6 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/til_name">
 
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_balance"
                 android:layout_width="match_parent"
@@ -90,7 +87,6 @@
                 android:text="@{String.valueOf(viewModel.account.balance)}" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

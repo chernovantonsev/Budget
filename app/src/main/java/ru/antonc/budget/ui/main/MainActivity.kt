@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             add(R.id.selectAccountFragment)
             add(R.id.editSumFragment)
             add(R.id.categoriesFragment)
+            add(R.id.settingsFragment)
         }
     }
 

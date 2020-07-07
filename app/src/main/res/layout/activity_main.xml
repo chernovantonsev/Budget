@@ -38,11 +38,11 @@
             android:elevation="@dimen/padding_10dp"
             android:scaleType="center"
             android:src="@drawable/ic_add"
-            app:tint="?android:attr/windowBackground"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorAccent"
             app:fabSize="normal"
             app:layout_anchor="@+id/navigation"
-            app:layout_anchorGravity="bottom|center_horizontal" />
+            app:layout_anchorGravity="bottom|center_horizontal"
+            app:tint="?android:attr/windowBackground" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
