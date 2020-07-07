@@ -16,3 +16,10 @@ fun Context.getAttributeColor(attributeId: Int): Int {
     }
     return color
 }
+
+fun Context.resIdByName(resIdName: String?, resType: String): Int {
+    resIdName?.let {
+        return resources.getIdentifier(it, resType, packageName)
+    }
+    throw Resources.NotFoundException()
+}

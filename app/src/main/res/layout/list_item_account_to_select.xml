@@ -18,6 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:onClick="@{clickListener}">
 
 
@@ -56,9 +57,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:gravity="end"
-            android:textSize="16sp"
             android:textColor="@color/colorPrimary"
             android:textMoney="@{account.balance}"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/tv_name"
             app:layout_constraintEnd_toEndOf="parent"

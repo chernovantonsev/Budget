@@ -10,9 +10,12 @@ data class Account(
     val id: Long = 0,
     var name: String = "",
     var initialBalance: Double = 0.0,
-    var icon: Int = R.drawable.ic_money,
     var balance: Double = 0.0
 ) {
+
+    var icon: Int = R.drawable.ic_money
+        get() = R.drawable.ic_money
+
 
     companion object {
         const val TABLE_NAME = "account_table"

@@ -12,7 +12,6 @@ import ru.antonc.budget.ui.menu.MenuViewModel
 import ru.antonc.budget.ui.menu.categories.CustomizationCategoriesViewModel
 import ru.antonc.budget.ui.menu.categories.list.CategoriesListViewModel
 import ru.antonc.budget.ui.overview.OverviewViewModel
-import ru.antonc.budget.ui.settings.SettingsViewModel
 import ru.antonc.budget.ui.statistics.StatisticsViewModel
 import ru.antonc.budget.ui.statistics.daterange.DateRangeViewModel
 import ru.antonc.budget.ui.statistics.daterange.any.AnyRangeViewModel
@@ -69,11 +68,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MenuViewModel::class)
     abstract fun bindMenuViewModel(menuViewModel: MenuViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SettingsViewModel::class)
-    abstract fun bindSettingsViewModel(settingsViewModel: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap

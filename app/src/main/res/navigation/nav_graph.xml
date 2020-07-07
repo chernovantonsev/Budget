@@ -67,8 +67,8 @@
             app:argType="string" />
         <action
             android:id="@+id/action_categoriesFragment_to_transactionsListFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/transactionsListFragment" />
+            app:destination="@id/transactionsListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/accountsFragment"
@@ -138,9 +138,9 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="ru.antonc.budget.ui.settings.SettingsFragment" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/settingsFragment"-->
+    <!--        android:name="ru.antonc.budget.ui.settings.SettingsFragment" />-->
     <fragment
         android:id="@+id/dateRangeFragment"
         android:name="ru.antonc.budget.ui.statistics.daterange.DateRangeFragment" />
@@ -183,4 +183,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.antonc.budget.ui.menu.settings.SettingsFragment" />
 </navigation>

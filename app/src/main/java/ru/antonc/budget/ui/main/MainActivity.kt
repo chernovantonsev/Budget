@@ -115,15 +115,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 return@Observer
 
             binding.buttonAddTransaction.visibility = if (isGone) View.GONE else View.VISIBLE
-            if (isGone) navigation.visibility = View.GONE
-            else {
-                navigation.alpha = 0F
-                navigation.visibility = View.VISIBLE
-                navigation.animate()
-                    .alpha(1F)
-                    .setDuration(100)
-                    .start()
-            }
+
+            navigation.alpha = if (isGone) 1F else 0F
+            navigation.visibility = if (isGone) View.GONE else View.VISIBLE
+
+            navigation.animate()
+                .alpha(if (isGone) 0F else 1F)
+                .setDuration(100)
+                .start()
 
             lastStateNavigation = isGone
         })

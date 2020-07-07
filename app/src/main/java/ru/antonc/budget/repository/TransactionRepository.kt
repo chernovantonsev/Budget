@@ -95,6 +95,7 @@ class TransactionRepository @Inject constructor(
 
     private fun actualizeAccountBalance(transaction: Transaction) {
         database.transactionDAO().getTransactionByAccountId(transaction.accountId)
+            .map { transactionsList -> transactionsList.filter { transaction -> transaction.id.isNotEmpty() } }
             .subscribeOn(Schedulers.io())
             .blockingFirst()?.let { transactions ->
                 var actualizeBalance = 0.0
