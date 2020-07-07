@@ -1,0 +1,113 @@
+{
+  "accounts": [
+    {
+      "balance": 39998.4,
+      "icon": 2131230853,
+      "id": 1,
+      "initialBalance": 10000,
+      "name": "Кошелек"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Зарплата",
+      "type": "INCOMES"
+    },
+    {
+      "id": 2,
+      "name": "Питание",
+      "type": "EXPENSES"
+    },
+    {
+      "id": 3,
+      "name": "Авто",
+      "type": "EXPENSES"
+    },
+    {
+      "id": 4,
+      "name": "Подарки",
+      "type": "EXPENSES"
+    },
+    {
+      "id": 5,
+      "name": "Хоз. товары",
+      "type": "EXPENSES"
+    },
+    {
+      "id": 6,
+      "name": "Мобильная связь",
+      "type": "EXPENSES"
+    },
+    {
+      "id": 7,
+      "name": "Депозит",
+      "type": "INCOMES"
+    }
+  ],
+  "transactions": [
+    {
+      "accountId": 1,
+      "categoryId": 2,
+      "comment": "",
+      "date": 1593793152637,
+      "id": "23d1f4da-af8b-412f-b9ca-9b0f1e0197db",
+      "sum": 2500.6,
+      "type": "EXPENSES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 3,
+      "comment": "",
+      "date": 1593862918199,
+      "id": "453752d5-bbb9-4320-b14b-8196a5be1baf",
+      "sum": 7500.0,
+      "type": "EXPENSES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 7,
+      "comment": "",
+      "date": 1593853601804,
+      "id": "243a96b8-b4d4-4576-9a23-3f5799d2d3ad",
+      "sum": 555.0,
+      "type": "INCOMES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 4,
+      "comment": "",
+      "date": 1594127203643,
+      "id": "665a5a64-95ed-4192-ace5-4f102b849473",
+      "sum": 4200.0,
+      "type": "EXPENSES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 1,
+      "comment": "Тест",
+      "date": 1593701736131,
+      "id": "9c4a3abe-6361-4a81-be84-dcc4f0c7f77e",
+      "sum": 45000.0,
+      "type": "INCOMES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 5,
+      "comment": "",
+      "date": 1594127248030,
+      "id": "d372e2d8-7042-4863-9b66-1b6a5cc31a4b",
+      "sum": 856.0,
+      "type": "EXPENSES"
+    },
+    {
+      "accountId": 1,
+      "categoryId": 6,
+      "comment": "",
+      "date": 1594127260826,
+      "id": "3ea4cdd9-c39c-4756-8f59-b65a540f94b2",
+      "sum": 500.0,
+      "type": "EXPENSES"
+    }
+  ]
+}

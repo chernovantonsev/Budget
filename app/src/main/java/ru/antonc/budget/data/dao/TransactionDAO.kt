@@ -1,9 +1,12 @@
 package ru.antonc.budget.data.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.Transaction
 
@@ -31,5 +34,6 @@ interface TransactionDAO : BaseDAO<Transaction> {
     @Query("DELETE FROM ${Transaction.TABLE_NAME}")
     fun clearTable()
 
-
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(transactions: List<Transaction>)
 }
