@@ -2,13 +2,8 @@ package ru.antonc.budget.ui.transaction
 
 import android.view.View
 import android.widget.AdapterView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MutableLiveData
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -23,12 +18,14 @@ class TransactionViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) : BaseViewModel() {
 
-    private val transactionId = BehaviorRelay.create<String>()
-    private var transactionType: TransactionType? = null
+    private val transactionInfo = MutableLiveData<Pair<String, TransactionType?>>()
 
-    private val _transaction = BehaviorRelay.create<FullTransaction>()
     val transaction: LiveData<FullTransaction> =
-        LiveDataReactiveStreams.fromPublisher(_transaction.toFlowable(BackpressureStrategy.LATEST))
+        transactionInfo.switchMap { (id, transactionType) ->
+            liveData {
+                emit(transactionRepository.getOrCreateTransaction(id, transactionType))
+            }
+        }
 
     val accounts: LiveData<List<Account>> = transactionRepository.getAllAccounts()
 
@@ -52,20 +49,13 @@ class TransactionViewModel @Inject constructor(
         _navigateToCategoriesEvent
 
     init {
-        transactionRepository.deleteEmptyTransaction()
-
-        transactionId.toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { id ->
-                transactionRepository.getOrCreateTransaction(id, transactionType)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _transaction.accept(it) }
-            .addTo(dataCompositeDisposable)
+        viewModelScope.launch {
+            transactionRepository.deleteEmptyTransaction()
+        }
     }
 
     fun setTransactionDetails(id: String = "", transactionTypeName: String = "") {
-        transactionType = TransactionType.fromValue(transactionTypeName)
-        transactionId.accept(id)
+        transactionInfo.value = Pair(id, TransactionType.fromValue(transactionTypeName))
     }
 
     fun goToCategories(view: View) {
@@ -78,7 +68,7 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
-    fun saveTransaction(isFullSave: Boolean = false) {
+    fun saveTransaction(isFullSave: Boolean = false) = viewModelScope.launch {
         transaction.value?.let { transaction ->
             if (isFullSave && transaction.info.id.isEmpty())
                 transaction.info.id = UUID.randomUUID().toString()
@@ -95,7 +85,7 @@ class TransactionViewModel @Inject constructor(
     }
 
     fun onDateClick() {
-        _transaction.value?.let { transaction ->
+        transaction.value?.let { transaction ->
             _datePickerEvent.value = EventContent(transaction.info.date)
         }
     }
@@ -121,9 +111,9 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
-    fun removeTransaction() {
+    fun removeTransaction() = viewModelScope.launch {
         transaction.value?.let { transaction ->
-            transactionId.accept("")
+            transactionInfo.value = null
             transactionRepository.deleteTransaction(transaction.info)
         }
     }

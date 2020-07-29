@@ -1,11 +1,7 @@
 package ru.antonc.budget.ui.transaction.categories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.Transaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -21,52 +17,31 @@ class CategoriesViewModel @Inject constructor(
 
     private var categoryName: String = ""
 
-    private val transactionId = BehaviorRelay.create<String>()
-    private val transactionType = BehaviorRelay.create<TransactionType>()
+    private val transactionId = MutableLiveData<String>()
+    private val transactionType = MutableLiveData<TransactionType>()
 
+    val categoriesList: LiveData<List<Category>> = transactionType.switchMap { transactionType ->
+        transactionRepository.getCategoriesByType(transactionType)
+    }
 
-    private val _categoriesList = MutableLiveData<List<Category>>()
-    val categoriesList: LiveData<List<Category>> = _categoriesList
+    val transaction: LiveData<Transaction> = transactionId.switchMap { id ->
+        liveData { emit(transactionRepository.getTransactionById(id)) }
+    }
 
-    private val _selectedCategoryId = MutableLiveData<Long>()
-    val selectedCategoryId: LiveData<Long> = _selectedCategoryId
-
-    private val _transaction = MutableLiveData<Transaction>()
-    val transaction: LiveData<Transaction> = _transaction
+    val selectedCategoryId: LiveData<Long> = transaction.map { transaction ->
+        transaction.categoryId
+    }
 
     private val _navigateEvent = MutableLiveData<EventContent<Boolean>>()
     val navigateEvent: LiveData<EventContent<Boolean>> =
         _navigateEvent
 
-    init {
-        transactionType.toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { transactionType ->
-                transactionRepository.getCategoriesByType(transactionType)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _categoriesList.value = it }
-            .addTo(dataCompositeDisposable)
-
-
-        transactionId.toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { id ->
-                transactionRepository.getTransactionById(id)
-            }
-            .doOnNext {
-                _transaction.postValue(it)
-            }
-            .map { transaction -> transaction.categoryId }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _selectedCategoryId.value = it }
-            .addTo(dataCompositeDisposable)
-    }
-
 
     fun setTransactionInfo(id: String = "", transactionTypeName: String) {
         TransactionType.fromValue(transactionTypeName)?.let { transactionType ->
-            this.transactionType.accept(transactionType)
+            this.transactionType.value = transactionType
         }
-        transactionId.accept(id)
+        transactionId.value = id
     }
 
     fun setCategoryName(name: String = "") {
@@ -79,7 +54,7 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
-    fun selectCategory(category: Category, transactionId: String) {
+    fun selectCategory(category: Category, transactionId: String) = viewModelScope.launch {
         transaction.value?.let { transaction ->
             if (transaction.id.isEmpty())
                 transaction.id = UUID.randomUUID().toString()

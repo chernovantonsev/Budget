@@ -1,6 +1,7 @@
 package ru.antonc.budget.ui.transaction.selectaccount
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +31,10 @@ class SelectAccountFragment : BaseFragment(), Injectable {
             ViewModelProviders.of(this, viewModelFactory).get(SelectAccountViewModel::class.java)
         viewModel.setTransactionInfo(params.transactionType)
 
-
         binding = FragmentSelectAccountBinding.inflate(inflater, container, false)
             .apply {
                 lifecycleOwner = this@SelectAccountFragment
             }
-
 
         val selectAccountAdapter = SelectAccountAdapter { account ->
             viewModel.selectAccount(account)

@@ -13,4 +13,6 @@ class FullTransaction {
 
     @Relation(parentColumn = "accountId", entityColumn = "id")
     var account: Account? = null
+
+    fun isNew(): Boolean = ::info.isInitialized.not()
 }

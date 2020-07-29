@@ -2,10 +2,8 @@ package ru.antonc.budget.ui.transaction.selectaccount
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.antonc.budget.data.entities.Account
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.TransactionType
@@ -22,27 +20,18 @@ class SelectAccountViewModel @Inject constructor(
     val navigateToEditSumEvent: LiveData<Event> =
         _navigateToEditSumEvent
 
-    private val transactionType = BehaviorRelay.create<TransactionType>()
-
-    private val transaction = BehaviorRelay.create<FullTransaction>()
+    var transaction: FullTransaction? = null
 
     val accountsList: LiveData<List<Account>> = transactionRepository.getAllAccounts()
 
     init {
-        transactionRepository.deleteEmptyTransaction()
-
-        transactionType.toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { transactionType ->
-                transactionRepository.getOrCreateTransaction(transactionType = transactionType)
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { transaction.accept(it) }
-            .addTo(dataCompositeDisposable)
+        viewModelScope.launch {
+            transactionRepository.deleteEmptyTransaction()
+        }
     }
 
-
-    fun selectAccount(account: Account) {
-        transaction.value?.let { transaction ->
+    fun selectAccount(account: Account) = viewModelScope.launch {
+        transaction?.let { transaction ->
             transaction.info.accountId = account.id
             transactionRepository.saveTransaction(transaction.info)
 
@@ -51,8 +40,10 @@ class SelectAccountViewModel @Inject constructor(
     }
 
     fun setTransactionInfo(transactionTypeName: String) {
-        TransactionType.fromValue(transactionTypeName)?.let { transactionType ->
-            this.transactionType.accept(transactionType)
+        viewModelScope.launch {
+            TransactionType.fromValue(transactionTypeName)?.let { transactionType ->
+                transaction = transactionRepository.getOrCreateTransaction(transactionType = transactionType)
+            }
         }
     }
 

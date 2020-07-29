@@ -8,8 +8,6 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import ru.antonc.budget.data.AppDatabase
-import ru.antonc.budget.data.dao.CategoryDAO
-import ru.antonc.budget.data.dao.TransactionDAO
 import javax.inject.Singleton
 
 
@@ -32,5 +30,12 @@ class AppModule {
     @Provides
     fun provideDb(app: Application): AppDatabase {
         return AppDatabase.getInstance(app)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideCoroutineDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
     }
 }

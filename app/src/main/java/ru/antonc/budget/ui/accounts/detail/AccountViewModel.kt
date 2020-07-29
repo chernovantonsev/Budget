@@ -1,32 +1,22 @@
 package ru.antonc.budget.ui.accounts.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.addTo
-import ru.antonc.budget.data.entities.Account
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
-import ru.antonc.budget.util.extenstions.default
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) : BaseViewModel() {
 
-    private val accountId = BehaviorRelay.create<Long>()
+    private val accountId = MutableLiveData<Long>()
 
-    private val _account = MutableLiveData<Account>().default(Account())
-    val account: LiveData<Account> = _account
-
-    init {
-        accountId.toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { id -> transactionRepository.getAccount(id) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _account.value = it }
-            .addTo(dataCompositeDisposable)
+    val account = accountId.switchMap { id ->
+        liveData {
+            emit(transactionRepository.getAccount(id))
+        }
     }
 
     fun setBalance(sumString: String) {
@@ -46,7 +36,7 @@ class AccountViewModel @Inject constructor(
 
     fun setAccountId(id: Long) {
         if (id != -1L)
-            accountId.accept(id)
+            accountId.value = id
     }
 
 }

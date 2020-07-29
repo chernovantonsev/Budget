@@ -1,12 +1,7 @@
 package ru.antonc.budget.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import io.reactivex.Completable
+import androidx.room.*
 import io.reactivex.Flowable
-import ru.antonc.budget.data.entities.Category
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.Transaction
 
@@ -15,25 +10,31 @@ import ru.antonc.budget.data.entities.Transaction
 interface TransactionDAO : BaseDAO<Transaction> {
 
     @androidx.room.Transaction
-    @Query("SELECT * from ${Transaction.TABLE_NAME}")
+    @Query("SELECT * from ${Transaction.TABLE_NAME}  WHERE id <> ''")
     fun getAll(): Flowable<List<FullTransaction>>
 
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
-    fun getTransactionById(transactionId: String): Flowable<Transaction>
-
-    @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE accountId = :accountId")
-    fun getTransactionByAccountId(accountId: Long): Flowable<List<Transaction>>
+    suspend fun getTransactionById(transactionId: String): Transaction
 
     @androidx.room.Transaction
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
-    fun getFullTransaction(transactionId: String): Flowable<List<FullTransaction>>
+    suspend fun getFullTransactionById(transactionId: String): FullTransaction?
+
+    @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE accountId = :accountId")
+    suspend fun getTransactionByAccountId(accountId: Long): List<Transaction>
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME} WHERE id = :transactionId")
-    fun deleteTransaction(transactionId: String = ""): Completable
+    suspend fun deleteTransaction(transactionId: String = "")
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME}")
     fun clearTable()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(transactions: List<Transaction>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSuspend(transaction: Transaction)
+
+    @Delete
+    suspend fun delete(transaction: Transaction)
 }

@@ -1,9 +1,10 @@
 package ru.antonc.budget.repository
 
-import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import ru.antonc.budget.data.AppDatabase
 import ru.antonc.budget.data.entities.*
 import java.util.*
@@ -13,55 +14,47 @@ import javax.inject.Singleton
 @Singleton
 class TransactionRepository @Inject constructor(
     private val database: AppDatabase,
-    private val dataDisposable: CompositeDisposable
+    private val dataDisposable: CompositeDisposable,
+    private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun getAllTransactions() = database.transactionDAO().getAll()
-        .map { transitions -> transitions.filter { fullTransaction -> fullTransaction.info.id.isNotEmpty() } }
+        .distinctUntilChanged()
         .subscribeOn(Schedulers.io())
 
     fun getCategoriesByType(transactionType: TransactionType) =
-        database.categoryDAO().getAll()
-            .map { categories ->
-                categories.filter { category ->
-                    category.type == transactionType
-                }
-            }
-            .subscribeOn(Schedulers.io())
+        database.categoryDAO().getCategoriesByTransactionsType(transactionType)
 
     fun getAllAccounts() = database.accountDAO().getAll()
 
-    fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
-        .subscribeOn(Schedulers.io())
+    suspend fun getAccount(id: Long) = database.accountDAO().getAccountById(id)
 
-    fun getTransactionById(id: String) = database.transactionDAO().getTransactionById(id)
-        .subscribeOn(Schedulers.io())
+    suspend fun getTransactionById(id: String) = database.transactionDAO().getTransactionById(id)
 
-    fun getOrCreateTransaction(
+    suspend fun getOrCreateTransaction(
         transactionId: String = "",
         transactionType: TransactionType?
-    ): Flowable<FullTransaction> = database.transactionDAO().getFullTransaction(transactionId)
-        .doOnNext {
-            if (it.isEmpty() && transactionType != null)
-                createNewTransaction(transactionType)
+    ): FullTransaction {
+        val fullTransaction =
+            withContext(ioDispatcher) {
+                database.transactionDAO().getFullTransactionById(transactionId)
+            } ?: FullTransaction()
+        if (fullTransaction.isNew() && transactionType != null) {
+            fullTransaction.info = Transaction(
+                type = transactionType,
+                date = Calendar.getInstance().timeInMillis
+            )
+            saveTransaction(fullTransaction.info, false)
         }
-        .filter { it.isNotEmpty() }
-        .map { it.first() }
-        .subscribeOn(Schedulers.io())
-
-    private fun createNewTransaction(transactionType: TransactionType) {
-        Transaction(
-            type = transactionType,
-            date = Calendar.getInstance().timeInMillis
-        ).let { transaction -> saveTransaction(transaction) }
+        return fullTransaction
     }
 
-    fun saveTransaction(transaction: Transaction, isNeedActualizeBalance: Boolean = false) {
-        database.transactionDAO().insert(transaction)
-            .doOnComplete { if (isNeedActualizeBalance) actualizeAccountBalance(transaction) }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .addTo(dataDisposable)
+    suspend fun saveTransaction(transaction: Transaction, isNeedActualizeBalance: Boolean = false) {
+        withContext(ioDispatcher) {
+            database.transactionDAO().insertSuspend(transaction)
+        }
+
+        if (isNeedActualizeBalance) actualizeAccountBalance(transaction)
     }
 
     fun createCategory(categoryName: String, transactionType: TransactionType) {
@@ -71,19 +64,18 @@ class TransactionRepository @Inject constructor(
             .addTo(dataDisposable)
     }
 
-    fun deleteTransaction(transaction: Transaction) {
-        database.transactionDAO().delete(transaction)
-            .doOnComplete { actualizeAccountBalance(transaction) }
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .addTo(dataDisposable)
+    suspend fun deleteTransaction(transaction: Transaction) {
+        withContext(ioDispatcher) {
+            database.transactionDAO().delete(transaction)
+        }
+
+        actualizeAccountBalance(transaction)
     }
 
-    fun deleteEmptyTransaction() {
-        database.transactionDAO().deleteTransaction("")
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .addTo(dataDisposable)
+    suspend fun deleteEmptyTransaction() {
+        withContext(ioDispatcher) {
+            database.transactionDAO().deleteTransaction("")
+        }
     }
 
     fun saveAccount(account: Account) {
@@ -93,25 +85,25 @@ class TransactionRepository @Inject constructor(
             .addTo(dataDisposable)
     }
 
-    private fun actualizeAccountBalance(transaction: Transaction) {
-        database.transactionDAO().getTransactionByAccountId(transaction.accountId)
-            .map { transactionsList -> transactionsList.filter { transaction -> transaction.id.isNotEmpty() } }
-            .subscribeOn(Schedulers.io())
-            .blockingFirst()?.let { transactions ->
+    private suspend fun actualizeAccountBalance(transaction: Transaction) {
+        withContext(ioDispatcher) {
+            with(database.transactionDAO().getTransactionByAccountId(transaction.accountId)) {
                 var actualizeBalance = 0.0
-                transactions.forEach { transaction ->
-                    if (transaction.type == TransactionType.INCOMES) {
-                        actualizeBalance += transaction.sum
-                    } else if (transaction.type == TransactionType.EXPENSES) {
-                        actualizeBalance -= transaction.sum
+
+                forEach { transaction ->
+                    if (transaction.id.isNotEmpty()) {
+                        if (transaction.type == TransactionType.INCOMES) {
+                            actualizeBalance += transaction.sum
+                        } else if (transaction.type == TransactionType.EXPENSES) {
+                            actualizeBalance -= transaction.sum
+                        }
                     }
                 }
 
-                database.accountDAO().getAccountById(transaction.accountId)
-                    .blockingFirst()?.let { account ->
-                        account.balance = account.initialBalance + actualizeBalance
-                        saveAccount(account)
-                    }
+                database.accountDAO().getAccountById(transaction.accountId)?.apply {
+                    balance = initialBalance + actualizeBalance
+                }?.let(::saveAccount)
             }
+        }
     }
 }
