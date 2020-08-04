@@ -8,14 +8,16 @@ fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { postValue(i
 
 fun <T1, T2, R> LiveData<T1>.combineWith(
     liveData: LiveData<T2>,
-    block: (T1?, T2?) -> R
+    block: (T1, T2) -> R
 ): LiveData<R> {
     val result = MediatorLiveData<R>()
     result.addSource(this) {
-        result.value = block.invoke(this.value, liveData.value)
+        if (this.value != null && liveData.value != null)
+            result.value = block.invoke(this.value!!, liveData.value!!)
     }
     result.addSource(liveData) {
-        result.value = block.invoke(this.value, liveData.value)
+        if (this.value != null && liveData.value != null)
+            result.value = block.invoke(this.value!!, liveData.value!!)
     }
     return result
 }

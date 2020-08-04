@@ -63,7 +63,7 @@ class PieChartStatisticsViewModel @Inject constructor(
 
     private fun getTransactionInDateRange() = Flowables.combineLatest(
         transactionRepository.getAllTransactions(),
-        statisticsRepository.dataRangeValue
+        statisticsRepository.dateRangeValue
     )
     { transactions, (start, end) ->
         with(Calendar.getInstance()) {

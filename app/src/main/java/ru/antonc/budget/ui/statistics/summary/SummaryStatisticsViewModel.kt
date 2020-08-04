@@ -1,15 +1,14 @@
 package ru.antonc.budget.ui.statistics.summary
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Flowables
-import io.reactivex.rxkotlin.addTo
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
+import kotlinx.coroutines.Dispatchers
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.repository.StatisticsRepository
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
+import ru.antonc.budget.util.extenstions.combineWith
 import ru.antonc.budget.util.extenstions.getDayToCompare
 import java.util.*
 import javax.inject.Inject
@@ -19,32 +18,29 @@ class SummaryStatisticsViewModel @Inject constructor(
     statisticsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    private val _data = MutableLiveData<SummaryStatisticsData>()
-    val data: LiveData<SummaryStatisticsData> = _data
+    val data = transactionRepository.getAllTransactionsS()
+        .combineWith(statisticsRepository.dateRangeValueL) { transactions, (start, end) ->
+            return@combineWith filterByDate(transactions, start, end)
+        }
+        .switchMap {
+            liveData(Dispatchers.Default) { emit(getSummary(it)) }
+        }
 
-    init {
-        Flowables.combineLatest(
-            transactionRepository.getAllTransactions(),
-            statisticsRepository.dataRangeValue
-        )
-        { transactions, (start, end) ->
-            with(Calendar.getInstance()) {
-                val startDay = getDayToCompare(start)
-                val endDay = getDayToCompare(end)
+    private fun filterByDate(
+        transactions: List<FullTransaction>,
+        start: Long,
+        end: Long
+    ): List<FullTransaction> {
+        with(Calendar.getInstance()) {
+            val startDay = getDayToCompare(start)
+            val endDay = getDayToCompare(end)
 
-                return@combineLatest transactions.filter { transaction ->
-                    getDayToCompare(transaction.info.date).let { transactionDay ->
-                        return@filter transactionDay in startDay..endDay
-                    }
+            return transactions.filter { transaction ->
+                getDayToCompare(transaction.info.date).let { transactionDay ->
+                    return@filter transactionDay in startDay..endDay
                 }
             }
         }
-            .map(::getSummary)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                _data.postValue(it)
-            }
-            .addTo(dataCompositeDisposable)
     }
 
     private fun getSummary(transactions: List<FullTransaction>): SummaryStatisticsData {

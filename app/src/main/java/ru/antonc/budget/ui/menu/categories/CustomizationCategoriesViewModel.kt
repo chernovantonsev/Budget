@@ -1,5 +1,7 @@
 package ru.antonc.budget.ui.menu.categories
 
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.antonc.budget.data.entities.TransactionType
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
@@ -16,7 +18,9 @@ class CustomizationCategoriesViewModel @Inject constructor(
     }
 
     fun saveCategory(transactionType: TransactionType) {
-        transactionRepository.createCategory(categoryName, transactionType)
+        viewModelScope.launch {
+            transactionRepository.createCategory(categoryName, transactionType)
+        }
     }
 
 }

@@ -3,6 +3,8 @@ package ru.antonc.budget.ui.accounts.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -29,8 +31,10 @@ class AccountViewModel @Inject constructor(
     }
 
     fun saveAccount() {
-        account.value?.let { account ->
-            transactionRepository.saveAccount(account)
+        viewModelScope.launch {
+            account.value?.let { account ->
+                transactionRepository.saveAccount(account)
+            }
         }
     }
 

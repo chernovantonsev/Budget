@@ -1,7 +1,5 @@
 package ru.antonc.budget.repository
 
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -14,13 +12,14 @@ import javax.inject.Singleton
 @Singleton
 class TransactionRepository @Inject constructor(
     private val database: AppDatabase,
-    private val dataDisposable: CompositeDisposable,
     private val ioDispatcher: CoroutineDispatcher
 ) {
 
     fun getAllTransactions() = database.transactionDAO().getAll()
         .distinctUntilChanged()
         .subscribeOn(Schedulers.io())
+
+    fun getAllTransactionsS() = database.transactionDAO().getAllS()
 
     fun getCategoriesByType(transactionType: TransactionType) =
         database.categoryDAO().getCategoriesByTransactionsType(transactionType)
@@ -51,17 +50,16 @@ class TransactionRepository @Inject constructor(
 
     suspend fun saveTransaction(transaction: Transaction, isNeedActualizeBalance: Boolean = false) {
         withContext(ioDispatcher) {
-            database.transactionDAO().insertSuspend(transaction)
+            database.transactionDAO().insert(transaction)
         }
 
         if (isNeedActualizeBalance) actualizeAccountBalance(transaction)
     }
 
-    fun createCategory(categoryName: String, transactionType: TransactionType) {
-        database.categoryDAO().insert(Category(name = categoryName, type = transactionType))
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .addTo(dataDisposable)
+    suspend fun createCategory(categoryName: String, transactionType: TransactionType) {
+        withContext(ioDispatcher) {
+            database.categoryDAO().insert(Category(name = categoryName, type = transactionType))
+        }
     }
 
     suspend fun deleteTransaction(transaction: Transaction) {
@@ -74,15 +72,14 @@ class TransactionRepository @Inject constructor(
 
     suspend fun deleteEmptyTransaction() {
         withContext(ioDispatcher) {
-            database.transactionDAO().deleteTransaction("")
+            database.transactionDAO().deleteTransactionById("")
         }
     }
 
-    fun saveAccount(account: Account) {
-        database.accountDAO().insert(account)
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-            .addTo(dataDisposable)
+    suspend fun saveAccount(account: Account) {
+        withContext(ioDispatcher) {
+            database.accountDAO().insert(account)
+        }
     }
 
     private suspend fun actualizeAccountBalance(transaction: Transaction) {
@@ -102,7 +99,7 @@ class TransactionRepository @Inject constructor(
 
                 database.accountDAO().getAccountById(transaction.accountId)?.apply {
                     balance = initialBalance + actualizeBalance
-                }?.let(::saveAccount)
+                }?.let { ::saveAccount }
             }
         }
     }

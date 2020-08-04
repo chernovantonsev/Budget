@@ -50,7 +50,9 @@ class CategoriesViewModel @Inject constructor(
 
     fun saveCategory() {
         transactionType.value?.let { transactionType ->
-            transactionRepository.createCategory(categoryName, transactionType)
+            viewModelScope.launch {
+                transactionRepository.createCategory(categoryName, transactionType)
+            }
         }
     }
 

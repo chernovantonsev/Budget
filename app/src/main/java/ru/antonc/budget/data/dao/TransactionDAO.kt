@@ -1,6 +1,10 @@
 package ru.antonc.budget.data.dao
 
-import androidx.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import io.reactivex.Flowable
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.Transaction
@@ -13,6 +17,10 @@ interface TransactionDAO : BaseDAO<Transaction> {
     @Query("SELECT * from ${Transaction.TABLE_NAME}  WHERE id <> ''")
     fun getAll(): Flowable<List<FullTransaction>>
 
+    @androidx.room.Transaction
+    @Query("SELECT * from ${Transaction.TABLE_NAME}  WHERE id <> '' ORDER BY date DESC")
+    fun getAllS(): LiveData<List<FullTransaction>>
+
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
     suspend fun getTransactionById(transactionId: String): Transaction
 
@@ -24,17 +32,11 @@ interface TransactionDAO : BaseDAO<Transaction> {
     suspend fun getTransactionByAccountId(accountId: Long): List<Transaction>
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME} WHERE id = :transactionId")
-    suspend fun deleteTransaction(transactionId: String = "")
+    suspend fun deleteTransactionById(transactionId: String = "")
 
     @Query("DELETE FROM ${Transaction.TABLE_NAME}")
     fun clearTable()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(transactions: List<Transaction>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSuspend(transaction: Transaction)
-
-    @Delete
-    suspend fun delete(transaction: Transaction)
 }

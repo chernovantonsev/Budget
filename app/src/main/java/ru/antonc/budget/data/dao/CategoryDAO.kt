@@ -20,5 +20,4 @@ interface CategoryDAO : BaseDAO<Category> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(categories: List<Category>)
-
 }

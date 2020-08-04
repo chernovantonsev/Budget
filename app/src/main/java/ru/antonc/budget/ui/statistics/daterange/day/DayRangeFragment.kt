@@ -34,8 +34,9 @@ class DayRangeFragment : BaseFragment(false), Injectable {
             }
 
 
-        viewModel.dateInitValue.observe(viewLifecycleOwner) {date ->
-            binding.calendar.date = date
+        viewModel.dateInitValue.observe(viewLifecycleOwner) { date ->
+            if (date > 0)
+                binding.calendar.date = date
         }
 
         binding.calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->

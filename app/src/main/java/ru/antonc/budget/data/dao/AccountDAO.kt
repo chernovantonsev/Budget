@@ -5,9 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Flowable
 import ru.antonc.budget.data.entities.Account
-import ru.antonc.budget.data.entities.Transaction
 
 
 @Dao
