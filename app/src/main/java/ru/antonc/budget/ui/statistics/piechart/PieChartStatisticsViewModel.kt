@@ -2,11 +2,7 @@ package ru.antonc.budget.ui.statistics.piechart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Flowables
-import io.reactivex.rxkotlin.addTo
+import androidx.lifecycle.map
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.LegendItem
 import ru.antonc.budget.data.entities.StatisticsPage
@@ -15,69 +11,52 @@ import ru.antonc.budget.repository.StatisticsRepository
 import ru.antonc.budget.repository.TransactionRepository
 import ru.antonc.budget.ui.base.BaseViewModel
 import ru.antonc.budget.util.FORMAT_DECIMAL
+import ru.antonc.budget.util.extenstions.combineWith
 import ru.antonc.budget.util.extenstions.getDayToCompare
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class PieChartStatisticsViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository,
-    private val statisticsRepository: StatisticsRepository
+    transactionRepository: TransactionRepository,
+    statisticsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    private val _data = MutableLiveData<PieChartData>()
-    val data: LiveData<PieChartData> = _data
+    private val transactionsInDateRange = transactionRepository.getAllTransactions()
+        .combineWith(statisticsRepository.dateRangeValue) { transactions, (start, end) ->
+            with(Calendar.getInstance()) {
+                val startDay = getDayToCompare(start)
+                val endDay = getDayToCompare(end)
 
-    private val type = BehaviorRelay.create<StatisticsPage>()
-
-    init {
-        Flowables.combineLatest(
-            type.toFlowable(BackpressureStrategy.LATEST)
-                .map {
-                    when (it) {
-                        StatisticsPage.INCOME -> TransactionType.INCOMES
-                        else -> TransactionType.EXPENSES
+                return@combineWith transactions.filter { transaction ->
+                    getDayToCompare(transaction.info.date).let { transactionDay ->
+                        return@filter transactionDay in startDay..endDay
                     }
-                },
-            getTransactionInDateRange()
-        )
-            .map { (transactionType, transactions) ->
-                convertToCategoryStatistics(transactions
-                    .filter { transaction ->
-                        transaction.info.type == transactionType
-                                && transaction.category != null
-                    })
-            }
-            .map {
-                PieChartData(
-                    itemsLegend = it,
-                    totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
-                )
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                _data.postValue(it)
-            }
-            .addTo(dataCompositeDisposable)
-    }
-
-    private fun getTransactionInDateRange() = Flowables.combineLatest(
-        transactionRepository.getAllTransactions(),
-        statisticsRepository.dateRangeValue
-    )
-    { transactions, (start, end) ->
-        with(Calendar.getInstance()) {
-            val startDay = getDayToCompare(start)
-            val endDay = getDayToCompare(end)
-
-            return@combineLatest transactions.filter { transaction ->
-                getDayToCompare(transaction.info.date).let { transactionDay ->
-                    return@filter transactionDay in startDay..endDay
                 }
             }
         }
+
+    private val _type = MutableLiveData<StatisticsPage>()
+    private val type = _type.map {
+        return@map when (it) {
+            StatisticsPage.INCOME -> TransactionType.INCOMES
+            else -> TransactionType.EXPENSES
+        }
     }
 
+    val data: LiveData<PieChartData> =
+        transactionsInDateRange.combineWith(type) { transactions, transactionType ->
+            return@combineWith convertToCategoryStatistics(transactions
+                .filter { transaction ->
+                    transaction.info.type == transactionType
+                            && transaction.category != null
+                })
+        }.map {
+            PieChartData(
+                itemsLegend = it,
+                totalSum = "${FORMAT_DECIMAL.format(it.sumByDouble { item -> item.sum })} ₽"
+            )
+        }
 
     private fun convertToCategoryStatistics(transactions: List<FullTransaction>): List<LegendItem> {
         val result = ArrayList<LegendItem>()
@@ -111,7 +90,7 @@ class PieChartStatisticsViewModel @Inject constructor(
 
 
     fun setDataTypeName(typeName: String) {
-        type.accept(StatisticsPage.valueOf(typeName))
+        _type.value = StatisticsPage.valueOf(typeName)
     }
 
     data class PieChartData(

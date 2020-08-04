@@ -5,21 +5,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Flowable
 import ru.antonc.budget.data.entities.FullTransaction
 import ru.antonc.budget.data.entities.Transaction
-
 
 @Dao
 interface TransactionDAO : BaseDAO<Transaction> {
 
     @androidx.room.Transaction
-    @Query("SELECT * from ${Transaction.TABLE_NAME}  WHERE id <> ''")
-    fun getAll(): Flowable<List<FullTransaction>>
-
-    @androidx.room.Transaction
     @Query("SELECT * from ${Transaction.TABLE_NAME}  WHERE id <> '' ORDER BY date DESC")
-    fun getAllS(): LiveData<List<FullTransaction>>
+    fun getAll(): LiveData<List<FullTransaction>>
 
     @Query("SELECT * from ${Transaction.TABLE_NAME} WHERE id = :transactionId LIMIT 1")
     suspend fun getTransactionById(transactionId: String): Transaction

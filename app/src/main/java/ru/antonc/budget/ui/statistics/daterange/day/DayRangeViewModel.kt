@@ -10,7 +10,7 @@ class DayRangeViewModel @Inject constructor(
     private val statisticsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    val dateInitValue: LiveData<Long> = statisticsRepository.dateRangeValueL.map { (start, end) ->
+    val dateInitValue: LiveData<Long> = statisticsRepository.dateRangeValue.map { (start, end) ->
         if (start == end)
             return@map start
         else -1L

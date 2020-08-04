@@ -18,7 +18,7 @@ class TransactionsListViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val transactionsList: LiveData<List<TransactionListItem>> =
-        transactionRepository.getAllTransactionsS().switchMap { transactions ->
+        transactionRepository.getAllTransactions().switchMap { transactions ->
             liveData {
                 emit(groupTransactionByDate(transactions))
             }

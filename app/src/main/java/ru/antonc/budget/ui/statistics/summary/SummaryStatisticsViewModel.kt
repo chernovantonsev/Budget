@@ -18,8 +18,8 @@ class SummaryStatisticsViewModel @Inject constructor(
     statisticsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    val data = transactionRepository.getAllTransactionsS()
-        .combineWith(statisticsRepository.dateRangeValueL) { transactions, (start, end) ->
+    val data = transactionRepository.getAllTransactions()
+        .combineWith(statisticsRepository.dateRangeValue) { transactions, (start, end) ->
             return@combineWith filterByDate(transactions, start, end)
         }
         .switchMap {

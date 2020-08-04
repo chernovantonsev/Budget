@@ -1,6 +1,5 @@
 package ru.antonc.budget.repository
 
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.antonc.budget.data.AppDatabase
@@ -16,10 +15,6 @@ class TransactionRepository @Inject constructor(
 ) {
 
     fun getAllTransactions() = database.transactionDAO().getAll()
-        .distinctUntilChanged()
-        .subscribeOn(Schedulers.io())
-
-    fun getAllTransactionsS() = database.transactionDAO().getAllS()
 
     fun getCategoriesByType(transactionType: TransactionType) =
         database.categoryDAO().getCategoriesByTransactionsType(transactionType)

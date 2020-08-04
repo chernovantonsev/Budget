@@ -1,7 +1,6 @@
 package ru.antonc.budget.ui.statistics.daterange.any
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import ru.antonc.budget.data.entities.common.EventContent
@@ -25,16 +24,14 @@ class AnyRangeViewModel @Inject constructor(
     val datePickerEvent: LiveData<EventContent<Pair<Long, Int>>> = _datePickerEvent
 
     val dateStart: LiveData<String> =
-        LiveDataReactiveStreams.fromPublisher(statisticsRepository.dataRangeValueCache)
-            .map { (start, _) ->
-                formatDate(start)
-            }
+        statisticsRepository.dateRangeValueCache.map { (start, _) ->
+            formatDate(start)
+        }
 
     val dateEnd: LiveData<String> =
-        LiveDataReactiveStreams.fromPublisher(statisticsRepository.dataRangeValueCache)
-            .map { (_, end) ->
-                formatDate(end)
-            }
+        statisticsRepository.dateRangeValueCache.map { (_, end) ->
+            formatDate(end)
+        }
 
 
     fun changeDateStart() {
@@ -47,18 +44,17 @@ class AnyRangeViewModel @Inject constructor(
     }
 
     private fun changeDate(kind: Int) {
-        statisticsRepository.dataRangeValueCache
-            .blockingFirst()?.let { (_, end) ->
-                _datePickerEvent.value = EventContent(end to kind)
-            }
+        statisticsRepository.dateRangeValueCache.value?.let { (_, end) ->
+            _datePickerEvent.value = EventContent(end to kind)
+        }
     }
 
     private fun formatDate(date: Long) =
         SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
 
     fun setDate(date: Long, kind: Int) {
-        statisticsRepository.dataRangeValueCache
-            .blockingFirst()?.let { (start, end) ->
+        statisticsRepository.dateRangeValueCache
+            .value?.let { (start, end) ->
                 when (kind) {
                     START_DATE -> {
                         statisticsRepository.setDateToCache(date, end)
