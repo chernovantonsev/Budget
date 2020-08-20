@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "909127146857",
+    "firebase_url": "https://test-37ecd.firebaseio.com",
+    "project_id": "test-37ecd",
+    "storage_bucket": "test-37ecd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909127146857:android:01bfbe78b4a072e1b9b1f8",
+        "android_client_info": {
+          "package_name": "ru.antonc.budget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909127146857-jjctio4t5kl6iskeummcl07ss2r5mh0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIRaHBSAhsSnPCk38zKk7ZzL8x0aZ0LJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909127146857-jjctio4t5kl6iskeummcl07ss2r5mh0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
